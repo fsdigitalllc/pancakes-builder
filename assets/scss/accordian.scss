@@ -1,0 +1,45 @@
+.accordion {
+    background: #ffffff;
+    overflow: hidden;
+    .accordion-item {
+      .accordion-title {
+        display: inline-block;
+        width: 100%;
+        padding: 25px 25px 25px 50px;
+        margin-bottom: 1px;
+        color: #222;
+        font-weight: 800;
+        background: #fff;
+        text-decoration: none;
+        &::before {
+          position: absolute;
+          content: '\f0da';
+          font-family: "Font Awesome 5 Free";
+          display: inline-block;
+          font-style: normal;
+          font-variant: normal;
+          text-rendering: auto;
+          -webkit-font-smoothing: antialiased;
+          margin-left: -30px;
+          color: #cccdcf;
+        }
+        &:hover {
+          color: #f7b91a;
+          &::before {
+            color: #f7b91a;
+          }
+        }
+      }
+      .active {
+        color: #f7b91a;
+        &::before {
+          content: '\f0d7';
+          color: #f7b91a;
+        }
+      }
+      .accordion-content {
+        padding: 15px 15px 0 15px;
+        display: none;
+      }
+    }
+  }

@@ -1,0 +1,152 @@
+#desktop-menu li {
+  list-style: none;
+}
+#desktop-menu .nav-link {
+  display: flex;
+  align-items: center;
+  fill: currentColor;
+  transition: opacity .2s ease;
+  display: inline-block;
+  text-decoration: none;
+  outline: 0!important;
+}
+#desktop-menu .with-sub > a svg {
+  margin-left: 6px;
+  top: 6px;
+}
+#desktop-menu .with-sub:hover .sub {
+  opacity: 1;
+  pointer-events: all;
+  -ms-transform: translateY(0);
+  transform: translateY(0);
+  transition: transform .3s,all .2s ease
+}
+#desktop-menu .sub {
+  display: block;
+  opacity: 0;
+  margin: 0;
+  pointer-events: none;
+  border-radius: 0 0 4px 4px;
+  position: absolute;
+  background: #fff;
+  min-width: 220px;
+  -ms-transform: translateY(-5px);
+  transform: translateY(-5px);
+  overflow: hidden;
+  box-shadow: 0 1px 0 rgba(0,0,0,.05), 0 4px 6px rgba(0,0,0,.05), 0 15px 20px rgba(0,0,0,.05);
+}
+#desktop-menu .sub a {
+  display: block;
+  padding: 28px 20px;
+  line-height: 0;
+}
+#desktop-menu .sub>li {
+  color: #fff;
+  padding: 0 0;
+  box-shadow: 0 1px 0 rgba(0,0,0,.05)
+}
+#desktop-menu .with-sub a:hover .sub {
+  opacity: 1;
+  pointer-events: all;
+  -ms-transform: translateY(0);
+  transform: translateY(0);
+  transition: transform .3s,all .2s ease;
+}
+#desktop-menu .masthead nav .sub a {
+  display: block;
+  padding: 28px 20px;
+  line-height: 0;
+  font-size: 15px;
+}
+button.hamburger {
+  display: none;
+}
+
+
+.hamburger {
+  padding: 15px;
+  display: inline-block;
+  cursor: pointer;
+  outline: 0;
+  transition-property: opacity,filter;
+  transition-duration: .15s;
+  transition-timing-function: linear;
+  font: inherit;
+  color: inherit;
+  text-transform: none;
+  background-color: transparent;
+  border: 0;
+  margin: 0;
+  overflow: visible;
+}
+.hamburger-box {
+  width: 40px;
+  height: 24px;
+  display: inline-block;
+  position: relative;
+  outline: 0;
+}
+.hamburger--collapse-r .hamburger-inner {
+  top: auto;
+  bottom: 0;
+  transition-duration: .13s;
+  transition-delay: .13s;
+  transition-timing-function: cubic-bezier(.55,.055,.675,.19);
+}
+.hamburger-inner, .hamburger-inner::before, .hamburger-inner::after {
+  width: 40px;
+  height: 4px;
+  background-color: #000;
+  border-radius: 4px;
+  position: absolute;
+  transition-property: transform;
+  transition-duration: .15s;
+  transition-timing-function: ease;
+}
+.hamburger-inner {
+  display: block;
+  top: 50%;
+  margin-top: -2px;
+}
+.hamburger--collapse-r .hamburger-inner::before {
+  transition: top .12s .2s cubic-bezier(.33333,.66667,.66667,1),transform .13s cubic-bezier(.55,.055,.675,.19);
+}
+.hamburger-inner::before {
+  top: -10px;
+}
+.hamburger-inner::before, .hamburger-inner::after {
+  content: "";
+  display: block;
+}
+.hamburger-inner, .hamburger-inner::before, .hamburger-inner::after {
+  width: 40px;
+  height: 4px;
+  background-color: #000;
+  border-radius: 4px;
+  position: absolute;
+  transition-property: transform;
+  transition-duration: .15s;
+  transition-timing-function: ease;
+}
+.hamburger--collapse-r .hamburger-inner::after {
+  top: -20px;
+  transition: top .2s .2s cubic-bezier(.33333,.66667,.66667,1),opacity .1s linear;
+}
+.hamburger-inner::after {
+  bottom: -10px;
+}
+.hamburger--collapse-r.is-active .hamburger-inner {
+  transform: translate3d(0,-10px,0) rotate(45deg);
+  transition-delay: .22s;
+  transition-timing-function: cubic-bezier(.215,.61,.355,1);
+}
+.hamburger--collapse-r.is-active .hamburger-inner::before {
+  top: 0;
+  transform: rotate(90deg);
+  transition: top .1s .16s cubic-bezier(.33333,0,.66667,.33333),transform .13s .25s cubic-bezier(.215,.61,.355,1);
+}
+.hamburger--collapse-r.is-active .hamburger-inner::after {
+  top: 0;
+  opacity: 0;
+  transition: top .2s cubic-bezier(.33333,0,.66667,.33333),opacity .1s .22s linear;
+}

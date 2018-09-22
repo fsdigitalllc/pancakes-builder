@@ -1,0 +1,31 @@
+.button-fill {
+    color: #fff;
+    background: #1badff;
+    box-shadow: none;
+    transition: all .2s ease;
+}
+.button-fill:hover::before {
+    width: 60%;
+}
+.button-fill:before {
+    background: #50E3C2;
+}
+.button-fill::before {
+    position: absolute;
+    content: '';
+    z-index: -1;
+    top: 0;
+    left: -10%;
+    right: 0;
+    bottom: 0;
+    width: 0;
+    -webkit-transform-origin: 0 50%;
+    -ms-transform-origin: 0 50%;
+    transform-origin: 0 50%;
+    -webkit-transition: all .5s;
+    -o-transition: all .5s;
+    transition: all .5s;
+}
+.button-fill:focus::before, .button-fill:active::before {
+    width: 120%;
+}

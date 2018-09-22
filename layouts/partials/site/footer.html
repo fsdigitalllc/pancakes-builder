@@ -1,0 +1,24 @@
+<footer class="site-footer" role="contentinfo">
+{{ $.Scratch.Set "is_critical" false }}
+
+<!--for isserver just inline the style so front matter changes reload the style-->
+
+{{- $env := getenv "HUGO_ENV" -}}
+
+<style>
+    {{ partial "site/css_gen.html" (dict "page" . "global" $ ) | safeCSS }}
+</style>
+
+
+{{ if eq $env "on" }}
+<!--use a resource for producition-->
+{{ $noncritical := resources.Get "scss/noncritical.scss" | resources.ExecuteAsTemplate "noncritical.scss" . | toCSS | postCSS | minify | fingerprint }}
+
+{{ (slice $noncritical | resources.Concat "style.scss").Content | safeCSS }}
+<link rel="stylesheet" href="{{ $noncritical.Permalink }}" media="screen">
+{{ end }}
+
+    <p class="site-footer__copyright"><a href="{{ .Site.BaseURL }}">{{ .Site.Title }}</a>
+    </p>
+
+</footer>

@@ -1,0 +1,88 @@
+// Maxwidth variables ----------------------------------------------------------
+$maxwidth-xxxs: 350px;
+$maxwidth-xxs: 450px;
+$maxwidth-xs: 550px;
+$maxwidth-s: 650px;
+$maxwidth-m: 750px;
+$maxwidth-l: 850px;
+$maxwidth-xl: 950px;
+
+.maxwidth-xxxs {
+  max-width: 350px;
+}
+.maxwidth-xxs {
+  max-width: 450px;
+}
+.maxwidth-xs {
+  max-width: 550px;
+}
+.maxwidth-s {
+  max-width: 650px;
+}
+#results .col-6 .maxwidth-s {
+  max-width: 520px;
+}
+#results .col-6 .maxwidth-xxxs {
+  max-width: 436px;
+}
+.maxwidth-m {
+  max-width: 750px;
+}
+.maxwidth-l {
+  max-width: 850px;
+}
+.maxwidth-xl {
+  max-width: 950px;
+}
+// Responsive maxwidth ---------------------------------------------------------
+@media screen and (max-width: $screen-tablet) {
+  .maxwidth-xl {
+    max-width: $maxwidth-l;
+  }
+  .maxwidth-l {
+    max-width: $maxwidth-m;
+  }
+  .maxwidth-m {
+    max-width: $maxwidth-s;
+  }
+  .maxwidth-s {
+    max-width: $maxwidth-xs;
+  }
+  .maxwidth-xs {
+    max-width: $maxwidth-xxs;
+  }
+  .maxwidth-xs-tablet {
+    max-width: 550px;
+  }
+  .tablet-maxwidth-m {
+    max-width: 450px;
+  }
+}
+@media screen and (max-width: $screen-tablet-s) {
+  .tablet-maxwidth-s {
+    max-width: 400px;
+  }
+}
+@media screen and (max-width: $screen-mobile-l) {
+  .maxwidth-xxs,
+  .maxwidth-xs,
+  .maxwidth-s {
+    max-width: 100%;
+  }
+  .maxwidth-xs-tablet {
+    max-width: 350px;
+  }
+  .mobile-maxwidth-l {
+    max-width: 300px;
+  }
+}
+@media screen and (max-width: $screen-mobile-m) {
+  .mobile-maxwidth-m {
+    max-width: 250px;
+  }
+}
+@media screen and (max-width: $screen-mobile-s) {
+  .mobile-maxwidth-s {
+    max-width: 200px;
+  }
+}

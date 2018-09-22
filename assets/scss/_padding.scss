@@ -1,0 +1,134 @@
+// Vertical spacing ------------------------------------------------------------
+$padding-xxs: 10px;
+$padding-xs: 20px;
+$padding-s: 40px;
+$padding-m: 80px;
+$padding-l: 120px;
+$padding-xl: 160px;
+$padding-xxl: 200px;
+
+.padding-xxs {
+  padding-top: $padding-xxs;
+  padding-bottom: $padding-xxs;
+}
+.padding-xs {
+  padding-top: $padding-xs;
+  padding-bottom: $padding-xs;
+}
+.padding-s {
+  padding-top: $padding-s;
+  padding-bottom: $padding-s;
+}
+.padding-m {
+  padding-top: $padding-m;
+  padding-bottom: $padding-m;
+}
+.padding-l {
+  padding-top: $padding-l;
+  padding-bottom: $padding-l;
+}
+.padding-xl {
+  padding-top: $padding-xl;
+  padding-bottom: $padding-xl;
+}
+.padding-xxs-top {
+  padding-top: $padding-xxs;
+}
+.padding-xs-top {
+  padding-top: $padding-xs;
+}
+.padding-s-top {
+  padding-top: $padding-s;
+}
+.padding-m-top {
+  padding-top: $padding-m;
+}
+.padding-l-top {
+  padding-top: $padding-l;
+}
+.padding-xl-top {
+  padding-top: $padding-xl;
+}
+.padding-xxl-top {
+  padding-top: $padding-xxl;
+}
+.padding-xs-bottom {
+  padding-bottom: $padding-xs;
+}
+.padding-s-bottom {
+  padding-bottom: $padding-s;
+}
+.padding-m-bottom {
+  padding-bottom: $padding-m;
+}
+.padding-l-bottom {
+  padding-bottom: $padding-l;
+}
+.padding-xl-bottom {
+  padding-bottom: $padding-xl;
+}
+.padding-xxl-bottom {
+  padding-bottom: $padding-xxl;
+}
+.margin-xs-bottom {
+    margin-bottom: 20px;
+}
+.margin-m-top {
+    margin-top: 80px;
+}
+
+// Responsive ------------------------------------------------------------------
+@media screen and (max-width: $screen-mobile-l) {
+  section.padding-xl-top .contain-tablet > div {
+    padding-top: none;
+  }
+  section.padding-xl-bottom > .break-tablet > div {
+    margin-bottom: 0px;
+  }
+  section.padding-xl-bottom .contain-tablet > div {
+    padding-bottom: $padding-s;
+  }
+  .padding-xxl {
+    padding-top: $padding-xl;
+    padding-bottom: $padding-xl;
+  }
+  .padding-xxl-top {
+    padding-top: $padding-xl;
+  }
+  .padding-xxl-bottom {
+    padding-bottom: $padding-xl;
+  }
+  .padding-xl {
+    padding-top: $padding-l;
+    padding-bottom: $padding-l;
+  }
+  .padding-xl-top {
+    padding-top: $padding-l;
+  }
+  .padding-xl-bottom {
+    padding-bottom: $padding-l;
+  }
+  .padding-l {
+    padding-top: $padding-m;
+    padding-bottom: $padding-m;
+  }
+  .padding-l-top {
+    padding-top: $padding-m;
+  }
+  .padding-l-bottom {
+    padding-bottom: $padding-m;
+  }
+  .padding-m {
+    padding-top: $padding-s;
+    padding-bottom: $padding-s;
+  }
+  .padding-m-top {
+    padding-top: $padding-s;
+  }
+  .padding-m-bottom {
+    padding-bottom: $padding-s;
+  }
+  .mobile-padding-l-top {
+    padding-top: 90px;
+  }
+}

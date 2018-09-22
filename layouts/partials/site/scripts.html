@@ -1,0 +1,22 @@
+{{- $debug_enabled := $.Scratch.Get "debug_enabled" -}}
+<link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+<link rel="stylesheet"
+      href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+
+{{ $styles := resources.Get "scss/main.scss" | resources.ExecuteAsTemplate "style.main.scss" . | toCSS |postCSS | minify | fingerprint }}
+<!--<link rel="stylesheet" href="{{ $styles.Permalink }}" integrity="{{ $styles.Data.Integrity }}" media="screen">-->
+
+{{ if eq $debug_enabled true }}
+
+{{ $debugstyles := resources.Get "scss/debug.scss" | resources.ExecuteAsTemplate "style.main.scss" . | toCSS |postCSS | minify | fingerprint }}
+
+<script type="text/javascript">
+  fetchInject([
+    '{{ $debugstyles.Permalink }}',
+  ]).then(() => {
+        console.log(`Loaded debugger css`);
+  })
+  </script>
+
+{{ end }}

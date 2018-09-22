@@ -1,0 +1,418 @@
+// Default button -------------------------------------------------------------
+// Deepblue variation
+.button-fill.deepblue {
+  background: $deepblue;
+}
+
+button.button-fill {
+  border: none;
+}
+// Button 1
+.button-fill {
+  color:#fff;
+  background: none;
+  -webkit-box-shadow:none;
+  box-shadow:none;
+  -webkit-transition: all 0.2s ease;
+  -o-transition: all 0.2s ease;
+  transition: all 0.2s ease;
+  padding: 22px 30px;
+  font-size:14px;
+  justify-content:center;
+  white-space:nowrap;
+  text-decoration:none;
+  line-height:1.4;
+  font-weight:600;
+  display:inline-flex;
+  outline:none;
+  overflow:hidden;
+  position:relative;
+  z-index:1;
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  &::before {
+    position: absolute;
+    content: '';
+    z-index: -1;
+    top: 0;
+    left: -10%;
+    right: 0;
+    bottom: 0;
+    width: 0;
+    -webkit-transform-origin: 0 50%;
+    -ms-transform-origin: 0 50%;
+    transform-origin: 0 50%;
+    -webkit-transition: all 0.5s;
+    -o-transition: all 0.5s;
+    transition: all 0.5s;
+  }
+  &:hover {
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    &::after {
+      z-index:-2;
+    }
+    &::before {
+      width: 60%;
+    }
+  }
+  &:focus::before, &:active::before {
+    width: 120%;
+  }
+}
+
+// Button 2
+.button-swipe-right {
+  &::before {
+    -webkit-transform: skew(0deg);
+    -ms-transform: skew(0deg);
+    transform: skew(0deg);
+  }
+  &:hover {
+    &::before {
+      width: 120%;
+    }
+  }
+}
+
+// Button 3
+.button-arrow {
+  &::before {
+    content:'';
+    position: absolute;
+    content: '';
+    z-index: -1;
+    top: 0;
+    left: -10%;
+    right: 0;
+    bottom: 0;
+    width: 0;
+    -webkit-transform: skew(0deg);
+    -ms-transform: skew(0deg);
+    transform: skew(0deg);
+    -webkit-transform-origin: 0 0%;
+    -ms-transform-origin: 0 0%;
+    transform-origin: 0 0%;
+    -webkit-transition: none;
+    -o-transition: none;
+    transition: none;
+  }
+  &:hover {
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    &::after {
+      z-index:-2;
+    }
+    &::before {
+      width: 0%;
+    }
+    span {
+      transform: translateX(-25%);
+    }
+    svg {
+      opacity: 1;
+      right: -50%;
+    }
+  }
+  &:focus::before, &:active::before {
+    width: 0%;
+  }
+  span {
+    transition: all 0.5s;
+  }
+  svg {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    width: 16px;
+    opacity: 0;
+    transform: translateY(-50%);
+    transition: all 0.5s;
+  }
+}
+
+// Button 4
+.button-up {
+  &::before {
+    content:'';
+    position: absolute;
+    content: '';
+    z-index: -1;
+    top: 0;
+    left: -10%;
+    right: 0;
+    bottom: 0;
+    width: 0;
+    background: #1badff;
+    -webkit-transform: skew(0deg);
+    -ms-transform: skew(0deg);
+    transform: skew(0deg);
+    -webkit-transform-origin: 0 0%;
+    -ms-transform-origin: 0 0%;
+    transform-origin: 0 0%;
+    -webkit-transition: none;
+    -o-transition: none;
+    transition: none;
+  }
+  &:hover {
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    &::after {
+      z-index:-2;
+    }
+    &::before {
+      width: 0%;
+    }
+  }
+  &:focus::before, &:active::before {
+    width: 0%;
+  }
+}
+.button-up {
+  &:hover span {
+    transform: translateY(210%);
+  }
+  &:hover svg {
+    opacity: 1;
+  }
+  span {
+    transition: all 0.5s;
+  }
+  svg {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    width: 16px;
+    opacity: 0;
+    transform: translate(-130%, -175%);
+    transition: all 0.2s;
+  }
+}
+
+// Button 5
+.button-background {
+  transition: all 0.35s;
+  &::before {
+    -webkit-transform: skew(0deg);
+    -ms-transform: skew(0deg);
+    transform: skew(0deg);
+  }
+  &:hover {
+    background: #1badff;
+    &::before {
+      width: 0%;
+    }
+  }
+}
+
+// Button 6
+.button-border-radius {
+  border-radius: 4px;
+  -webkit-transition: all 0.35s;
+  -o-transition: all 0.35s;
+  transition: all 0.35s;
+  &::before {
+    -webkit-transform: skew(0deg);
+    -ms-transform: skew(0deg);
+    transform: skew(0deg);
+  }
+  &:hover {
+    border-radius: 4px;
+    &::before {
+      width: 0%;
+    }
+  }
+}
+
+// Button 7
+.button-border-top {
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  &::before {
+    position: absolute;
+    content: '';
+    display: block;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: auto;
+    -webkit-transform: scaleY(0);
+    -ms-transform: scaleY(0);
+    transform: scaleY(0);
+    -webkit-transform-origin: 50% 0%;
+    -ms-transform-origin: 50% 0%;
+    transform-origin: 50% 0%;
+    -webkit-transition: -webkit-transform 0.2s ease-in;
+    transition: -webkit-transform 0.2s ease-in;
+    -o-transition: transform 0.2s ease-in;
+    transition: transform 0.2s ease-in;
+    transition: transform 0.2s ease-in, -webkit-transform 0.2s ease-in;
+  }
+  &:hover {
+    outline: none;
+    &::before {
+      width: auto;
+      -webkit-transform: scaleY(1);
+      -ms-transform: scaleY(1);
+      transform: scaleY(1);
+      -webkit-transform-origin: 50% 100%;
+      -ms-transform-origin: 50% 100%;
+      transform-origin: 50% 100%;
+    }
+  }
+}
+
+// Button 8
+.button-arrow-visible {
+  padding: 25px 50px;
+  &::before {
+    -webkit-transform: skew(0deg);
+    -ms-transform: skew(0deg);
+    transform: skew(0deg);
+    -webkit-transform-origin: 0 0%;
+    -ms-transform-origin: 0 0%;
+    transform-origin: 0 0%;
+    -webkit-transition: none;
+    -o-transition: none;
+    transition: none;
+  }
+  &:hover {
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    background: #1badff;
+    &::after {
+      z-index:-2;
+    }
+    &::before {
+      width: 0%;
+    }
+    span {
+      transform: translateX(-10%);
+    }
+    svg {
+      right: -5%;
+    }
+  }
+  &:focus::before, &:active::before {
+    width: 0%;
+  }
+  span {
+    transition: all 0.5s;
+  }
+  svg {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    width: 16px;
+    transform: translate(-150%, -50%);
+    transition: all 0.5s;
+  }
+}
+
+// Button 9
+.button-wide-width {
+  width: 340px;
+  &::before {
+    -webkit-transform: skew(0deg);
+    -ms-transform: skew(0deg);
+    transform: skew(0deg);
+  }
+  &:hover {
+    &::before {
+      width: 120%;
+    }
+  }
+}
+
+// Primary button -------------------------------------------------------------
+.button-fill {
+  @extend .button-line;
+  color: #FFF;
+  background: $blue;
+  box-shadow: none;
+  transition: $transition-all;
+}
+.button-fill:hover {
+  background: lighten($blue, 10%);
+}
+// Ice variation
+.button-line.ice {
+  background: #FFF;
+  box-shadow: inset 0 0 0 1px #FFF;
+  color: $oil;
+}
+.button-line.ice:hover {
+  background: $blue;
+  box-shadow: inset 0 0 0 1px $blue;
+  color: #FFF;
+}
+// Deepblue variation
+.button-fill.deepblue {
+  background: $deepblue;
+}
+// light blue 
+.button-fill.babyblue {
+  background: $babyblue;
+}
+// Icon button -------------------------------------------------------------
+.button-icon {
+  @extend .button-line;
+  padding: 12px 20px;
+  text-align: center;
+  box-shadow: inset 0 0 0 1px $snow;
+  transition: $transition-all;
+  color: #000;
+  margin: 0 10px 0 0 !important;
+}
+.button-icon img {
+  margin: 2px 12px 2px 0;
+}
+.button-icon.button-small {
+  font-size: 0;
+}
+.button-icon.button-small img {
+  margin: 2px 0;
+}
+.button-icon:hover {
+  background: #000;
+  box-shadow: none;
+}
+.button-icon:hover .default {
+  display: none;
+}
+.button-icon .hover {
+  display: none;
+}
+.button-icon:hover .hover {
+  display: inline-block;
+}
+// Filter button
+.filter-button-group a:hover {
+  cursor: pointer;
+}
+// Small button ----------------------------------------------------------------
+.button-line.small,
+.button-fill.small,
+.button-icon.small {
+  padding: 7px 14px;
+}
+
+// Media Queries
+@media screen and (max-width: $screen-tablet-s) {
+  .button-icon.button-small {
+    font-size: 14px;
+  }
+  .button-icon.button-small img {
+    margin: 2px 12px 2px 0;
+  }
+}
+
+// Big button ------------------------------------------------------------------
+.button-line.big,
+.button-fill.big,
+.button-icon.big {
+  padding: 15px 30px;
+  font-size: 17px;
+  font-weight: 400;
+}

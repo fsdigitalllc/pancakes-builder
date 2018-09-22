@@ -1,0 +1,81 @@
+.full-client {
+    height: 100vh;
+}
+.full-client .card, .full-client .tint {
+    height: 100%;
+}
+.full-client .card a {
+    height: 100%;
+}
+.full-client .card a {
+    position: relative;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+.full-client .squeeze-title {
+    left: 0%;
+    transition: left 1.0s;
+    -webkit-transition: left 1.0s;
+    width: 100%;
+}
+.full-client .tint a:hover .squeeze-title {
+    left: 2%;
+}
+.full-client .tint .card a:before {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 100px;
+    position: absolute;
+    left: 0px;
+    bottom: 0;
+    background: rgba(248,80,50,0);
+    background: -moz-linear-gradient(top, rgba(248,80,50,0) 0%, #000 100%);
+    background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(248,80,50,0)), color-stop(100%, #000));
+    background: -webkit-linear-gradient(top, rgba(248,80,50,0) 0%, #000 100%);
+    background: -o-linear-gradient(top, rgba(248,80,50,0) 0%, #000 100%);
+    background: -ms-linear-gradient(top, rgba(248,80,50,0) 0%, #000 100%);
+    background: linear-gradient(rgba(0, 7, 5, 0), #000);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f85032', endColorstr='#000000', GradientType=0 );
+    transition: height 1.0s;
+    -webkit-transition: height 1.0s;
+}
+.full-client .tint a:hover:before {
+  content: "";
+  position: absolute;
+  left: 0;
+  height: 75px;
+  right: 0;
+  bottom: 0;
+  display: block;
+  background: rgba(0,0,0,0.7);
+}
+.full-client h2.mobile-maxwidth-l {
+  margin-top: 5px;
+}
+.full-client .center-vertical .button-fill {
+  margin-bottom: 0px;
+}
+.full-client .featured-client1.tint a {
+  text-decoration: none;
+}
+.full-client .case-link svg {
+  margin-left: 10px;
+}
+.full-client .tint .tiny {
+  line-height: 29px;
+}
+.full-client .tint img {
+  opacity: 0;
+}
+.full-client .feature-block img {
+  margin-right: 20px;
+}
+@media screen and (max-width: $screen-mobile-m) {
+  .full-client {
+    height: 60vh;
+  }
+}

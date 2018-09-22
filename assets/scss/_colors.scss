@@ -1,0 +1,86 @@
+// Color palette -------------------------------------------------------
+$babyblue: #99DDFF;
+$blue: #00AAFF;
+$deepblue: #0055FF;
+$green: #75DE00;
+$yellow: #EEBA00;
+$purple: #9B80FF;
+$pink: #F95FAA;
+
+// Grayscale ------------------------------------------------------------------
+// #FFF and #000 are not variables
+$shadow: #111;
+$oil: #222;
+$metal: #444;
+$aluminum: #666;
+$ash: #888;
+$gray: #AAA;
+$platinum: #BBB;
+$silver: #CCC;
+$cloud: #DDD;
+$snow: #EEE;
+$smoke: #FAFAFA;
+$night: #161616;
+
+// Color classes for text ------------------------------------------------------
+.primary-color {
+	color: #ddd;
+}
+.color-white {
+	color: #FFF !important;
+}
+.color-blue {
+	color: $blue !important;
+}
+.color-babyblue {
+	color: $babyblue !important;
+}
+.color-deepblue {
+	color: $deepblue !important;
+}
+.color-oil {
+	color: $oil !important;
+}
+.color-cloud {
+	color: $cloud !important;
+}
+.color-metal {
+	color: $metal !important;
+}
+.color-aluminum {
+	color: $aluminum !important;
+}
+.color-ash {
+	color: $ash !important;
+}
+.color-gray {
+	color: $gray !important;
+}
+.color-platinum {
+	color: $platinum !important;
+}
+.color-silver {
+	color: $silver !important;
+}
+/* Background colors ---------------------------------------------------------*/
+.background-white {
+	background-color: #FFF;
+}
+.background-black {
+	background-color: #000;
+}
+.background-blue {
+	background-color: #00AAFF;
+}
+.background-deepblue {
+	background-color: #0055FF;
+}
+.background-night {
+	background-color: $night;
+}
+.color-white {
+	color: #FFF !important;
+}
+.color-oil {
+    color: #222 !important;
+}

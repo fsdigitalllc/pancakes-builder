@@ -1,0 +1,32 @@
+nav a {
+  font-size: 15px;
+  font-weight: 400;
+  color: rgba(0,0,0,0.85);
+  fill: currentColor;
+  transition: opacity 0.2s ease;
+  display: inline-block;
+  padding: 15px 0;
+}
+nav ul {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+header nav .sub a {
+  display: block;
+  padding: 28px 20px;
+  line-height: 0;
+  font-size: 15px
+}
+header nav .sub>li {
+  color: #fff;
+  padding: 0 0;
+  box-shadow: 0 1px 0 rgba(0,0,0,.05)
+}
+header nav .with-sub a:hover .sub {
+  opacity: 1;
+  pointer-events: all;
+  -ms-transform: translateY(0);
+  transform: translateY(0);
+  transition: transform .3s,all .2s ease;
+}

@@ -1,0 +1,82 @@
+// Strip all spacing from element
+.strip {
+	padding: 0 !important;
+	margin: 0 !important;
+}
+.strip-top {
+	padding-top: 0 !important;
+	margin-top: 0 !important;
+}
+.strip-bottom {
+	padding-bottom: 0 !important;
+	margin-bottom: 0 !important;
+}
+.strip-margin {
+	margin: 0 !important;
+}
+.strip-margin-top {
+	margin-top: 0 !important;
+}
+.strip-margin-bottom {
+	margin-bottom: 0 !important;
+}
+.strip-underline {
+	text-decoration: none;
+}
+.strip-padding {
+	padding: 0 !important;
+}
+@media screen and (max-width: $screen-laptop) {
+	.strip-margin-laptop {
+		margin: 0 !important;
+	}
+	.strip-padding-laptop {
+		padding: 0 !important;
+	}
+	.strip-top-laptop {
+		padding-top: 0 !important;
+		margin-top: 0 !important;
+	}
+	.strip-bottom-laptop {
+		padding-bottom: 0 !important;
+		margin-bottom: 0 !important;
+	}
+}
+@media screen and (max-width: $screen-tablet) {
+	.strip-margin-tablet {
+		margin: 0 !important;
+	}
+	.strip-padding-tablet {
+		padding: 0 !important;
+	}
+	.strip-top-tablet {
+		padding-top: 0 !important;
+		margin-top: 0 !important;
+	}
+	.strip-bottom-tablet {
+		padding-bottom: 0 !important;
+		margin-bottom: 0 !important;
+	}
+}
+@media screen and (max-width: $screen-mobile-l) {
+	.strip-margin-mobile {
+		margin: 0 !important;
+	}
+	.strip-padding-mobile {
+		padding: 0 !important;
+	}
+	.strip-padding-bottom-mobile {
+		padding-bottom: 0 !important;
+	}
+	.strip-padding-top-mobile {
+		padding-top: 0 !important;
+	}
+	.strip-top-mobile {
+		padding-top: 0 !important;
+		margin-top: 0 !important;
+	}
+	.strip-bottom-mobile {
+		padding-bottom: 0 !important;
+		margin-bottom: 0 !important;
+	}
+}

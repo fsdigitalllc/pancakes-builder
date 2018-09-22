@@ -1,0 +1,23 @@
+<!--.global $-->
+<!--.page .-->
+
+<!--define the $scratch var-->
+{{ $scratch := .global.Scratch }}
+<!--if the user deletes the preset container value, default to the wide value-->
+{{ $container := .page.container_size | default "wide" }}
+<!--define the default row width-->
+<!--container value is defined-->
+{{ $scratch.Set "container_size" $container }}
+
+
+
+
+<h2>range worked</h2>
+{{ if in .template "options" }}
+<p>NEW ROW CONTAINER SIZE Scratch: {{ $scratch.Get "container_size" }}</p>
+    {{ range .options }}
+        {{ if in .template "spacing" }}
+        <p>{{ .top_spacing }}</p>
+        {{ end }}
+    {{ end }}
+{{ end }}

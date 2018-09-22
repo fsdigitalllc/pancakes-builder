@@ -1,0 +1,8 @@
+.{{ .global.page.Scratch.Get "section_class" }}.p-{{ $.global.page.Scratch.Get "page_uniqueid" }} form .button-fill {
+	width: 100%;
+  font-weight: bold;
+  background: {{ .template | default "red"}};
+}
+.{{ .global.page.Scratch.Get "section_class" }}.p-{{ $.global.page.Scratch.Get "page_uniqueid" }} p {
+  color: {{ $.global.page.Site.Data.color.secondary_color }} !important;
+}
