@@ -1,7 +1,7 @@
 # Pancakes Builder
 A theme component for Hugo that allows you to visually build highly optimized pages.
 
-Pancakes builder works with your existing Hugo theme.
+Pancakes builder extends your existing Hugo theme.
 
 ## Features:
 * Image optimization: image processing, lazy loading
