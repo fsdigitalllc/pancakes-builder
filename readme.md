@@ -8,4 +8,4 @@ Pancakes builder extends your existing Hugo theme.
 * CSS Optimization: automatically inlines critical CSS in the head of your page and then conditionally generates the non-critical stylesheet based on used components
 * Navigate between pages: easily browse between pages and sections on your site.
 * Mobile-preview: Quickly view the mobile versions of your page without opening Dev Tools.
-* Easily A/B test page layouts
+* Easily A/B test page layouts!
