@@ -18,13 +18,8 @@
     </head>
     {{- $clean_page_slug := replace .Slug "/" "" -}}
     <body class="{{ .Type | lower }}-{{ $clean_page_slug }}">
-
-        <main class="site-main" role="main">
-
             <!--insert layout-->
             {{ block "main" . }}{{ end }}
-
-        </main>
 
         {{ block "footer" . }}{{ partial "site/footer.html" . }}{{ end }}
 

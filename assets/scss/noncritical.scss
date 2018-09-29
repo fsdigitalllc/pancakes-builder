@@ -1,1 +1,1 @@
-{{ partial "site/css_gen.html" (dict "page" . "global" $ ) }}
+{{ partial "components/component_generator.html" . | safeCSS }}

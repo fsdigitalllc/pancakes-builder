@@ -1,0 +1,46 @@
+{{/* <!--{{ .part_context.Params.stacks }}--> */}}
+{{/* <!--access the current page vars and params:--> */}}
+{{/* <!--.global.Title--> */}}
+{{/* <!--access the current range context:--> */}}
+{{/* <!--.page.template--> */}}
+{{/* <!--access the part page's vars and params:--> */}}
+{{/* <!--.part_context.Title--> */}}
+
+{{/* <!--<h1>{{ .page.template }} </h1>--> */}}
+{{/* <!--{{ .global.Site.Params }}--> */}}
+{{ .global.Scratch.Set "cloudinary_base" .global.Site.Params.cloudinary_base }}
+{{ .global.Scratch.Set "cloudinary_folder" .global.Site.Params.cloudinary_folder }}
+{{ .global.Scratch.Set "cloudinary_name" .global.Site.Params.cloudinary_name }}
+{{ .global.Scratch.Set "site" .global.Site }}
+
+{{ if (.global.Scratch.Get "is_css") true }}
+
+{{ print "." .this_class }} {
+  {{- with .page.background_color -}}background-color: {{ . | default "#ffffff" }};{{- end -}}
+  {{ with .page.p_top_val }}padding-top: {{ . }};{{ end }}
+  {{- if eq .section_tag "header" -}}
+  z-index: 100;
+  position: relative;
+  {{- end -}}
+  {{ if in .page.background_image "uploads" }}
+  {{ $upload_image := resources.Get .page.background_image }}
+  {{ $upload_image_resize := $upload_image.Resize "1920x q100" }}
+  background-image: url({{ $upload_image_resize.Permalink }});
+  {{ end }}
+  {{ if in .page.background_image "http" }}
+  background-image: url({{ .page.background_image }});
+  {{ end }}
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+{{ else }}
+
+<section id="{{ .section_id }}" data-section-name="{{ .section_template }}" data-section-type="{{ .section_type }}" class="{{ .this_class }} padding-{{ .page.p_top | default "none" | lower }}-top padding-{{ .page.p_bottom | default "none" | lower}}-bottom{{ if eq .page.full_height_section true }} full-height{{ end }}{{ if .page.background_parallax }} background-parallax{{ end }}">
+{{ range .page.rows }}
+  {{ partial "components/row_column.html" (dict "page" . "global" $ "cloudinary_base" .cloudinary_base ) }}
+{{ end }}
+
+</section>
+
+{{ end }}

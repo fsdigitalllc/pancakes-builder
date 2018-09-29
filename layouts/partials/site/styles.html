@@ -1,7 +1,10 @@
 {{- $env := getenv "HUGO_ENV" -}}
 
-<!--conditionally load and inline scripts-->
+{{/* <!--conditionally load and inline scripts--> */}}
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/fetch-inject" media="screen"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lazysizes/3.0.0/plugins/rias/ls.rias.min.js"></script>
+<script src="//cdn.jsdelivr.net/g/lazysizes(lazysizes.min.js)"></script>
+
 {{- $vendor := resources.Get "js/vendor/jquery.min.js" | minify -}}
 {{- $vendorpermalink := $vendor.Permalink -}}
 {{- $.Scratch.Set "vendor" $vendorpermalink -}}
@@ -18,33 +21,32 @@
 {{- $preview_sections := trim .Sections "(0)" | lower -}}
 {{- $.Scratch.Set "preview_link" $preview_sections -}}    
 
-
-<script type="text/javascript">
+{{/* <!-- <script type="text/javascript">
   fetchInject([
     '{{- $lazysizesjs.Permalink -}}'
   ])
-</script>
+</script> --> */}}
 {{- $clean_slug := replace .Params.slug "/" "" -}}
 {{- $page_slug := $clean_slug -}}  
 
-{{ $.Scratch.Set "is_critical" true }}
-
-<!--use on all environments for now-->
-<style>
-    {{ partial "site/css_gen.html" (dict "page" . "global" $ ) | safeCSS }}
+{{- $.Scratch.Set "is_css" true -}}
+{{- $.Scratch.Set "is_critical" true -}}
+{{/* <!--use on all environments for now--> */}}
+<style class="critical">
+    {{ partial "components/component_generator.html" . | safeCSS }}
 </style>
 
 {{- $env := getenv "HUGO_ENV" -}}
 {{ if or (.Site.IsServer) (eq $env "") (eq $env "undefined") }}
-<!--hide for now-->
+{{/* <!--hide for now--> */}}
 {{ end }}
 
 
-{{- if and (eq $env "production") (eq $env "staging") (eq .Site.Params.postcss_testing true) }}
-<!--use a resource for producition-->
-{{ $critical := resources.Get "scss/critical.scss" | resources.ExecuteAsTemplate "style.critical.scss" . | toCSS |postCSS | minify }}
+{{- if eq .Site.Params.postcss_testing true }}
+{{/* <!--use a resource for producition--> */}}
+{{ $critical := resources.Get "scss/critical.scss" | resources.ExecuteAsTemplate "style.critical.scss" . | toCSS | minify }}
 
-<style class="critical">{{ (slice $critical | resources.Concat "style.scss").Content | safeCSS }}</style>
+<style class="critical-postcss">{{ (slice $critical | resources.Concat "style.scss").Content | safeCSS }}</style>
 
 {{ end }}
 
@@ -62,7 +64,7 @@ fetchInject([
 {{- $title := .Title -}}
 {{- $page_hash := .UniqueID | urlize -}}
 
-<!--check environment-->
+{{/* <!--check environment--> */}}
 
 
 {{- if and (or (eq $env "undefined") (eq $env "") (eq $env "staging")) (eq $.Site.Params.debug_bar_settings.enable_debug true | default true)  }}

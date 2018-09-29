@@ -1,0 +1,4 @@
+{{- define "main" -}}
+{{- $.Scratch.Set "is_css" false -}}
+    {{- partial "components/component_generator.html" . | safeHTML -}}
+{{- end -}}
