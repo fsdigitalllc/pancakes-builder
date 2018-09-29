@@ -1,15 +1,13 @@
-
-{{ $scratch := .global.global.Scratch }}
-{{ $global_scratch := .global.global.Scratch }}
-{{ $global_site := .global.global.Scratch.Get "site" }}
+{{/* <!--start columns--> */}}
+{{ $scratch := .global.global.global.Scratch }}
+{{ $global_scratch := .global.global.global.Scratch }}
+{{ $global_site := .global.global.global.Scratch.Get "site" }}
 {{ $cloud_base := $global_scratch.Get "cloudinary_base"}}
 {{ $cloud_folder_name := $global_scratch.Get "cloudinary_folder" }}
 {{ $cloud_folder := $cloud_folder_name }}
 {{ $cloud_name  := $global_scratch.Get "cloudinary_name" }}
 
-<div id="row" class="row flex-container h_c_{{ .page.h_content | default "space-between" }} {{ .page.container_size | default "container" }} padding-{{ .page.row_space | default "none" }}-bottom break-{{ .page.break | default "tablet" }} contain-tablet wrap">
-{{ range .page.cols }}
-{{/* <!--start columns--> */}}
+{{ $css := $global_scratch.Get "is_css"}}
 
 {{ if $cloud_folder_name }}
   {{ $cloud_folder = print $cloud_folder_name "/" }}
@@ -17,9 +15,9 @@
 
 <div data-column-size="col-{{ .size | default "6" }}"{{ with .background_color }} style="background-color: {{ . }}"{{ end }} class="flex-container flex-item column col-{{ .size | default "6" }} v_content_ h_content_ col_bg" >
 
-<div{{ if .animate }} data-aos="{{ .animate }}" data-aos-offset="data_aos_offset" data-aos-anchor="#section_id" {{ end }} style="" class="elements-wrapper {{ with .content_width }} maxwidth-{{ . | lower }}{{ end }}{{ with .p_top }} padding-{{ . | lower }}-top{{ end }}{{ with .p_bottom }} padding-{{ . | lower }}-bottom{{ end }}{{ with .text_align }} text-align-children-{{ . }}{{ end }}">
+<div{{ if .animate }} data-aos="{{ .page.animate }}" data-aos-offset="data_aos_offset" data-aos-anchor="#section_id" {{ end }} style="" class="elements-wrapper {{ with .page.content_width }} maxwidth-{{ . | lower }}{{ end }}{{ with .page.p_top }} padding-{{ . | lower }}-top{{ end }}{{ with .page.p_bottom }} padding-{{ . | lower }}-bottom{{ end }}{{ with .page.text_align }} text-align-children-{{ . }}{{ end }}">
 
-{{ range $index, $elements := .elements }}
+{{ range $index, $elements := .page.elements }}
 
 {{/* <!--individual elements--> */}}
 
@@ -103,7 +101,3 @@
 </div>{{/* <!--end element wrapper--> */}}
 
 </div>{{/* <!--end column--> */}}
-
-
-{{ end }}{{/* <!--end columns--> */}}
-</div>{{/* <!--row html end--> */}}

@@ -33,12 +33,12 @@
   background-repeat: no-repeat;
   background-size: cover;
 }
-
+{{ partial "components/row.html" (dict "page" . "global" $ "cloudinary_base" .cloudinary_base ) }}
 {{ else }}
 
 <section id="{{ .section_id }}" data-section-name="{{ .section_template }}" data-section-type="{{ .section_type }}" class="{{ .this_class }} padding-{{ .page.p_top | default "none" | lower }}-top padding-{{ .page.p_bottom | default "none" | lower}}-bottom{{ if eq .page.full_height_section true }} full-height{{ end }}{{ if .page.background_parallax }} background-parallax{{ end }}">
 {{ range .page.rows }}
-  {{ partial "components/row_column.html" (dict "page" . "global" $ "cloudinary_base" .cloudinary_base ) }}
+  {{ partial "components/row.html" (dict "page" . "global" $ "cloudinary_base" .cloudinary_base ) }}
 {{ end }}
 
 </section>
