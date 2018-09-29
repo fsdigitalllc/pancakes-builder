@@ -10,10 +10,12 @@
     {{ partial "components/component_generator.html" . | safeCSS }}
 </style>
 
+{{ $noncritical := resources.Get "scss/noncritical.scss" | resources.ExecuteAsTemplate "noncritical.scss" . | toCSS | minify | fingerprint }}
 
+{{ if eq $.Site.Params.postcss_testing true }}
 <!--use a resource for producition-->
-{{ $noncritical := resources.Get "scss/noncritical.scss" | resources.ExecuteAsTemplate "noncritical.scss" . | toCSS | postCSS | minify | fingerprint }}
-
+    {{ $noncritical = resources.Get "scss/noncritical.scss" | resources.ExecuteAsTemplate "noncritical.scss" . | toCSS | postCSS | minify | fingerprint }}    
+{{ end }}
 <link rel="stylesheet" href="{{ $noncritical.Permalink }}" media="screen">
 
     <p class="site-footer__copyright"><a href="{{ .Site.BaseURL }}">{{ .Site.Title }}</a>
