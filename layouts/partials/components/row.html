@@ -9,7 +9,9 @@
 {{ $css := $global_scratch.Get "is_css"}}
 
 {{ if eq $css true }}
-
+  {{ range .page.cols }}
+  {{ partial "components/column.html" (dict "page" . "global" $ "cloudinary_base" .cloudinary_base ) }}
+  {{ end }}
 {{ else }}
 <div id="row" class="row flex-container h_c_{{ .page.h_content | default "space-between" }} {{ .page.container_size | default "container" }} padding-{{ .page.row_space | default "none" }}-bottom break-{{ .page.break | default "tablet" }} contain-tablet wrap">
 {{ range .page.cols }}

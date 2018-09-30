@@ -4,8 +4,22 @@
 <link rel="stylesheet"
       href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
 
-{{ $styles := resources.Get "scss/main.scss" | resources.ExecuteAsTemplate "style.main.scss" . | toCSS |postCSS | minify | fingerprint }}
-<!--<link rel="stylesheet" href="{{ $styles.Permalink }}" integrity="{{ $styles.Data.Integrity }}" media="screen">-->
+<!--for isserver just inline the style so front matter changes reload the style-->
+
+{{- $env := getenv "HUGO_ENV" -}}
+{{- $.Scratch.Set "is_css" true -}}
+{{- $.Scratch.Set "is_critical" false -}}
+<style class="noncritical">
+    {{ partial "components/component_generator.html" . | safeCSS }}
+</style>
+
+{{ $noncritical := resources.Get "scss/noncritical.scss" | resources.ExecuteAsTemplate "noncritical.scss" . | toCSS | minify | fingerprint }}
+
+{{ if eq $.Site.Params.postcss_testing true }}
+<!--use a resource for producition-->
+    {{ $noncritical = resources.Get "scss/noncritical.scss" | resources.ExecuteAsTemplate "noncritical.scss" . | toCSS | postCSS | minify | fingerprint }}   
+<link rel="stylesheet" href="{{ $noncritical.Permalink }}" media="screen"> 
+{{ end }}
 
 {{ if eq $debug_enabled true }}
 

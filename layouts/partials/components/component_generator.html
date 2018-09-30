@@ -1,10 +1,5 @@
 {{ $debug_enabled := $.Scratch.Get "debug_enabled" }}
 
-{{/* <!--get this slug--> */}}
-{{/* <!--needs to match: parts/contact-form.md--> */}}
-{{/* <!--parts/contact-form.md--> */}}
-
-{{/* <!--get this md path--> */}}
 {{ $this_page := .UniqueID | urlize }}
 {{ $file_path := replaceRE "\\\\" "/" .File.Path }}
 
@@ -14,7 +9,7 @@
 {{ .Scratch.Set "cloudinary_name" $.Site.Params.cloudinary_name }}
 
 {{/* <!--get each section on each page--> */}}
-{{ range $index, $pages := .Site.Pages }}
+{{- range $index, $pages := .Site.Pages }}
 {{ $page_slug := .Params.slug | replace "/" "" }}
 {{ $page_hash := .UniqueID | urlize }}
 {{ $loop_hash := .UniqueID | urlize }}
@@ -25,11 +20,14 @@
 {{/* <!--include critical base css once--> */}}
 
 {{/* <!--include critical base css once--> */}}
+  
+
 {{ if .Params.stacks }}
 {{/* <!--use index to add a count to the range--> */}}
-
+    
   {{ range $index, $stacks := (where .Params.stacks ".template" "!=" "custom-header") }}
   {{/* <!--set an ID for each section so that we can reference it in the stylesheet--> */}}
+  
   {{ $stack_query := $.File.Path }} 
 
   {{ $section_id := print "section-" $index }}
@@ -84,23 +82,34 @@
       {{ end }}{{/* <!--if index gt or lt--> */}} 
     {{/* <!--use scratch or a var to pass the template name. We have to do this since context changes in nested ranges--> */}}
           
+      
     {{ end }}{{/* <!--end section range--> */}} 
-          
+       
   {{ else }}{{/* <!--if no block within a stack--> */}}
 
   {{ end }}{{/* <!-- end section if statement--> */}}
+    
 {{/* <!--add cloudinary image processing based on a scratch value from column.html--> */}}
+
 {{ if ($.Scratch.Get "cld_responsive") true }}
-{{/* <!-- <script type="text/javascript">
+{{- /* <!-- <script type="text/javascript">
   var cl = cloudinary.Cloudinary.new({cloud_name: "{{ .Scratch.Get "cloudinary_name" }}"}); 
   // replace 'demo' with your cloud name in the line above 
   cl.responsive();
-</script> --> */}}
+</script> --> */ -}}
 {{ end }}
 
 {{ end }}{{/* <!--get each section on each page--> */}}
 
-{{/* <!--add base CSS once--> */}}
+{{- /* <!--add base CSS once--> */ -}}
 {{ if and (eq ($.Scratch.Get "is_critical") true) (eq ($.Scratch.Get "is_css") true) }}
   {{ partial "components/base.html" (dict "page" . "global" $) }}
-{{ end }}
+
+  {{- if eq ($.Scratch.Get "element_image") true }}
+    {{ partial "components/elements/image/base.html" (dict "page" . "global" $) }}
+  {{ end -}}
+
+  {{ if eq ($.Scratch.Get "element_button") true }}
+    {{ partial "components/elements/button/base.html" (dict "page" . "global" $) }}
+  {{ end -}}
+{{ end -}}

@@ -1,17 +1,9 @@
 {{/* <!--{{ .part_context.Params.stacks }}--> */}}
-{{/* <!--access the current page vars and params:--> */}}
-{{/* <!--.global.Title--> */}}
-{{/* <!--access the current range context:--> */}}
-{{/* <!--.page.template--> */}}
-{{/* <!--access the part page's vars and params:--> */}}
-{{/* <!--.part_context.Title--> */}}
-
-{{/* <!--<h1>{{ .page.template }} </h1>--> */}}
-{{/* <!--{{ .global.Site.Params }}--> */}}
 {{ .global.Scratch.Set "cloudinary_base" .global.Site.Params.cloudinary_base }}
 {{ .global.Scratch.Set "cloudinary_folder" .global.Site.Params.cloudinary_folder }}
 {{ .global.Scratch.Set "cloudinary_name" .global.Site.Params.cloudinary_name }}
 {{ .global.Scratch.Set "site" .global.Site }}
+{{ .global.Scratch.Set "section_index" .this_class }}
 
 {{ if (.global.Scratch.Get "is_css") true }}
 
@@ -33,7 +25,9 @@
   background-repeat: no-repeat;
   background-size: cover;
 }
+{{ range .page.rows }}
 {{ partial "components/row.html" (dict "page" . "global" $ "cloudinary_base" .cloudinary_base ) }}
+{{ end }}
 {{ else }}
 
 <section id="{{ .section_id }}" data-section-name="{{ .section_template }}" data-section-type="{{ .section_type }}" class="{{ .this_class }} padding-{{ .page.p_top | default "none" | lower }}-top padding-{{ .page.p_bottom | default "none" | lower}}-bottom{{ if eq .page.full_height_section true }} full-height{{ end }}{{ if .page.background_parallax }} background-parallax{{ end }}">

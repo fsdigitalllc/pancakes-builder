@@ -1,0 +1,106 @@
+
+{{/* <!--start columns--> */}}
+{{ $scratch := .global.global.global.global.Scratch }}
+{{ $global_site := $scratch.Get "site" }}
+{{ $cloud_base := $scratch.Get "cloudinary_base"}}
+{{ $cloud_folder_name := $scratch.Get "cloudinary_folder" }}
+{{ $cloud_folder := $cloud_folder_name }}
+{{ $cloud_name  := $scratch.Get "cloudinary_name" }}
+{{ $css_data := $global_site.Data.css }}
+
+{{ $css := $scratch.Get "is_css"}}
+{{ $section_index := $scratch.Get "section_index" }}
+
+{{ if $cloud_folder_name }}
+  {{ $cloud_folder = print $cloud_folder_name "/" }}
+{{ end }}
+
+{{/* <!--individual elements--> */}}
+
+  {{ if in .page.template "element-image" }}
+
+  {{ if eq $css true }}
+
+  {{ $scratch.Set "element_image" true }}
+
+  {{ else if eq $css false }}{{/* <!--start html-->*/}}
+    {{ $img_quality := .page.quality | default "100" }}
+    {{ $img_quality = print $img_quality "/" }}
+    {{ $img_size := print "w_1000,c_limit/"}}
+
+  {{ $alt_text := .alt }}
+    {{ with .page.alt }}
+      {{ $alt_text = . }}
+    {{ else }}
+    {{ $alt_text = replaceRE "\\..+" "" .page.image }}
+      {{ $alt_text = $alt_text }}
+    {{ end }}
+
+    {{ with .page.image }}
+      {{ $img_src := . }}
+      {{ if in . "http" }}
+      {{/* <!--if absolute link, not cloudinary--> */}}
+        {{ $img_src = . }}
+        <img
+        srcset="
+        {{ . }} 500w,
+          {{ . }} 768w,
+          {{ . }} 2x"
+        src="{{ . }}" alt="{{ $alt_text }}"/>
+      {{ else if in . "uploads" }}
+      {{/* <!--if resource upload in content/uploads, perform basic image processing--> */}}
+      {{/* <!--need to make these options manual--> */}}
+          {{ $imageResource := ($global_site.GetPage "section" "uploads").Resources.GetMatch (strings.TrimPrefix "/uploads/" . ) }}
+          
+          {{ $resized900 := ($imageResource.Resize "900x q100") }}
+          {{ $resized500 := ($imageResource.Resize "500x q100") }}
+          <img 
+          data-sizes="(min-width: 1000px) 900px, 90vw" data-srcset="{{ $resized500.RelPermalink }} 500w, {{ $resized900.RelPermalink }} 900w" data-src="{{ $resized500.RelPermalink }}" class="lazyload" alt="{{ $alt_text }}"/>
+
+      {{ else if $cloud_base }}
+
+      {{/* <!--if cloudinary, process image by changing the URL structure. Keep in mind bandwidth limit--> */}}
+      {{/* <!--combined this with lazysizes and lazysizes auto sizing plugin--> */}}
+
+      {{ $img_src = print $cloud_base "q_" $img_quality "c_scale,w_auto/" $cloud_folder . }}
+      {{ $img_src_desktop := print $cloud_base "q_" $img_quality "c_scale,w_1920/" $cloud_folder . }}
+      {{ $img_src_tablet := print $cloud_base "q_" $img_quality "c_scale,w_768/" $cloud_folder . }}
+      {{ $img_src_mobile := print $cloud_base "q_" $img_quality "c_scale,w_500/" $cloud_folder . }}
+
+      <img
+        src=""
+        data-src="{{ $cloud_base }}q_auto,f_auto,w_{width}/{{ $cloud_folder }}{{ . }}"
+        data-sizes="auto"
+        class="lazyload"
+        alt="" />
+
+        {{/* <!--enable the cloudinary scripts--> */}}
+        {{ $scratch.Set "cld_responsive" true }}
+      
+      {{ end }}
+      
+    {{ else }}{{/* <!--withelse--> */}}
+
+    no image found
+
+    {{ end }}{{/* <!--endwith--> */}}
+  {{ end }}{{/* <!--if html--> */}}
+  {{ end }}{{/* <!--end if image--> */}}
+
+  {{ if in .page.template "element-title" }}
+
+  {{ if eq $css true }}
+
+  {{ else }}
+  {{ with .page.tag }}{{ print "<" . ">" | safeHTML }}{{ else }}{{ print "<h2>" | safeHTML }}{{ end }}
+    {{ .page.title }}
+  {{ with .page.tag }}{{ print "</" . ">" | safeHTML }}{{ else }}{{ print "</h2>" | safeHTML }}{{ end }}
+  {{ end }}
+  {{ end }}
+
+  {{ if in .page.template "element-button" }}
+  {{ $scratch.Set "element_button" true }}
+  <a id="{{ print $section_index "-" .element_index }}" class="button-fill " href="{{ .page.link }}">{{ .page.text }}</a>
+  {{ end }}
+
+{{/* <!--end individual elements--> */}}

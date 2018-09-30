@@ -1,3 +1,4 @@
+{{ define "critical" }}
 {{- $env := getenv "HUGO_ENV" -}}
 
 {{/* <!--conditionally load and inline scripts--> */}}
@@ -72,3 +73,5 @@ fetchInject([
 {{- $.Scratch.Set "debug_enabled" true -}}
 
 {{- end -}}
+
+{{ end }}

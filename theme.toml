@@ -8,7 +8,7 @@ description = ""
 homepage = "/"
 tags = []
 features = []
-min_version = "0.41"
+min_version = "0.47"
 
 [author]
   name = ""
@@ -19,3 +19,6 @@ min_version = "0.41"
   name = ""
   homepage = ""
   repo = ""
+
+[params]
+mobile_size = "320px"
