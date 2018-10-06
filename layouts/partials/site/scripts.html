@@ -21,7 +21,7 @@
 <link rel="stylesheet" href="{{ $noncritical.Permalink }}" media="screen"> 
 {{ end }}
 
-{{ if eq $debug_enabled true }}
+{{ if eq $.Site.Params.debug_enabled true }}
 
 {{ $debugstyles := resources.Get "scss/debug.scss" | resources.ExecuteAsTemplate "style.main.scss" . | toCSS |postCSS | minify | fingerprint }}
 
@@ -33,4 +33,13 @@
   })
   </script>
 
+{{/* <!--Add Debugger HTML block--> */}}
+
+{{- block "debug_bar" . -}}
+
+{{- end -}}
 {{ end }}
+
+{{/* <!--enable debug--> */}}
+{{/* {{ $debug_js := resources.Get "js/pancakes_debug.js" | minify }} */}}
+<script src="js/pancakes_debug.js"></script>

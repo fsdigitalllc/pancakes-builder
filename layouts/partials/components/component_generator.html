@@ -1,5 +1,17 @@
 {{ $debug_enabled := $.Scratch.Get "debug_enabled" }}
 
+{{/* <!--container sizes--> */}}
+{{ $.Scratch.Set "container_size" "1160px" }}
+{{ $.Scratch.Set "container_size_large" "1350px" }}
+
+{{/* <!--media queries--> */}}
+{{ $.Scratch.Set "screen_desktop_l" "1920px" }}
+{{ $.Scratch.Set "screen_desktop_s" "1366px" }}
+{{ $.Scratch.Set "screen_laptop" "1024px" }}
+{{ $.Scratch.Set "screen_tablet" "900px" }}
+{{ $.Scratch.Set "screen_mobile_l" "520px" }}
+{{ $.Scratch.Set "screen_mobile" "360px" }}
+
 {{ $this_page := .UniqueID | urlize }}
 {{ $file_path := replaceRE "\\\\" "/" .File.Path }}
 
@@ -112,4 +124,5 @@
   {{ if eq ($.Scratch.Get "element_button") true }}
     {{ partial "components/elements/button/base.html" (dict "page" . "global" $) }}
   {{ end -}}
+
 {{ end -}}

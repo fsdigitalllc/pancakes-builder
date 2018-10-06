@@ -1,3 +1,8 @@
+{{ $font := .global.Site.Data.font }}
+@import url('{{ $font.heading_script_url | default "https://fonts.googleapis.com/css?family=Roboto" }}');
+
+@import url('{{ $font.body_script_url | default "https://fonts.googleapis.com/css?family=Lato" }}');
+
 {{- $padding_xxs := "10px" -}}
 {{- $padding_xs := "20px" -}}
 {{- $padding_s := "40px" -}}
@@ -5,10 +10,77 @@
 {{- $padding_l := "120px" -}}
 {{- $padding_xl := "160px" -}}
 {{- $padding_xxl := "200px" -}}
-{{- $screen_mobile_l := "500px" -}}
-{{- $container := "1160px" -}}
-{{- $container_large := "1350px" -}}
 
+{{/* <!--media queries--> */}}
+{{- $container := .global.Scratch.Get "container_size" -}}
+{{- $container_large := .global.Scratch.Get "container_size_large" -}}
+
+{{/* <!--media queries--> */}}
+{{- $screen_desktop_l := .global.Scratch.Get "screen_desktop_l" -}}
+{{- $screen_desktop_s := .global.Scratch.Get "screen_desktop_s" -}}
+{{- $screen_laptop := .global.Scratch.Get "screen_laptop" -}}
+{{- $screen_tablet := .global.Scratch.Get "screen_tablet" -}}
+{{- $screen_mobile_l := .global.Scratch.Get "screen_mobile_l" -}}
+{{- $screen_mobile := .global.Scratch.Get "screen_mobile" -}}
+
+{{ $text_color := "#000000" }}
+
+{{ $font_family := print $font.body_font_family | safeHTML | default "'Lato', sans-serif;" }}
+
+{{ $header_font_family := print $font.heading_font_family | safeHTML | default "'Roboto', sans-serif;" }}
+
+{{/* <!--standard--> */}}
+html {
+  /* sticky footer fix */
+  position: relative;
+  min-height: 100%;
+}
+main {
+  position: relative;
+}
+section {
+  position: relative;
+  overflow-x: hidden;
+}
+body {
+  margin: 0;
+  padding: 0;
+  color: {{ $text_color }};
+  font-family: {{ $font_family }};
+  line-height: 1.5;
+}
+
+{{/* <!-- Fix IE9 SVG bug--> */}}
+svg:not(:root) {
+  overflow: hidden;
+}
+
+{{/* <!--headers--> */}}
+h1, h2, h3, h4, h5, h6 {
+  margin: 0em 0 0.5em;
+  line-height: 1.2;
+  font-family: {{ $header_font_family }};
+  font-weight: 300;
+}
+{{/* <!--add margin button, letter spacing, weight, etc--> */}}
+h1 {
+  font-size: {{ $font.h1.font_size | default "36px"}};
+}
+h2 {
+  font-size: {{ $font.h2.font_size | default "36px"}};
+}
+h3 {
+  font-size: {{ $font.h3.font_size | default "36px"}};
+}
+h4 {
+  font-size: {{ $font.h4.font_size | default "36px"}};
+}
+h5 {
+  font-size: {{ $font.h5.font_size | default "36px"}};
+}
+h6 {
+  font-size: {{ $font.h6.font_size | default "36px"}};
+}
 {{/* <!--section base--> */}}
 .container {
 	max-width: {{ $container }};
@@ -44,6 +116,9 @@
 	display: -moz-flex;
 	display: -webkit-flex;
 	display: flex;
+}
+.wrap {
+  flex-direction: column;
 }
 {{/* <!--alignment--> */}}
 {{/* <!--horizontal align content--> */}}
@@ -179,8 +254,34 @@ img {
 .margin-m-top {
     margin-top: 80px;
 }
-
+@media screen and (max-width: {{ $screen_laptop }}) {
+	.break-laptop {
+		flex-direction: column;
+  }
+}
+@media screen and (max-width: {{ $screen_tablet }}) {
+  .justify-children-end {
+		justify-content: flex-start;
+		text-align: left;
+		margin-left: 0;
+		margin-right: auto;
+	}
+	.justify-self-end {
+		justify-self: flex-start;
+		text-align: left;
+		margin-right: auto;
+		margin-left: 0;
+  }
+  .break-tablet {
+		flex-direction: column;
+  }
+}
 @media screen and (max-width: {{ $screen_mobile_l }}) {
+  .break-mobile {
+    flex-direction: column;
+  }
+}
+@media screen and (max-width: {{ $screen_mobile }}) {
   section.padding-xl-top .contain-tablet > div {
     padding-top: none;
   }

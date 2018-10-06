@@ -1,22 +1,31 @@
 
 {{/* <!--start columns--> */}}
 {{ $scratch := .global.global.global.global.Scratch }}
+{{ $global_page := .global.global.global.global }}
+
 {{ $global_site := $scratch.Get "site" }}
 {{ $cloud_base := $scratch.Get "cloudinary_base"}}
 {{ $cloud_folder_name := $scratch.Get "cloudinary_folder" }}
 {{ $cloud_folder := $cloud_folder_name }}
 {{ $cloud_name  := $scratch.Get "cloudinary_name" }}
 {{ $css_data := $global_site.Data.css }}
-
 {{ $css := $scratch.Get "is_css"}}
 {{ $section_index := $scratch.Get "section_index" }}
 
+{{ $element_prefix := print $section_index "-" .element_index }}
 {{ if $cloud_folder_name }}
   {{ $cloud_folder = print $cloud_folder_name "/" }}
 {{ end }}
 
-{{/* <!--individual elements--> */}}
 
+  {{/* <!--user defined components. Add base css--> */}}
+  {{ if in .page.template "custom" }}
+    {{/* <!--components/custom/custom-text.html--> */}}
+    {{ $component_ref := print "components/custom/" .page.file_name }}
+    {{ partial $component_ref . }}
+  {{ end }}
+
+  {{/* <!--individual elements--> */}}
   {{ if in .page.template "element-image" }}
 
   {{ if eq $css true }}
@@ -100,7 +109,68 @@
 
   {{ if in .page.template "element-button" }}
   {{ $scratch.Set "element_button" true }}
-  <a id="{{ print $section_index "-" .element_index }}" class="button-fill " href="{{ .page.link }}">{{ .page.text }}</a>
+  
+
+  {{/* <!--button theme color--> */}}
+  {{/* <!--button theme color 2--> */}}
+  {{/* <!--page button color--> */}}
+  {{ if eq $css true }}
+  
+  {{ $element_button_preset := .page.element_button_preset | default "primary" }}
+
+  {{ $scratch.Set "element_button_preset" $element_button_preset }}
+
+    #{{ $element_prefix }}.button {
+      background-color: {{ .page.background_color }};
+      color: {{ .page.text_color }};
+      transition: {{ .page.transition_hover}};
+    }
+    #{{ $element_prefix }}.button:hover {
+      background-color: {{ .page.background_color_hover }};
+      color: {{ .page.text_color_hover }};
+      transition: {{ .page.transition_hover}};
+    }
+  {{ else }}
+  <a id="{{ $element_prefix }}" class="button button-fill " href="{{ .page.link }}">{{ .page.text }}</a>
+
+  {{ end }}
+  {{ end }}
+
+  {{ if in .page.template "form" }}
+  {{ $scratch.Set "element_form" true }}
+
+  {{/* <!--page button color--> */}}
+  {{ if eq $css true }}
+
+
+  {{ else }}
+
+  <form name="{{ $global_page.Title | urlize }}" method="POST" netlify class="contact-base">
+    <div class="col-{{ .size | default "12" }} flex-container flex-item wrap">
+      {{ range $index, $fields := .page.fields }}
+      {{ if eq .template "text-field" }}
+      <label>{{ .label }}:
+        <input id="{{ print .label "-" $index | lower | urlize }}" type="text" name="{{ print .label "-" $index | lower | urlize }}" placeholder="{{ .placeholder }}" />
+      </label>
+      {{ end }}
+      {{ if eq .template "dropdown-field" }}
+      <label>{{ .label }}:
+        <select name="dropdown" tabindex="1">
+            {{ range $index, $drop_options :=  .options }}
+            {{ with .label }}
+            <option value="{{ . }}">{{ . }}</option>
+            {{ end }}
+    
+            {{ end }}
+        </select>
+      </label>
+      {{ end }}
+      {{ end }}
+      
+    </div>    
+  </form>
+
+  {{ end }}
   {{ end }}
 
 {{/* <!--end individual elements--> */}}

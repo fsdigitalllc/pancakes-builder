@@ -1,0 +1,172 @@
+{{- define "debug_bar" -}}
+{{ $current_page := .UniqueID }}
+<div class="debugging-bar">
+  <div class="dbg-container">
+  <div class="dbg-logo">
+    {{ $dbg_logo_input := resources.Get "images/pancakes-logo.jpg" }}
+    {{ $dbg_logo_resize := $dbg_logo_input.Resize "50x q100" }}
+    <img class="lazyload" data-src="{{ $dbg_logo_resize.Permalink }}">
+  </div>
+  
+  <div class="dbg-pages dbg-btn">
+      <ul>
+        <li alt="Browse within the current section">{{ .Sections | htmlEscape | replaceRE "\\(.*?\\)" "" }} - {{ .Title }} <i class="fas fa-caret-up"></i></li>
+      </ul>
+    </div>
+  
+  <div class="dbg-btns-container">
+  
+  
+  <div class="enable-debug dbg-btn">
+    <ul>
+    <li alt="Enter Preview Mode to view section information">
+      <i class="fa fa-eye" aria-hidden="true"></i>
+    </li>
+  </ul>
+  </div>
+  
+  <div class="inspect-mode dbg-btn">
+    <ul>
+        <li alt="Enter Scratchpad Mode to test layout changes">
+            <i class="fas fa-code"></i>
+        </li>
+    </ul>
+  </div>
+  <div class="preview-link dbg-btn">
+    <ul>
+        <li alt="Edit this page in Forestry">
+            <a target="_blank" href="">
+              <i class="fas fa-edit"></i>
+            </a>
+        </li>
+    </ul>
+  </div>
+  <div class="m-bar dbg-btn">
+    <ul>
+        <li alt="Enter responsive mode" class="d_screen-mobile-s">
+          <i class="fa fa-mobile" aria-hidden="true"></i>
+        </li>
+    </ul>
+  </div>
+  </div><!--btn container-->
+  
+  <div class="dbg-options-toggle">
+    {{ if eq $.Site.Params.debug_bar_settings.debug_section true | default true }}
+      {{ $.Scratch.Set "debug_section" "checked"}}
+    {{ else }}
+      {{ $.Scratch.Set "debug_section" "unchecked"}}
+    {{ end }}
+    <ul class="section-toggle">
+      <li>
+        <input type="checkbox" name="agree" {{ $.Scratch.Get "debug_section" }}>
+        <label for="checkbox" class="checkbox__label">Lines</label>
+      </li>
+      <li>
+        <input type="checkbox" name="agree" {{ $.Scratch.Get "debug_section" }}>
+        <label for="checkbox" class="checkbox__label">Name</label>
+      </li>
+      <li>
+        <input type="checkbox" name="agree" {{ $.Scratch.Get "debug_section" }}>
+        <label for="checkbox" class="checkbox__label">Row</label>
+      </li>
+    </ul>
+    <ul class="column-toggle">
+      <li>
+        <label for="checkbox" class="checkbox__label">
+        <input type="checkbox" name="agree" {{ $.Scratch.Get "debug_section" }}>
+      </label>
+      </li>
+      <li>
+        <label for="checkbox" class="checkbox__label">
+        <input type="checkbox" name="agree" {{ $.Scratch.Get "debug_section" }}>
+      </label>
+      </li>
+    </ul>
+    <ul class="element-toggle">
+        <li>
+          <label for="checkbox" class="checkbox__label">
+          <input type="checkbox" name="agree" {{ $.Scratch.Get "debug_section" }}>
+        </label>
+        </li>
+        <li>
+          <label for="checkbox" class="checkbox__label">
+          <input type="checkbox" name="agree" {{ $.Scratch.Get "debug_section" }}>
+        </label>
+        </li>
+      </ul>
+  </div>
+  
+  
+  </div>
+  <!--pages drawer-->
+  
+  <div class="dbg-pages-container">
+      <ul class="dbg-pages-menu">
+      {{ range ( where .Site.Pages "Section" .Section ).Reverse }}
+      {{ if .Params.meta.og_image }}
+      
+        {{ $drawer_img_src := resources.Get .Params.meta.og_image }}
+        {{ $.Scratch.Set "drawer_img_thumbnail" ($drawer_img_src.Fill "150x" ) }}
+      {{ else }}
+        {{ $drawer_img_src := resources.Get "images/dbg-menu-thumbnail.jpg" }}
+        {{ $.Scratch.Set "drawer_img_thumbnail" ($drawer_img_src.Fill "200x180") }}
+      {{ end }}
+      <li{{ if in $current_page .Title }} class="dbg-pages-menu-highlighted"{{ end }}>
+        {{ if in $current_page .Title }}
+        <span class="dbg-drawer-img-wrap">
+          {{ else }}
+          <a href="{{ .Permalink }}" class="dbg-drawer-img-wrap">
+          {{ end }}
+          <img class="lazyload" src="">
+          
+        {{ if in $current_page .Title }}
+        </span>
+        {{ else }}
+        </a>
+        {{ end }}
+        <p class="dbg-pages-title">{{ .Title | truncate 20 }}</p>
+      </li>
+      
+      {{ end }}
+      </ul>
+  
+  </div>
+  <div class="dbg-pages-menu-close">
+      <i class="fas fa-times"></i>
+    </div>
+    <div class="dbg_preview_options_panel">
+          <ul class="list_sections_data">
+              
+    
+            
+          </ul>
+          </div>
+  </div><!--end pages pullout-->
+  
+  <!--start mobile preview panel-->
+  <div class="mobile-preview-frame">
+      <div class="m-bar m-bar-menu">
+          <ul>
+            <li class="d_screen-mobile-s"><i class="fa fa-mobile" aria-hidden="true"></i> Mobile S</li>
+            <li class="d_screen-mobile-m"><i class="fa fa-mobile" aria-hidden="true"></i> Mobile m</li>
+            <li class="d_screen-mobile-l"><i class="fa fa-mobile" aria-hidden="true"></i> Mobile l</li>
+            <li class="d_screen-tablet-s"><i class="fa fa-mobile" aria-hidden="true"></i> Tablet S</li>
+            <li class="d_screen-tablet"><i class="fa fa-mobile" aria-hidden="true"></i> Tablet</li>
+            <li class="d_screen-laptop"><i class="fa fa-mobile" aria-hidden="true"></i> laptop</li>
+            <li class="d_screen-desktop-s"><i class="fa fa-mobile" aria-hidden="true"></i> Desktop S</li>
+            <li class="d_screen-desktop-l"><i class="fa fa-mobile" aria-hidden="true"></i> Your Screen</li>
+          </ul>
+    </div>
+  <iframe id="frame" sandbox="allow-same-origin allow-forms allow-scripts" seamless="" height="640" src="{{ .Permalink }}"></iframe>
+  </div>
+  
+
+  
+<div class="dbg_options_panel">
+  <i class="fas fa-caret-down dbg_panel_close"></i>
+
+  <div class='dbg_options_wrap'></div>
+  
+      </div>
+      <!--force using relative URL?-->
+{{- end -}}
