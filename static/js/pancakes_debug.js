@@ -10,8 +10,12 @@ const sections = document.querySelectorAll('section');
 const rows = document.querySelectorAll('#row');
 const columns = document.querySelectorAll('div[data-column-size]');
 
+// Pages menu
+const pagesDrawer = document.querySelector(".dbg-pages-container");
+const pagesBtn = document.querySelector(".dbg-btn");
 // Call the function
 //section.addEventListener("click", functionName);
+
 
 //do stuff for each section
 sections.forEach(function (section, index) {
@@ -61,8 +65,12 @@ sections.forEach(function (section, index) {
 });
 
 
+// DEBUG BAR ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-  
+// Toggle pages drawer on click
+pagesBtn.addEventListener("click", () => {
+  pagesDrawer.classList.toggle("debug-menu-active");
+});
 
 // Create hover menus
 
