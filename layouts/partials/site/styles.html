@@ -62,6 +62,7 @@ fetchInject([
       AOS.init();
 })
 </script>
+
 {{- $title := .Title -}}
 {{- $page_hash := .UniqueID | urlize -}}
 
@@ -71,6 +72,8 @@ fetchInject([
 {{- if and (or (eq $env "undefined") (eq $env "") (eq $env "staging")) (eq $.Site.Params.debug_bar_settings.enable_debug true | default true)  }}
 
 {{- $.Scratch.Set "debug_enabled" true -}}
+
+
 
 {{- end -}}
 

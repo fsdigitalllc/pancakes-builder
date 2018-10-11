@@ -1,10 +1,7 @@
-// Create debug bar
 const body = document.querySelector('body');
 
 //body.innerHTML = body.innerHTML + 
 //``;
-
-console.log(body);
 
 const sections = document.querySelectorAll('section');
 const rows = document.querySelectorAll('#row');
@@ -19,10 +16,16 @@ const pagesBtn = document.querySelector(".dbg-btn");
 
 //do stuff for each section
 sections.forEach(function (section, index) {
+  console.log(section);
   section.style.border = "1px solid #000";
+
   createDebugMenu(section);
   // Change the headers to include the classlist 
   let section_h1 = section.querySelector('h1');
+  let sectionTitle = section.getAttribute('data-section-name');
+  console.log(sectionTitle);
+
+  section_h1.innerText = sectionTitle;
   //section_h1.innerText = section.classList;
 
   //Toggle blue outlines for columns on this.hover
@@ -82,7 +85,7 @@ function createDebugMenu(sectionName, index) {
       <div class="dbg-main-btns">
   
       <i class="fas fa-arrows-alt"></i>
-      <span class="this-section-name">{{ .global.Scratch.Get "section_template_name" | humanize }}</span>
+      <span class="this-section-name"></span>
       <a class="prepend-me part-edit" title="Open the Page Editor for this Part" href="https://app.forestry.io/sites/site_id/#/pages/content-{{ $.Scratch.Get "part_preview_link" }}"><i class="fas fa-external-link-alt"></i></a>
   
       <i class="fas fa-pen-square"></i>

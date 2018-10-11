@@ -1,0 +1,6 @@
+//tasks
+
+set data attributes for section
+set data attrs for rows/cols/elements
+
+draggable padding based on ranges
