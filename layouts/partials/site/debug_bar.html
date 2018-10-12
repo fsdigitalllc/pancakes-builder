@@ -3,9 +3,7 @@
 <div class="debugging-bar">
   <div class="dbg-container">
   <div class="dbg-logo">
-    {{ $dbg_logo_input := resources.Get "images/pancakes-logo.jpg" }}
-    {{ $dbg_logo_resize := $dbg_logo_input.Resize "50x q100" }}
-    <img class="lazyload" data-src="{{ $dbg_logo_resize.Permalink }}">
+    <img class="lazyload" data-src="/images/pb_logo.jpg">
   </div>
   
   <div class="dbg-pages dbg-btn">
