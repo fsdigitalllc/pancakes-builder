@@ -105,9 +105,6 @@
       
         {{ $drawer_img_src := resources.Get .Params.meta.og_image }}
         {{ $.Scratch.Set "drawer_img_thumbnail" ($drawer_img_src.Fill "150x" ) }}
-      {{ else }}
-        {{ $drawer_img_src := resources.Get "images/dbg-menu-thumbnail.jpg" }}
-        {{ $.Scratch.Set "drawer_img_thumbnail" ($drawer_img_src.Fill "200x180") }}
       {{ end }}
       <li{{ if in $current_page .Title }} class="dbg-pages-menu-highlighted"{{ end }}>
         {{ if in $current_page .Title }}
