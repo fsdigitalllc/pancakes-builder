@@ -1,0 +1,241 @@
+.inspect-mode {
+  *[data-highlightable] {
+    outline: 1px dashed rgba(170,170,170,0.7);
+    outline-offset: -2px;
+  }
+  #row-dbg-menu.dbg-each-menu {
+      left: 50%;
+      transform: translateX(-50%);
+  }
+  .debug #section-dbg-menu.dbg-each-menu {
+      display: flex;
+  }
+  .dbg-each-menu {
+      /*debug change to display none*/
+      display: none;
+      font-size: 12px;
+      position: absolute;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      left: 5px;
+      top: 5px;
+      background: #fff;
+      border: 1px solid #efefef;
+      border-radius: 2px;
+      height: 38px;
+      z-index: 999;
+      box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
+  }
+  
+  .dbg-each-menu i {
+      font-size: 16px;
+      color: #000000;
+      padding-left: 10px;
+      padding-right: 10px;
+  }
+  .dbg-each-menu i:hover {
+      cursor: pointer;
+  }
+  #section-dbg-menu.dbg-each-menu .dbg-style-menu {
+      grid-template-columns: 0fr 0fr 0fr;
+  }
+  #row-dbg-menu.dbg-each-menu .dbg-style-menu {
+      grid-template-columns: 0fr 0fr 0fr;
+  }
+  #col-dbg-menu.dbg-each-menu .dbg-style-menu {
+      grid-template-columns: 0fr 0fr 0fr;
+  }
+  .dbg-each-menu .dbg-style-menu {
+      /*debug change to none*/
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      border-left: 1px solid #efefef;
+      position: relative;
+      height: 100%;
+      grid-gap: 0px;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      height: 100%;
+  }
+  .debug .dbg-each-menu.active .dbg-style-menu {
+      display: inline-grid;
+  }
+  .dbg-each-menu .dbg-style-sub-parent.active {
+      background-color: #efefef;
+  }
+  .dbg-each-menu .dbg-style-sub-parent.active ul {
+      display: flex;
+  }
+  .dbg-each-menu .dbg-style-sub-parent > span {
+      margin-left: 10px;
+  }
+  .dbg-each-menu .dbg-style-sub-parent {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      margin-top: auto;
+      margin-bottom: auto;
+      position: relative;
+      margin-left: auto;
+      height: 100%;
+  }
+  .dbg-each-menu .dbg-style-sub-parent:hover {
+      cursor: pointer;
+  }
+  .dbg-style-menu ul.dbg-style-sub-parent {
+      border-left: 1px solid #efefef;
+  }
+  .dbg-each-menu .dbg-style-sub-parent ul {
+      display: none;
+      flex-direction: row;
+      margin-left: 0px;
+  }
+  .dbg-each-menu .dbg-style-sub-parent .dbg-list-sub-title {
+      font-weight: bold;
+  }
+  .dbg-each-menu .dbg-style-sub-parent li {
+      background: #ffffff;
+      padding: 5px 5px;
+      white-space: nowrap;
+      margin-bottom: 0px;
+  }
+  .dbg-each-menu ul {
+      list-style: none;
+      padding-left: 0px;
+  }
+  .dbg-each-menu .dbg-style-sub-parent > ul {
+      position: absolute;
+      padding-left: 5px;
+      top: 35px;
+      background: #ffffff;
+      list-style: none;
+      margin-left: auto;
+      margin-right: auto;
+      width: 100%;
+      left: 0;
+  }
+  .dbg-each-menu .dbg-style-sub-parent > ul li:not(:first-child):hover {
+      color: #ddd;
+  }
+  .dbg-each-menu .dbg-style-sub-parent > ul li.active {
+      color: red;
+  }
+  .dbg-each-menu .dbg-style-sub > ul li:hover {
+      cursor: pointer;
+  }
+  .dbg-each-menu .dbg-style-sub, .dbg-each-menu .dbg-style-sub ul {
+      padding: 0px;
+      margin: 0px;
+      list-style: none;
+      flex-direction: column;
+      display: flex;
+      justify-content: space-between;   
+  }
+  .dbg-each-menu .dbg-hover-menu-appear {
+      display: flex;
+  }
+  .ui-sortable-handle:hover {
+      cursor: pointer;
+  }
+  .dbg-each-menu span {
+      margin-right: 10px;
+  }
+  .debug section .row:hover > .dbg-each-menu {
+      display: flex;
+  }
+  .debug section .row .column:hover > .dbg-each-menu {
+      display: flex;
+  }
+  .debug section.debug.active .dbg-each-menu.active {
+      display: flex;
+  }
+  /*dragging*/
+  .debug section.ui-sortable-helper {
+      min-height: 100px;
+      max-height: 100px;
+      background: rgba(0,0,0,0.22) !important;
+      background-image: none;
+      border: 2px solid #000;
+      overflow: hidden;
+      padding-top: 0px;
+      padding-bottom: 0px;
+      cursor: move !important;
+  }
+  .debug .ui-sortable-helper .row {
+      display: none;
+  }
+  .ui-sortable-placeholder {
+      background: #000;
+  }
+  .debug .ui-state-highlighter {
+      height: 100%;
+      width: 200px;
+      background: #ffffff !important;
+      border: 2px dashed red;
+      position: relative;
+      overflow: hidden;
+      display: block;
+      visibility: visible;
+  }
+  .debug .ui-state-highlighter:before {
+      content: "Column Here";
+      color: red;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%,-50%);
+  }
+  .debug .ui-state-highlight {
+      width: 100%;
+      background: #ffffff !important;
+      border: 2px dashed #000000;
+      height: 200px;
+      position: relative;
+      overflow: hidden;
+      display: block;
+      visibility: visible;
+  }
+  .debug .ui-state-highlight:before {
+      content: "Drop Here";
+      color: #000;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%,-50%);
+  }
+  .debug:hover::before {
+      font-size: $debug-before-font-size;
+  }
+  
+  
+  /*if section debug is disabled this won't show up*/
+  section:hover {
+      outline: 5px solid rgba(0,0,0,0.3);
+      outline-offset: -5px;
+      cursor: pointer;
+  }
+  section.debug.active {
+      /*cursor: crosshair;*/
+  }
+  section.active {
+      outline: 2px dashed #aaa;
+      outline-offset: -2px;
+      box-shadow: inset 0 0 0 2px #444;
+      animation: 1.8s animateBorderOne ease infinite;
+  }
+  @keyframes animateBorderOne {
+      to {
+        outline-color: #444;
+        box-shadow: inset 0 0 0 2px #aaa;
+      }
+    }
+  .column.debug.column-selected {
+      outline: 2px solid red;
+  }
+}

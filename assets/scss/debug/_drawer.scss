@@ -1,0 +1,114 @@
+/*debug pages container drawer*/
+.dbg-pages-container {
+  position: absolute;
+  width: 100%;
+  transform: translate(0, 100%);
+  flex-direction: row;
+  justify-content: flex-start;
+  -webkit-transition: -webkit-transform 300ms cubic-bezier(0.17, 0.04, 0.03, 0.94), visibility 300ms cubic-bezier(0.17, 0.04, 0.03, 0.94);
+  -moz-transition: -moz-transform 300ms cubic-bezier(0.17, 0.04, 0.03, 0.94), visibility 300ms cubic-bezier(0.17, 0.04, 0.03, 0.94);
+  -o-transition: -o-transform 300ms cubic-bezier(0.17, 0.04, 0.03, 0.94), visibility 300ms cubic-bezier(0.17, 0.04, 0.03, 0.94);
+  -ms-transition: -ms-transform 300ms cubic-bezier(0.17, 0.04, 0.03, 0.94), visibility 300ms cubic-bezier(0.17, 0.04, 0.03, 0.94);
+  transition: transform 300ms cubic-bezier(0.17, 0.04, 0.03, 0.94), visibility 300ms cubic-bezier(0.17, 0.04, 0.03, 0.94);
+  left: 0;
+  right: 0;
+  margin: 0;
+  z-index: 65;
+  overflow-x: scroll;
+  background: rgba(58, 58, 60, 0.985);
+  visibility: hidden;
+  display: flex;
+}
+.debug-menu-active {
+  visibility: visible;
+  transform: translate(0, -110%);
+  -webkit-transition: 300ms cubic-bezier(0.17, 0.04, 0.03, 0.94), visibility 300ms cubic-bezier(0.17, 0.04, 0.03, 0.94);
+  -moz-transition: 300ms cubic-bezier(0.17, 0.04, 0.03, 0.94), visibility 300ms cubic-bezier(0.17, 0.04, 0.03, 0.94);
+  -o-transition: -o-transform 300ms cubic-bezier(0.17, 0.04, 0.03, 0.94), visibility 300ms cubic-bezier(0.17, 0.04, 0.03, 0.94);
+  -ms-transition: -ms-transform 300ms cubic-bezier(0.17, 0.04, 0.03, 0.94), visibility 300ms cubic-bezier(0.17, 0.04, 0.03, 0.94);
+  transition: transform 300ms cubic-bezier(0.17, 0.04, 0.03, 0.94), visibility 300ms cubic-bezier(0.17, 0.04, 0.03, 0.94);
+}
+
+.dbg-pages-container {
+
+.dbg-pages-menu {
+  list-style: none;
+  display: inline-grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-gap: 10px;
+  border-bottom: 1px solid #000;
+  margin: 0;
+  padding: 20px 40px 20px 40px;
+  margin-bottom: 2px;
+  margin-top: 2px;   
+}
+.dbg-pages-menu .dbg-pages-menu-highlighted .dbg-drawer-img-wrap {
+  border-color: #2f7bbd;
+}
+.dbg-pages-menu .dbg-pages-menu-highlighted .dbg-drawer-img-wrap:before {
+  content: "";
+  display: block;
+  background-color: rgba(0,0,0,0.75);
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+.dbg-pages-menu li {
+  margin-bottom: 0px;
+}
+.dbg-pages-menu > li a, .dbg-pages-menu > li span {
+  flex-direction: column;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.dbg-pages-menu .dbg-drawer-img-wrap {
+  width: 188px;
+  height: 140px;
+  border: 2px solid #141923;
+  border-radius: 0px;
+  -webkit-transition: border-color .2s;
+  transition: border-color .2s;
+  overflow: hidden;
+  position: relative;
+}
+.dbg-pages-menu .dbg-pages-title {
+  font-size: 12px;
+  color: #979eaa;
+  -webkit-font-smoothing: antialiased;
+  margin: 0;
+  text-align: center;
+  text-rendering: optimizeLegibility;
+  max-width: 170px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.dbg-pages-menu .dbg-pages-menu-highlighted:hover {
+  cursor: not-allowed; 
+}
+.dbg-pages-menu .dbg-drawer-img-wrap:hover {
+  border-color: #2f7bbd;
+  cursor: pointer;
+}
+.dbg-pages-menu .dbg-drawer-img-wrap:hover::before {
+  content: "";
+  display: block;
+  background-color: rgba(0,0,0,0.75);
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+.dbg-pages-menu .dbg-drawer-img-wrap img {
+  width: 188px;
+  height: auto;
+}
+}
