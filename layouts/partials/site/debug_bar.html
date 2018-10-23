@@ -48,52 +48,6 @@
   </div>
   </div><!--btn container-->
   
-  <div class="dbg-options-toggle">
-    {{ if eq $.Site.Params.debug_bar_settings.debug_section true | default true }}
-      {{ $.Scratch.Set "debug_section" "checked"}}
-    {{ else }}
-      {{ $.Scratch.Set "debug_section" "unchecked"}}
-    {{ end }}
-    <ul class="section-toggle">
-      <li>
-        <input type="checkbox" name="agree" {{ $.Scratch.Get "debug_section" }}>
-        <label for="checkbox" class="checkbox__label">Lines</label>
-      </li>
-      <li>
-        <input type="checkbox" name="agree" {{ $.Scratch.Get "debug_section" }}>
-        <label for="checkbox" class="checkbox__label">Name</label>
-      </li>
-      <li>
-        <input type="checkbox" name="agree" {{ $.Scratch.Get "debug_section" }}>
-        <label for="checkbox" class="checkbox__label">Row</label>
-      </li>
-    </ul>
-    <ul class="column-toggle">
-      <li>
-        <label for="checkbox" class="checkbox__label">
-        <input type="checkbox" name="agree" {{ $.Scratch.Get "debug_section" }}>
-      </label>
-      </li>
-      <li>
-        <label for="checkbox" class="checkbox__label">
-        <input type="checkbox" name="agree" {{ $.Scratch.Get "debug_section" }}>
-      </label>
-      </li>
-    </ul>
-    <ul class="element-toggle">
-        <li>
-          <label for="checkbox" class="checkbox__label">
-          <input type="checkbox" name="agree" {{ $.Scratch.Get "debug_section" }}>
-        </label>
-        </li>
-        <li>
-          <label for="checkbox" class="checkbox__label">
-          <input type="checkbox" name="agree" {{ $.Scratch.Get "debug_section" }}>
-        </label>
-        </li>
-      </ul>
-  </div>
-  
   
   </div>
   <!--pages drawer-->
