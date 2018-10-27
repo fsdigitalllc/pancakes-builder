@@ -1,14 +1,26 @@
 .inspect-mode {
-  *[data-highlightable] {
+  section[data-highlightable][data-section-name='part-block-builder-section-part'] {
+    outline: 1px solid rgba(232, 159, 0, 0.7);
+    outline-offset: -2px;
+  }
+  section[data-highlightable] {
+    outline: 1px solid rgba(0,72,232,0.7);
+    outline-offset: -2px;
+  }
+  #row[data-highlightable] {
     outline: 1px dashed rgba(170,170,170,0.7);
     outline-offset: -2px;
   }
-  #row-dbg-menu.dbg-each-menu {
-      left: 50%;
-      transform: translateX(-50%);
+  .column[data-highlightable] {
+    outline: 1px solid rgba(7, 99, 27, 0.7);
+    outline-offset: -2px;
   }
-  .debug #section-dbg-menu.dbg-each-menu {
-      display: flex;
+  #row-dbg-menu.dbg-each-menu {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  #section-dbg-menu.active, #section-dbg-menu.sticky {
+    display: flex;
   }
   .dbg-each-menu {
       /*debug change to display none*/
@@ -46,7 +58,13 @@
   #col-dbg-menu.dbg-each-menu .dbg-style-menu {
       grid-template-columns: 0fr 0fr 0fr;
   }
-  .dbg-each-menu .dbg-style-menu {
+  .dbg-style-menu.active {
+    display: inline-grid;
+  }
+  .dbg-style-padding > ul.active {
+    display: flex;
+  }
+  .dbg-style-menu {
       /*debug change to none*/
       display: none;
       flex-direction: column;
@@ -61,9 +79,6 @@
       align-items: center;
       position: relative;
       height: 100%;
-  }
-  .debug .dbg-each-menu.active .dbg-style-menu {
-      display: inline-grid;
   }
   .dbg-each-menu .dbg-style-sub-parent.active {
       background-color: #efefef;
@@ -91,7 +106,7 @@
   .dbg-style-menu ul.dbg-style-sub-parent {
       border-left: 1px solid #efefef;
   }
-  .dbg-each-menu .dbg-style-sub-parent ul {
+  .dbg-style-padding ul {
       display: none;
       flex-direction: row;
       margin-left: 0px;
