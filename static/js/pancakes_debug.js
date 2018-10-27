@@ -38,6 +38,9 @@ pagesBtn.addEventListener("click", () => {
 previewBtn.addEventListener("click", () => {
   body.classList.toggle("inspect-mode");
 });
+exportYML.addEventListener("click", () => {
+  console.log("start export");
+});
 
 
 
@@ -53,11 +56,38 @@ sections.forEach(function (section, index) {
 
 let sectionTitle = section.getAttribute('data-section-name');
 
-//maybe store in an object and reinitialize with the function
-// const attrs = {
-//   title: sectionTitle
-// }
+//Set the starting classes for the section, which we will change later
 
+let paddingTop = "padding-none-top";
+let paddingBottom = "padding-none-bottom";
+
+//If a padding class exists run the functon to set the padding object
+if ( section.className.match(/padding-.*/) ) {
+  getSectionClasses();
+}
+
+//issue is that the variable is for each section, not just this section
+function getSectionClasses () {
+  console.log("setting classes...");
+  if ( section.className.match(/padding-.*-top/) ) {
+    paddingTop = section.className.match(/padding-.*-top/);
+  } 
+  
+  if ( section.className.match(/padding-.*-bottom/) ) {
+    paddingBottom = section.className.match(/padding-.*-bottom/);
+  }
+  console.log("paddingTop: " + paddingTop);
+}
+
+const sectionClasses = {
+  paddingTop: paddingTop,
+  paddingBottom: paddingBottom
+}
+
+console.log("constTop: " + sectionClasses.paddingTop);
+//console.log("paddingBottom: " + sectionClasses.paddingBottom);
+
+//Create the debug menu
 createDebugMenu(section, sectionTitle);
 
 
@@ -76,6 +106,7 @@ let debugMenuEdit = debugMenu.querySelector(".fa-pen-square");
 let debugPaddingEdit = debugMenu.querySelector(".dbg-style-padding");
 let debugMenuName = debugMenu.querySelector(".this-section-name");
 
+//Sticky menu on click or hover
 section.addEventListener("click", (e) => {
   const activeDbgMenu = document.querySelector('#section-dbg-menu.sticky');
 
@@ -98,6 +129,7 @@ section.addEventListener("mouseleave", (e) => {
 
 //localStorage.setItem("section", JSON.stringify(section) );
 
+//Debug editor handlers
 debugMenuEdit.addEventListener("click", () => {
   debugMenu.querySelector(".dbg-style-menu").classList.toggle("active");
 });
@@ -105,23 +137,39 @@ debugPaddingEdit.addEventListener("click", () => {
   debugMenu.querySelector(".dbg-style-padding > ul").classList.toggle("active");
 });
 
+
+let dataVals = debugMenu.querySelectorAll(".dbg-style-padding-top li[data]");
+
+dataVals.forEach(function (dataVal, index) {
+
+  dataVal.addEventListener("click", (e) => {
+      let pVal = e.currentTarget.getAttribute("data");
+
+      //section.classList.remove(paddingTop);
+
+      //paddingTop = pVal;
+      section.classList.add(pVal);
+      console.log("pval" + pVal);
+      getSectionClasses();
+  });
+
+});
+
+
   
-  // Change the headers to include the classlist 
-  let section_h1 = section.querySelector('h1');
+  // Change the headers to include the classlist
   
   //console.log(sectionTitle);
-
-  section_h1.innerText = sectionTitle;
+  //section_h1.innerText = sectionTitle;
   //section_h1.innerText = section.classList;
-
   //Toggle blue outlines for columns on this.hover
   // This takes a snapshot of the HTML before the JS is loaded
   localStorage.setItem('html', body.innerHTML);
   //Export YML on click
-  exportYML.addEventListener("click", () => {
-    body.innerHTML = localStorage.getItem('html');
-    AOS.init();
-  });
+  // exportYML.addEventListener("click", () => {
+  //   body.innerHTML = localStorage.getItem('html');
+  //   AOS.init();
+  // });
 
   rows.forEach(function (row, index) {
     //console.log(row);
@@ -136,6 +184,29 @@ debugPaddingEdit.addEventListener("click", () => {
     row.addEventListener("mouseleave", () => {
         row.style = "";
     });
+
+  if ( row.className.match(/padding-.*/) ) {
+    setRowClasses();
+  }
+  
+  function setRowClasses () {
+    // if ( row.className.match(/padding-.*-top/) ) {
+    //   paddingTop = row.className.match(/padding-.*-top/);
+    // } 
+    
+    // if ( row.className.match(/padding-.*-bottom/) ) {
+    //   paddingBottom = row.className.match(/padding-.*-bottom/);
+    // }
+  }
+  
+  // const rowClasses = {
+  //   paddingTop: paddingTop,
+  //   paddingBottom: paddingBottom
+  // }
+  
+  //console.log("paddingTop: " + rowClasses.paddingTop);
+  //console.log("paddingBottom: " + rowClasses.paddingBottom);
+  
 
     //Toggle green outlines for columns on this.hover
     columns.forEach(function (column, index) {
@@ -205,7 +276,9 @@ function createDebugMenu(sectionName, sectionTitle, index) {
 <ul class="dbg-style-sub-parent dbg-style-padding">
 <span class="dbg-style-sub-parent">Padding <i class="fas fa-caret-down"></i></span>
 <ul class="dbg-style-padding-top">
-    <li class="dbg-list-sub-title dbg-style-padding-top-title">Top: </li>   
+    <li class="dbg-list-sub-title dbg-style-padding-top-title">Top: </li>
+    <li data="padding-l-top">L</li>  
+    <li data="padding-m-top">M</li> 
     <ul class="dbg-style-padding-bottom">
         <li class="dbg-list-sub-title dbg-style-padding-bottom-title">Bottom: </li> 
     </ul>
