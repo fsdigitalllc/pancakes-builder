@@ -38,9 +38,7 @@ pagesBtn.addEventListener("click", () => {
 previewBtn.addEventListener("click", () => {
   body.classList.toggle("inspect-mode");
 });
-exportYML.addEventListener("click", () => {
-  console.log("start export");
-});
+
 
 
 
@@ -66,17 +64,53 @@ if ( section.className.match(/padding-.*/) ) {
   getSectionClasses();
 }
 
+const sectionSupportedValues = {
+  padding: {
+    xxl: "padding-xxl",
+    xl: "padding-xl",
+    l: "padding-l",
+    m: "padding-m",
+    s: "padding-s",
+    xs: "padding-xs",
+    xxs: "padding-xxs"
+  },
+  maxwidth: {
+    xxl: "maxwidth-xxl",
+    xl: "maxwidth-xl",
+    l: "maxwidth-l",
+    m: "maxwidth-m",
+    s: "maxwidth-s",
+    xs: "maxwidth-xs",
+    xxs: "maxwidth-xxs"
+  }
+}
+const params = sectionSupportedValues;
+//console.log(params);
+
+exportYML.addEventListener("click", () => {
+  console.log("start export");
+  createExportYml(params);
+});
+
 //issue is that the variable is for each section, not just this section
 function getSectionClasses () {
   console.log("setting classes...");
-  if ( section.className.match(/padding-.*-top/) ) {
-    paddingTop = section.className.match(/padding-.*-top/);
+  console.log("FIRST paddingtop: " + paddingTop);
+  if ( section.classList.contains("padding-xxxl-top") ) {
+    //paddingTop = section.className.match(/padding-.*-top/);
+    paddingTop = sectionSupportedValues.padding.xxl + "-top";
+  } else if ( section.classList.contains("padding-l-top") ) {
+    //paddingTop = section.className.match(/padding-.*-top/);
+    paddingTop = "padding-l-top";
+  } else if ( section.classList.contains("padding-m-top") ) {
+    //paddingTop = section.className.match(/padding-.*-top/);
+    paddingTop = "padding-m-top";
   } 
   
-  if ( section.className.match(/padding-.*-bottom/) ) {
-    paddingBottom = section.className.match(/padding-.*-bottom/);
-  }
-  console.log("paddingTop: " + paddingTop);
+  // if ( section.className.match(/padding-.*-bottom/) ) {
+  //   paddingBottom = section.className.match(/padding-.*-bottom/);
+  // }
+  console.log("SECOND paddingTop: " + paddingTop);
 }
 
 const sectionClasses = {
@@ -84,7 +118,7 @@ const sectionClasses = {
   paddingBottom: paddingBottom
 }
 
-console.log("constTop: " + sectionClasses.paddingTop);
+console.log("constTop: " + paddingTop);
 //console.log("paddingBottom: " + sectionClasses.paddingBottom);
 
 //Create the debug menu
@@ -103,17 +137,19 @@ rows = section.querySelectorAll('#row');
 let allDebugMenus = section.querySelectorAll("#section-dbg-menu");
 let debugMenu = section.querySelector("#section-dbg-menu");
 let debugMenuEdit = debugMenu.querySelector(".fa-pen-square");
-let debugPaddingEdit = debugMenu.querySelector(".dbg-style-padding");
+let debugPaddingEdit = debugMenu.querySelector("span.dbg-style-sub-parent");
 let debugMenuName = debugMenu.querySelector(".this-section-name");
 
 //Sticky menu on click or hover
+// check event bubbling on this
 section.addEventListener("click", (e) => {
   const activeDbgMenu = document.querySelector('#section-dbg-menu.sticky');
 
   if(activeDbgMenu){
     activeDbgMenu.classList.remove('sticky');
   }
-  e.currentTarget.querySelector("#section-dbg-menu").classList.add("sticky");
+  //e.target or e.currentTarget
+  section.querySelector("#section-dbg-menu").classList.add("sticky");
 });
 
 section.addEventListener("mouseenter", (e) => {
@@ -130,31 +166,48 @@ section.addEventListener("mouseleave", (e) => {
 //localStorage.setItem("section", JSON.stringify(section) );
 
 //Debug editor handlers
-debugMenuEdit.addEventListener("click", () => {
+debugMenuEdit.addEventListener("click", (e) => {
   debugMenu.querySelector(".dbg-style-menu").classList.toggle("active");
 });
 debugPaddingEdit.addEventListener("click", () => {
-  debugMenu.querySelector(".dbg-style-padding > ul").classList.toggle("active");
+  debugMenu.querySelector(".dbg-style-padding").classList.toggle("active");
+  debugMenuPaddingTop();
 });
 
 
-let dataVals = debugMenu.querySelectorAll(".dbg-style-padding-top li[data]");
+function debugMenuPaddingTop () {
+  let dataVals = debugMenu.querySelectorAll(".dbg-style-padding li[data]");
 
-dataVals.forEach(function (dataVal, index) {
+  dataVals.forEach(function (dataVal, index) {
+    
+    let dataValAttr = dataVal.getAttribute("data");
+    if (dataValAttr == paddingTop) {
+      dataVal.classList.add("active");
+      console.log("active");
+    }
+    console.log(dataValAttr);
+    console.log("this paddingtop ---- " + sectionClasses.paddingTop);
+    dataVal.addEventListener("click", (e) => {
+        let pVal = e.currentTarget.getAttribute("data");
+  
+        section.classList.remove(paddingTop);
+  
+        paddingTop = pVal;
+        section.classList.add(pVal);
 
-  dataVal.addEventListener("click", (e) => {
-      let pVal = e.currentTarget.getAttribute("data");
+        let activepVal = debugMenu.querySelector(".dbg-style-padding-top li[data].active")
 
-      //section.classList.remove(paddingTop);
-
-      //paddingTop = pVal;
-      section.classList.add(pVal);
-      console.log("pval" + pVal);
-      getSectionClasses();
+        if(activepVal){
+          activepVal.classList.remove('active');
+        }
+        //dataVal.classList.remove("active");
+        e.currentTarget.classList.add("active");
+        //console.log("pval" + pVal);
+        getSectionClasses();
+    });
+  
   });
-
-});
-
+}
 
   
   // Change the headers to include the classlist
@@ -276,12 +329,26 @@ function createDebugMenu(sectionName, sectionTitle, index) {
 <ul class="dbg-style-sub-parent dbg-style-padding">
 <span class="dbg-style-sub-parent">Padding <i class="fas fa-caret-down"></i></span>
 <ul class="dbg-style-padding-top">
-    <li class="dbg-list-sub-title dbg-style-padding-top-title">Top: </li>
-    <li data="padding-l-top">L</li>  
-    <li data="padding-m-top">M</li> 
-    <ul class="dbg-style-padding-bottom">
-        <li class="dbg-list-sub-title dbg-style-padding-bottom-title">Bottom: </li> 
-    </ul>
+  <li class="dbg-list-sub-title dbg-style-padding-top-title">Top: </li>
+  <li data="padding-xxl-top">XXL</li>  
+  <li data="padding-xl-top">XL</li>  
+  <li data="padding-l-top">L</li>  
+  <li data="padding-m-top">M</li>
+  <li data="padding-s-top">S</li>
+  <li data="padding-xs-top">XS</li>
+  <li data="padding-xxs-top">XXS</li>
+  <li data="padding-none-top">None</li>
+</ul>      
+<ul class="dbg-style-padding-bottom">
+  <li class="dbg-list-sub-title dbg-style-padding-bottom-title">Bottom: </li>
+  <li data="padding-xxl-top">XXL</li>  
+  <li data="padding-xl-bottom">XL</li>  
+  <li data="padding-l-bottom">L</li>  
+  <li data="padding-m-bottom">M</li>
+  <li data="padding-s-bottom">S</li>
+  <li data="padding-xs-bottom">XS</li>
+  <li data="padding-xxs-bottom">XXS</li>
+  <li data="padding-none-bottom">None</li>  
 </ul>
 </ul>
 <ul class="dbg-style-sub-parent dbg-style-background">
@@ -299,6 +366,16 @@ function createDebugMenu(sectionName, sectionTitle, index) {
   sectionName.innerHTML = sectionName.innerHTML + debugWidget;
 }
 
+function createExportYml(params, index) {
+  let exportBox = `
+  <textarea class="exportYMLbox">//iterate through params
+  section:
+    row:
+        - Column:
+  ${params.padding}
+  </textarea>`;
+  body.innerHTML = body.innerHTML + exportBox;
+}
 } // End if body class contains inspect mode
 
 

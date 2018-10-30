@@ -64,6 +64,9 @@
   .dbg-style-padding > ul.active {
     display: flex;
   }
+  .dbg-style-padding > ul.active .dbg-style-padding-bottom {
+    display: flex;
+  }
   .dbg-style-menu {
       /*debug change to none*/
       display: none;

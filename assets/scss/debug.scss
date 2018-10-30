@@ -5,6 +5,7 @@ $debug-before-font-size: 11px;
 @import "debug/sidebar";
 @import "debug/inspect";
 @import "debug/drawer";
+@import "debug/exportyml";
 
 .dbg-btn, .dbg-btn a, .dbg-btn i {
     cursor: pointer;
