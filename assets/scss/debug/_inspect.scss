@@ -61,7 +61,7 @@
   .dbg-style-menu.active {
     display: inline-grid;
   }
-  .dbg-style-padding > ul.active {
+  .dbg-style-padding.active .dbg-style-padding .dbg-style-padding-top.active {
     display: flex;
   }
   .dbg-style-padding > ul.active .dbg-style-padding-bottom {
