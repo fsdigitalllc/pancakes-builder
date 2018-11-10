@@ -89,6 +89,9 @@
   .dbg-each-menu .dbg-style-sub-parent.active ul {
       display: flex;
   }
+  .dbg-each-menu .dbg-style-sub-parent.active ul.dbg-style-padding-bottom {
+      margin-top: 20px;
+  }
   .dbg-each-menu .dbg-style-sub-parent > span {
       margin-left: 10px;
   }
