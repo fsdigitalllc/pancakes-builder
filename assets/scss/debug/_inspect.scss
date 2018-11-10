@@ -1,14 +1,14 @@
 .inspect-mode {
   section[data-highlightable][data-section-name='part-block-builder-section-part'] {
-    outline: 1px solid rgba(232, 159, 0, 0.7);
+    outline: 1px solid rgba(232, 159, 0, 1);
     outline-offset: -2px;
   }
   section[data-highlightable] {
-    outline: 1px solid rgba(0,72,232,0.7);
+    outline: 1px solid rgba(0,72,232,1);
     outline-offset: -2px;
   }
   #row[data-highlightable] {
-    outline: 1px dashed rgba(170,170,170,0.7);
+    outline: 1px dashed rgba(170,170,170,1);
     outline-offset: -2px;
   }
   .column[data-highlightable] {
@@ -88,6 +88,9 @@
   }
   .dbg-each-menu .dbg-style-sub-parent.active ul {
       display: flex;
+  }
+  .dbg-each-menu .dbg-style-sub-parent.active ul.dbg-style-padding-top {
+      margin-top: 20px;
   }
   .dbg-each-menu .dbg-style-sub-parent > span {
       margin-left: 10px;

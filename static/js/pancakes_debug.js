@@ -94,23 +94,29 @@ exportYML.addEventListener("click", () => {
 
 //issue is that the variable is for each section, not just this section
 function getSectionClasses () {
-  console.log("setting classes...");
+  console.log("getSectionClasses ----- setting classes...");
   console.log("FIRST paddingtop: " + paddingTop);
-  if ( section.classList.contains("padding-xxxl-top") ) {
-    //paddingTop = section.className.match(/padding-.*-top/);
+  if ( section.classList.contains("padding-xxl-top") ) {
     paddingTop = sectionSupportedValues.padding.xxl + "-top";
+  } else if ( section.classList.contains("padding-xl-top") ) {
+    paddingTop = "padding-xl-top";
   } else if ( section.classList.contains("padding-l-top") ) {
-    //paddingTop = section.className.match(/padding-.*-top/);
     paddingTop = "padding-l-top";
   } else if ( section.classList.contains("padding-m-top") ) {
-    //paddingTop = section.className.match(/padding-.*-top/);
     paddingTop = "padding-m-top";
+  } else if ( section.classList.contains("padding-s-top") ) {
+    paddingTop = "padding-s-top";
+  } else if ( section.classList.contains("padding-xs-top") ) {
+    paddingTop = "padding-xs-top";
+  } else if ( section.classList.contains("padding-xxs-top") ) {
+    //paddingTop = section.className.match(/padding-.*-top/);
+    paddingTop = "padding-xxs-top";
   } 
   
   // if ( section.className.match(/padding-.*-bottom/) ) {
   //   paddingBottom = section.className.match(/padding-.*-bottom/);
   // }
-  console.log("SECOND paddingTop: " + paddingTop);
+  console.log("second paddingTop: " + paddingTop);
 }
 
 const sectionClasses = {
@@ -168,24 +174,29 @@ section.addEventListener("mouseleave", (e) => {
 //Debug editor handlers
 debugMenuEdit.addEventListener("click", (e) => {
   debugMenu.querySelector(".dbg-style-menu").classList.toggle("active");
+  changeAttr();
 });
 debugPaddingEdit.addEventListener("click", () => {
   debugMenu.querySelector(".dbg-style-padding").classList.toggle("active");
-  debugMenuPaddingTop();
+  changeAttr();
 });
 
 
-function debugMenuPaddingTop () {
-  let dataVals = debugMenu.querySelectorAll(".dbg-style-padding li[data]");
+//Get each debug menu attribute
+//Compare each debug menu variable to existing classes
+//if equal, mark active
+function changeAttr () {
+  let dataVals = debugMenu.querySelectorAll(".dbg-style-menu li[data]");
 
   dataVals.forEach(function (dataVal, index) {
     
     let dataValAttr = dataVal.getAttribute("data");
     if (dataValAttr == paddingTop) {
       dataVal.classList.add("active");
-      console.log("active");
+      //console.log("active");
     }
-    console.log(dataValAttr);
+    //console.log(dataValAttr);
+    //console.log("data vals " + dataVals);
     console.log("this paddingtop ---- " + sectionClasses.paddingTop);
     dataVal.addEventListener("click", (e) => {
         let pVal = e.currentTarget.getAttribute("data");
@@ -195,7 +206,7 @@ function debugMenuPaddingTop () {
         paddingTop = pVal;
         section.classList.add(pVal);
 
-        let activepVal = debugMenu.querySelector(".dbg-style-padding-top li[data].active")
+        let activepVal = debugMenu.querySelector(".dbg-style-menu li[data].active")
 
         if(activepVal){
           activepVal.classList.remove('active');

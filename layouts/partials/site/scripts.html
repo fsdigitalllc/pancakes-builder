@@ -23,7 +23,7 @@
 
 {{ if eq $.Site.Params.debug_enabled true }}
 
-{{ $debugstyles := resources.Get "scss/debug.scss" | resources.ExecuteAsTemplate "style.main.scss" . | toCSS |postCSS | minify | fingerprint }}
+{{ $debugstyles := resources.Get "scss/debug.scss" | resources.ExecuteAsTemplate "style.main.scss" . | toCSS | minify | fingerprint }}
 
 <script type="text/javascript">
   fetchInject([
@@ -33,7 +33,7 @@
   })
   </script>
 
-{{/* <!--Add Debugger HTML block--> */}}
+{{/* <!--Add Debugger HTMl block--> */}}
 
 {{- block "debug_bar" . -}}
 
