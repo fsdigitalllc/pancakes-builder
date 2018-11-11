@@ -59,11 +59,6 @@ let sectionTitle = section.getAttribute('data-section-name');
 let paddingTop = "padding-none-top";
 let paddingBottom = "padding-none-bottom";
 
-//If a padding class exists run the functon to set the padding object
-if ( section.className.match(/padding-.*/) ) {
-  getSectionClasses();
-}
-
 const sectionSupportedValues = {
   padding: {
     xxl: "padding-xxl",
@@ -92,39 +87,51 @@ exportYML.addEventListener("click", () => {
   createExportYml(params);
 });
 
+//If a padding class exists run the functon to set the padding object
+if ( section.className.match(/padding-.*/) ) {
+  getSectionClasses();
+
+}
+
+//stop tying to match stuff, just search a list of values
 //issue is that the variable is for each section, not just this section
 function getSectionClasses () {
-  console.log("getSectionClasses ----- setting classes...");
-  console.log("FIRST paddingtop: " + paddingTop);
-  if ( section.classList.contains("padding-xxl-top") ) {
-    paddingTop = sectionSupportedValues.padding.xxl + "-top";
-  } else if ( section.classList.contains("padding-xl-top") ) {
-    paddingTop = "padding-xl-top";
-  } else if ( section.classList.contains("padding-l-top") ) {
-    paddingTop = "padding-l-top";
-  } else if ( section.classList.contains("padding-m-top") ) {
-    paddingTop = "padding-m-top";
-  } else if ( section.classList.contains("padding-s-top") ) {
-    paddingTop = "padding-s-top";
-  } else if ( section.classList.contains("padding-xs-top") ) {
-    paddingTop = "padding-xs-top";
-  } else if ( section.classList.contains("padding-xxs-top") ) {
-    //paddingTop = section.className.match(/padding-.*-top/);
-    paddingTop = "padding-xxs-top";
-  } 
+  
+  paddingTop = section.className.match(/([^ ,]*)(\bpadding-[smlx]*-top\b)([^ ,]*)/);
+  paddingBottom = section.className.match(/([^ ,]*)(\bpadding-[smlx]*-bottom\b)/);
+
+  console.log("each padding top START:" + paddingTop);
+  console.log("each padding BOTTOM START:" + paddingBottom);
+  //console.log("getSectionClasses ----- setting classes...");
+  //console.log("FIRST paddingtop: " + paddingTop);
+  // if ( section.classList.contains("padding-xxl-top") ) {
+  //   paddingTop = sectionSupportedValues.padding.xxl + "-top";
+  // } else if ( section.classList.contains("padding-xl-top") ) {
+  //   paddingTop = "padding-xl-top";
+  // } else if ( section.classList.contains("padding-l-top") ) {
+  //   paddingTop = "padding-l-top";
+  // } else if ( section.classList.contains("padding-m-top") ) {
+  //   paddingTop = "padding-m-top";
+  // } else if ( section.classList.contains("padding-s-top") ) {
+  //   paddingTop = "padding-s-top";
+  // } else if ( section.classList.contains("padding-xs-top") ) {
+  //   paddingTop = "padding-xs-top";
+  // } else if ( section.classList.contains("padding-xxs-top") ) {
+  //   //paddingTop = section.className.match(/padding-.*-top/);
+  //   paddingTop = "padding-xxs-top";
+  // } 
   
   // if ( section.className.match(/padding-.*-bottom/) ) {
   //   paddingBottom = section.className.match(/padding-.*-bottom/);
   // }
-  console.log("second paddingTop: " + paddingTop);
 }
 
-const sectionClasses = {
-  paddingTop: paddingTop,
-  paddingBottom: paddingBottom
-}
+// const sectionClasses = {
+//   paddingTop: paddingTop,
+//   paddingBottom: paddingBottom
+// }
 
-console.log("constTop: " + paddingTop);
+//console.log("constTop: " + paddingTop);
 //console.log("paddingBottom: " + sectionClasses.paddingBottom);
 
 //Create the debug menu
@@ -191,13 +198,13 @@ function changeAttr () {
   dataVals.forEach(function (dataVal, index) {
     
     let dataValAttr = dataVal.getAttribute("data");
-    if (dataValAttr == paddingTop) {
+    if (dataValAttr == paddingTop || dataValAttr == paddingBottom ) {
       dataVal.classList.add("active");
       //console.log("active");
     }
     //console.log(dataValAttr);
     //console.log("data vals " + dataVals);
-    console.log("this paddingtop ---- " + sectionClasses.paddingTop);
+    //console.log("this paddingtop ---- " + sectionClasses.paddingTop);
     dataVal.addEventListener("click", (e) => {
         let pVal = e.currentTarget.getAttribute("data");
   
