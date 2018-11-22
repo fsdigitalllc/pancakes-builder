@@ -105,3 +105,21 @@
 .debugging-bar .dbg-btn.active, .debugging-bar .dbg-btn.active a, .debugging-bar .dbg-btn.active i {
   color: #000;
 }
+.debugging-bar .toggle_class_list {
+  position: relative;
+  list-style: none;
+}
+.debugging-bar .toggle_class_list > ul {
+  display: flex;
+  flex-direction: column;
+  background: #000000;
+  color: #ffffff;
+  overflow-y: scroll;
+  height: 500px;
+  position: absolute;
+  bottom: 15px;
+  list-style: none;
+}
+.debugging-bar .toggle_class_list li.active {
+  color: yellow;
+}

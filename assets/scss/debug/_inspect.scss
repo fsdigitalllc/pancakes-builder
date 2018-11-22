@@ -4,23 +4,53 @@
     outline-offset: -2px;
   }
   section[data-highlightable] {
-    outline: 1px solid rgba(0,72,232,1);
-    outline-offset: -2px;
+    outline: 1px dashed rgba(255, 0, 0, 0.7);
+    outline-offset: 1px;
   }
-  #row[data-highlightable] {
-    outline: 1px dashed rgba(170,170,170,1);
-    outline-offset: -2px;
+  section[data-highlightable]:hover {
+    outline: 1px solid rgba(255, 0, 0, 1);
+    outline-offset: 1px;
+  }
+  .row[data-highlightable] {
+    outline: 1px dashed rgba(0, 0, 255, 0.1);
+    outline-offset: 5px;
+  }
+  .row[data-highlightable]:hover {
+    outline: 1px solid rgba(0, 0, 255, 1);
+    outline-offset: 5px;
   }
   .column[data-highlightable] {
-    outline: 1px solid rgba(7, 99, 27, 0.7);
-    outline-offset: -2px;
+    outline: 1px dashed rgba(7, 99, 27, 0.1);
+    outline-offset: 0px;
   }
-  #row-dbg-menu.dbg-each-menu {
+  .column[data-highlightable]:hover {
+    outline: 1px solid rgba(7, 99, 27, 1);
+    outline-offset: 0px;
+  }
+  .row-dbg-menu.dbg-each-menu {
     left: 50%;
     transform: translateX(-50%);
   }
   #section-dbg-menu.active, #section-dbg-menu.sticky {
     display: flex;
+  }
+  .hovered > .dbg-each-menu {
+      display: grid;
+  }
+  .row > .dbg-each-menu {
+      top: -25px;
+      background: blue;
+      color: #ffffff;
+  }
+  .row > .dbg-each-menu i {
+      color: #ffffff;
+  }
+  .column > .dbg-each-menu {
+      background: green;
+      color: #ffffff;
+  }
+  .column > .dbg-each-menu i {
+      color: #ffffff;
   }
   .dbg-each-menu {
       /*debug change to display none*/
@@ -52,7 +82,7 @@
   #section-dbg-menu.dbg-each-menu .dbg-style-menu {
       grid-template-columns: 0fr 0fr 0fr;
   }
-  #row-dbg-menu.dbg-each-menu .dbg-style-menu {
+  .row-dbg-menu.dbg-each-menu .dbg-style-menu {
       grid-template-columns: 0fr 0fr 0fr;
   }
   #col-dbg-menu.dbg-each-menu .dbg-style-menu {
@@ -66,6 +96,9 @@
   }
   .dbg-style-padding > ul.active .dbg-style-padding-bottom {
     display: flex;
+  }
+  .row .dbg-each-menu .fa-external-link-alt, .column .dbg-each-menu .fa-external-link-alt {
+      display: none;
   }
   .dbg-style-menu {
       /*debug change to none*/
