@@ -279,11 +279,18 @@ function defineClasses(selectedItem, selectedTitle, selectedType, index) {
       xxs: "maxwidth-xxs"
     },
     size: {
-      "col-12": "12",
-      "col-8": "8",
-      "col-6": "6",
-      "col-4": "4",
-      "col-2": "2"
+      "12": "col-12",
+      "11": "col-11",
+      "10": "col-10",
+      "9": "col-9",
+      "8": "col-8",
+      "7": "col-7",
+      "6": "col-6",
+      "5": "col-5",
+      "4": "col-4",
+      "3": "col-3",
+      "2": "col-2",
+      "1": "col-1"
     }
   }
   //const params = Object.values(selectedClasses);
@@ -306,7 +313,9 @@ let debugBarSubMenu = document.querySelector(".debugging-bar .toggle_class_list 
 
 console.log(debugBarMenuTitle);
 
+
 debugBarSubMenu.innerHTML = "";
+debugBarMenuTitle.innerText = "";
 
 debugBarMenuTitle.innerText = selectedType;
 
@@ -314,13 +323,14 @@ debugBarMenuTitle.innerText = selectedType;
     // `prop` contains the name of each property, i.e. `'code'` or `'items'`
     // consequently, `data[prop]` refers to the value of each property, i.e.
     // either `42` or the array
-    debugBarSubMenu.innerHTML += `<li data="${par}"><strong>${par}:</strong> </li>`;
+    debugBarSubMenu.innerHTML += `<li data="${par}"><strong>${par}</strong> </li>`;
 
     for (const pat in selectedClasses[par]) {
       //console.log("pat: " + selectedClasses[par][pat]);
-      debugBarSubMenu.innerHTML += `<li data-parent="${par}" data="${selectedClasses[par][pat]}">${par}: ${pat}</li>`;
+      debugBarSubMenu.innerHTML += `<li data-parent="${par}" data="${selectedClasses[par][pat]}">${pat}</li>`;
     }
   }
+  
     let dataVals = debugBarSubMenu.querySelectorAll("li[data]");
       
     //console.log(selectedClasses);
@@ -328,31 +338,22 @@ debugBarMenuTitle.innerText = selectedType;
     dataVals.forEach(function (dataVal, index) {
       
       let dataValAttr = dataVal.getAttribute("data");
+      let pParent = dataVal.getAttribute("data-parent");
+      //console.log("parent:" + pParent);
 
       dataVal.addEventListener("click", (e) => {
           let pVal = e.currentTarget.getAttribute("data");
-          let pParent = e.currentTarget.getAttribute("data-parent");
-          let aParents = dataVal.getAttribute("data-parent");
-  
-          let listItems = e.target.parentNode;
-          //console.log(listItems.classList);
-  
-          // listItems.forEach(function (listItem, index) {
-          //   console.log(listItem.getAttribute("data"));
-          // });
-          //for (const par in selectedClasses) {
-            // `prop` contains the name of each property, i.e. `'code'` or `'items'`
-            // consequently, `data[prop]` refers to the value of each property, i.e.
-            // either `42` or the array
-            //paramHtml += `<li data="${par}"><strong>${par}:</strong> </li>`;
+          
+          let thisDataParent = e.currentTarget.getAttribute("data-parent");
+
             for (const pat in selectedClasses[pParent]) {
               //console.log("patttttttttt: " + selectedClasses[pParent][pat]);
               //paramHtml += `<li data="${selectedClasses[par][pat]}">${pat}: </li>`;
               if ( selectedClasses[pParent][pat] === pVal ) {
-                console.log("true");
+                //console.log("true");
                 
               } else {
-                console.log("false");
+                //console.log("false");
                 selectedItem.classList.remove(selectedClasses[pParent][pat]);
               }
             }
@@ -366,21 +367,36 @@ debugBarMenuTitle.innerText = selectedType;
           //add newly selected class to section
           selectedItem.classList.add(pVal);
 
-          //in the menu, show which class is active
-          e.currentTarget.classList.add("active");
+          let dataVs = debugBarSubMenu.querySelectorAll("li[data]");
+          
+          dataVs.forEach(function (dataV, index) {
+
+            if (thisDataParent == pParent ) {
+              console.log("pParent = " + pParent + "thisDataParent = " + thisDataParent);
+              //dataV.classList.remove("active");
+            } else {
+              dataV.classList.add("active");
+            }
+            
+          });
+          
+            //in the menu, show which class is active
+          dataVal.classList.add("active");
 
           // for the selected menu item parent name, remove any other active classes.
 
-          if( pParent == aParents ){
-            let activePvals = pParent.querySelector("li[data].active");
-            activePvals.classList.remove('active');
-          }
+          // if( pParent == aParents ){
+          //   let activePvals = pParent.querySelector("li[data].active");
+          //   activePvals.classList.remove('active');
+          // }
           //dataVal.classList.remove("active");
           
           //console.log("pval" + pVal);
           //getselectedClasses();
       });
-    
+
+      
+
     });
  
   }
