@@ -266,18 +266,23 @@ function defineClasses(selectedItem, selectedTitle, selectedType, index) {
       fullwidth: "Full",
       container: "container",
       container_large: "Large"
+    },
+    h_content: {
+      start: "h_c_start",
+      center: "h_c_center",
+      end: "h_c_end",
+      space_between: "h_c_space-between",
+      space_around: "h_c_space-around"
+    },
+    v_content: {
+      start: "v_c_start",
+      center: "v_c_center",
+      end: "v_c_end",
+      space_between: "v_c_space-between",
+      space_around: "v_c_space-around"
     }
   }
   const columnClasses = {
-    maxwidth: {
-      xxl: "maxwidth-xxl",
-      xl: "maxwidth-xl",
-      l: "maxwidth-l",
-      m: "maxwidth-m",
-      s: "maxwidth-s",
-      xs: "maxwidth-xs",
-      xxs: "maxwidth-xxs"
-    },
     size: {
       "12": "col-12",
       "11": "col-11",
@@ -291,10 +296,22 @@ function defineClasses(selectedItem, selectedTitle, selectedType, index) {
       "3": "col-3",
       "2": "col-2",
       "1": "col-1"
+    },
+    h_content: {
+      start: "h_c_start",
+      center: "h_c_center",
+      end: "h_c_end",
+      space_between: "h_c_space-between",
+      space_around: "h_c_space-around"
+    },
+    v_content: {
+      start: "v_c_start",
+      center: "v_c_center",
+      end: "v_c_end",
+      space_between: "v_c_space-between",
+      space_around: "v_c_space-around"
     }
   }
-  //const params = Object.values(selectedClasses);
-  //console.log(params[0]);
 
 let selectedClasses = "";
 
@@ -306,12 +323,12 @@ if ( selectedType == "section" ) {
   selectedClasses = columnClasses;
 }
 
-console.log(selectedClasses);
+//console.log(selectedClasses);
 
 let debugBarMenuTitle = document.querySelector(".debugging-bar .toggle_class_list .debugBarMenuTitle");
 let debugBarSubMenu = document.querySelector(".debugging-bar .toggle_class_list > ul");
 
-console.log(debugBarMenuTitle);
+//console.log(debugBarMenuTitle);
 
 
 debugBarSubMenu.innerHTML = "";
@@ -357,9 +374,6 @@ debugBarMenuTitle.innerText = selectedType;
                 selectedItem.classList.remove(selectedClasses[pParent][pat]);
               }
             }
-          //}
-  
-          //console.log("parent " + selectedClasses[pParent]);
           
           //remove previously selected class
           selectedItem.classList.remove(pVal);
@@ -368,16 +382,13 @@ debugBarMenuTitle.innerText = selectedType;
           selectedItem.classList.add(pVal);
 
           let dataVs = debugBarSubMenu.querySelectorAll("li[data]");
-          
-          dataVs.forEach(function (dataV, index) {
+          let thDt = debugBarSubMenu.querySelectorAll("li[data-parent*='" + pParent + "']");
 
-            if (thisDataParent == pParent ) {
-              console.log("pParent = " + pParent + "thisDataParent = " + thisDataParent);
-              //dataV.classList.remove("active");
-            } else {
-              dataV.classList.add("active");
-            }
-            
+          thDt.forEach(function (thDts, index) {
+              if ( thDts.classList.contains("active") ) {
+                thDts.classList.remove("active");
+              }
+              dataVal.classList.add("active");
           });
           
             //in the menu, show which class is active
