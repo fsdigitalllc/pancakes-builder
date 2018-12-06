@@ -9,11 +9,15 @@ window.addEventListener("load", (e) => {
   pancakes();
 });
 
+// The object tree needs to be in seperate function
+// iterate through each section, row, column, element
+// compare the object tree classes to the existing classes
+// if the class exists (is active), add the text to the text area.
 function pancakes() {
 
 //const sectionHTML = document.querySelector('.debugging-bar').innerHTML;
 const sections = document.querySelectorAll('section');
-const elements = document.querySelectorAll('.elements-wrapper');
+
 
 let rows = document.querySelectorAll('#row');
 //console.log(rows);
@@ -45,151 +49,6 @@ previewBtn.addEventListener("click", () => {
 // INSPECT MODE
 /////////////////////////////////////////////////////////////
 if ( body.classList.contains("inspect-mode") ) {
-formSections();
-
-//do stuff for each section
-function formSections() {
-
-sections.forEach(function (section, index) {
-
-// Create the edit button for a section
-let selectedTitle = section.getAttribute('selected-name');
-let selectedItem = section;
-let selectedType = section.getAttribute('selected-type');
-
-createEditMenu(selectedItem, selectedTitle, selectedType);
-
-//needs to only apply to this section
-//defineClasses(selectedItem, selectedTitle);
-
-
-
-exportYML.addEventListener("click", () => {
-  console.log("start export");
-  createExportYml(params);
-});
-
-section.setAttribute('data-highlightable','1');
-
-// redefine rows to current scope
-rows = section.querySelectorAll('#row');
-
-//Sticky menu on click or hover
-// check event bubbling on this
-let dbgSelectedTitle = document.querySelector(".debugging-bar .toggle_class_list > li");
-
-section.addEventListener("click", (e) => {
-  let activeSection = document.querySelector('section.sticky');
-
-  if(activeSection){
-    activeSection.classList.remove('sticky');
-  }
-  //e.target or e.currentTarget
-  section.classList.add("sticky");
-  
-  dbgSelectedTitle.innerHTML = `<li>${selectedTitle}</li>`;
-
-});
-  
-
-  //localStorage.setItem("section", JSON.stringify(section) );
-  //section_h1.innerText = selectedTitle;
-  //section_h1.innerText = section.classList;
-  //Toggle blue outlines for columns on this.hover
-  // This takes a snapshot of the HTML before the JS is loaded
-  localStorage.setItem('html', body.innerHTML);
-  //Export YML on click
-  // exportYML.addEventListener("click", () => {
-  //   body.innerHTML = localStorage.getItem('html');
-  //   AOS.init();
-  // });
-
-  rows.forEach(function (row, index) {
-    //console.log(row);
-    // Create the edit button for a row
-    let selectedTitle = row.getAttribute('selected-type');
-    let selectedItem = row;
-    let selectedType = row.getAttribute('selected-type');
-
-    createEditMenu(selectedItem, selectedTitle, selectedType);
-
-    const columns = row.querySelectorAll('div[data-column-size]');
-    row.setAttribute('data-highlightable','1');
-
-    //Toggle green outlines for columns on this.hover
-    columns.forEach(function (column, index) {
-
-      // Create the edit button for a row
-      let selectedTitle = column.getAttribute('selected-type');
-      let selectedItem = column;
-      let selectedType = column.getAttribute('selected-type');
-
-      createEditMenu(selectedItem, selectedTitle, selectedType);
-
-      column.setAttribute('data-highlightable','1');
-
-      // column.addEventListener("click", (e) => {
-      //   let activeColumn = document.querySelector('section.sticky');
-      
-      //   if(activeColumn){
-      //     activeColumn.classList.remove('sticky');
-      //   }
-      //   //e.target or e.currentTarget
-      //   column.classList.add("sticky");
-      // });
-
-      const columnAttributes = {
-        size: column.getAttribute('data-column-size')
-      }
-
-      // window.localStorage.setItem('columnAttributes', JSON.stringify(columnAttributes))
-
-      // console.log("COL SIZE:" + columnAttributes.size);
-
-      column.addEventListener("mouseenter", () => {
-        event.target.style.outline = "1px solid green";
-        column.classList.add("active");
-        // basic printing of the classes
-        //console.log(`${index} - index ${column.classList}`)
-
-        // Get classname based on prefix
-        let colName = column.className.split( ' ').some(c => /col-.*/.test(c));
-        
-        //console.log(colName);
-        if ( column.className.split(' ').some(c => /col-.*/.test(c)) ) {
-          //console.log("has class");
-        } else {
-          //console.log("doesnt");
-        }
-      });
-
-      column.addEventListener("mouseleave", () => {
-          column.style = "";
-      });
-
-      elements.forEach(function (element, index) {
-        element.setAttribute('data-highlightable','1');
-      });
-
-    });
-  }); 
-});
-}
-
-
-// function sectionClick(sectionName, index) {
-//   if ( document.querySelector('section.active') !== null ) {
-//     document.querySelector('section.active').classList.remove('active');
-//   }
-//   sectionName.classList.toggle("active");
-// }
-
-// Object to store all classes
-// Use generic param names equal to the item specific values. So params depend on if a section, row, or column is selected. Then, based on what the value equals, a different constant is used.
-
-function defineClasses(selectedItem, selectedTitle, selectedType, index) {
-
-  console.log("SELECTED TYPE: " + selectedType);
 
   const sectionClasses = {
     padding_top: {
@@ -312,6 +171,252 @@ function defineClasses(selectedItem, selectedTitle, selectedType, index) {
       space_around: "v_c_space-around"
     }
   }
+  const elementClasses = {
+    h_content: {
+      start: "h_c_start",
+      center: "h_c_center",
+      end: "h_c_end",
+      space_between: "h_c_space-between",
+      space_around: "h_c_space-around"
+    },
+    v_content: {
+      start: "v_c_start",
+      center: "v_c_center",
+      end: "v_c_end",
+      space_between: "v_c_space-between",
+      space_around: "v_c_space-around"
+    }
+  }
+
+formSections(sectionClasses);
+
+//do stuff for each section
+function formSections(sectionClasses) {
+
+console.log("Object Section Classes:");
+console.log(sectionClasses);
+
+let formattedParams = "stacks:\n";
+let indentParams = "";
+
+sections.forEach(function (section, index) {
+
+// Create the edit button for a section
+let selectedTitle = section.getAttribute('data-template');
+let selectedItem = section;
+let selectedType = section.getAttribute('selected-type');
+
+
+createEditMenu(selectedItem, selectedTitle, selectedType, sectionClasses);
+
+//needs to only apply to this section
+//defineClasses(selectedItem, selectedTitle);
+
+
+// - template: block-builder-section-home1
+//   background_color: "#ffffff"
+//   background_image: 
+//   size: container
+//   p_top_val: 200px
+//   p_top: XL
+//   p_bottom: XL
+//   v_content: center
+//   row_space: M
+//   rows:
+//   - template: include-row
+section.setAttribute('data-highlightable','1');
+
+//formattedParams += `- template: ${selectedTitle}\n`;
+formattedParams += `- template: ${selectedTitle}\n`;
+//formattedParams += `  background_color: "${selectedType}"\n`;
+indentParams = "  ";
+
+selectedClasses = sectionClasses;
+
+for (const par in selectedClasses) {
+
+  for (const pat in selectedClasses[par]) {
+    //console.log("pat: " + selectedClasses[par][pat]);
+    if ( section.classList.contains(selectedClasses[par][pat]) ) {
+      formattedParams += `${indentParams}${par}: ${pat}\n`;
+    } 
+  }
+}
+
+// redefine rows to current scope
+rows = section.querySelectorAll('#row');
+
+//Sticky menu on click or hover
+// check event bubbling on this
+let dbgSelectedTitle = document.querySelector(".debugging-bar .toggle_class_list > li");
+
+section.addEventListener("click", (e) => {
+  let activeSection = document.querySelector('section.sticky');
+
+  if(activeSection){
+    activeSection.classList.remove('sticky');
+  }
+  //e.target or e.currentTarget
+  section.classList.add("sticky");
+  
+  dbgSelectedTitle.innerHTML = `<li>${selectedTitle}</li>`;
+
+});
+  
+
+  //localStorage.setItem("section", JSON.stringify(section) );
+  //section_h1.innerText = selectedTitle;
+  //section_h1.innerText = section.classList;
+  //Toggle blue outlines for columns on this.hover
+  // This takes a snapshot of the HTML before the JS is loaded
+  localStorage.setItem('html', body.innerHTML);
+  //Export YML on click
+  // exportYML.addEventListener("click", () => {
+  //   body.innerHTML = localStorage.getItem('html');
+  //   AOS.init();
+  // });
+  formattedParams += `${indentParams}rows:\n`;
+  
+  rows.forEach(function (row, index) {
+  formattedParams += `  - template: include-row\n`;
+  indentParams = "    ";
+  // formattedParams += `${indentParams}h_content: end\n`;
+  // formattedParams += `${indentParams}v_content: center\n`;
+
+  selectedClasses = rowClasses;
+
+  for (const par in selectedClasses) {
+
+    for (const pat in selectedClasses[par]) {
+      //console.log("pat: " + selectedClasses[par][pat]);
+      if ( row.classList.contains(selectedClasses[par][pat]) ) {
+        formattedParams += `${indentParams}${par}: ${pat}\n`;
+      } 
+    }
+  }
+    //console.log(row);
+    // Create the edit button for a row
+    let selectedTitle = row.getAttribute('selected-type');
+    let selectedItem = row;
+    let selectedType = row.getAttribute('selected-type');
+
+    createEditMenu(selectedItem, selectedTitle, selectedType);
+
+    const columns = row.querySelectorAll('div[data-column-size]');
+    row.setAttribute('data-highlightable','1');
+
+    // cols:
+    // - template: block-column-builder
+    //Toggle green outlines for columns on this.hover
+    
+    formattedParams += `${indentParams}cols:\n`;
+
+    columns.forEach(function (column, index) {
+
+      indentParams = "    ";
+      formattedParams += `${indentParams}- template: block-column-builder\n`;
+      indentParams = "      ";
+      // formattedParams += `${indentParams}size: '4'\n`;
+
+      selectedClasses = columnClasses;
+
+      for (const par in selectedClasses) {
+
+        for (const pat in selectedClasses[par]) {
+          //console.log("pat: " + selectedClasses[par][pat]);
+          if ( column.classList.contains(selectedClasses[par][pat]) ) {
+            formattedParams += `${indentParams}${par}: ${pat}\n`;
+          } 
+        }
+      }
+      // Create the edit button for a row
+      let selectedTitle = column.getAttribute('selected-type');
+      let selectedItem = column;
+      let selectedType = column.getAttribute('selected-type');
+
+      createEditMenu(selectedItem, selectedTitle, selectedType);
+
+      column.setAttribute('data-highlightable','1');
+
+      const columnAttributes = {
+        size: column.getAttribute('data-column-size')
+      }
+
+      // window.localStorage.setItem('columnAttributes', JSON.stringify(columnAttributes))
+
+      // console.log("COL SIZE:" + columnAttributes.size);
+
+      column.addEventListener("mouseenter", () => {
+        event.target.style.outline = "1px solid green";
+        column.classList.add("active");
+        // basic printing of the classes
+        //console.log(`${index} - index ${column.classList}`)
+
+        // Get classname based on prefix
+        let colName = column.className.split( ' ').some(c => /col-.*/.test(c));
+        
+        //console.log(colName);
+        if ( column.className.split(' ').some(c => /col-.*/.test(c)) ) {
+          //console.log("has class");
+        } else {
+          //console.log("doesnt");
+        }
+      });
+
+      column.addEventListener("mouseleave", () => {
+          column.style = "";
+      });
+
+      const elements = column.querySelectorAll('.elements-wrapper');
+
+      formattedParams += `${indentParams}elements:\n`;
+      elements.forEach(function (element, index) {
+        element.setAttribute('data-highlightable','1');
+        formattedParams += `${indentParams}- template: element-title\n`;
+        indentParams = "        ";
+        // formattedParams += `${indentParams}tag: h1\n`;
+        // formattedParams += `${indentParams}title: Totally New Module\n`;
+        //console.log(element);
+
+        selectedClasses = elementClasses;
+
+        for (const par in selectedClasses) {
+
+          for (const pat in selectedClasses[par]) {
+            //console.log("pat: " + selectedClasses[par][pat]);
+            if ( element.classList.contains(selectedClasses[par][pat]) ) {
+              formattedParams += `${indentParams}${par}: ${pat}\n`;
+            } 
+          }
+        }
+        
+      });
+
+    });
+    exportYML.addEventListener("click", () => {
+      console.log("start export");
+      createExportYml(formattedParams);
+    });
+  }); 
+});
+}
+
+
+// function sectionClick(sectionName, index) {
+//   if ( document.querySelector('section.active') !== null ) {
+//     document.querySelector('section.active').classList.remove('active');
+//   }
+//   sectionName.classList.toggle("active");
+// }
+
+// Object to store all classes
+// Use generic param names equal to the item specific values. So params depend on if a section, row, or column is selected. Then, based on what the value equals, a different constant is used.
+
+function defineClasses(selectedItem, selectedTitle, selectedType, sectionClasses, index) {
+
+  console.log("SELECTED TYPE: " + selectedType);
+
+  
 
 let selectedClasses = "";
 
@@ -323,7 +428,8 @@ if ( selectedType == "section" ) {
   selectedClasses = columnClasses;
 }
 
-//console.log(selectedClasses);
+console.log("selected classes:");
+console.log(selectedItem);
 
 let debugBarMenuTitle = document.querySelector(".debugging-bar .toggle_class_list .debugBarMenuTitle");
 let debugBarSubMenu = document.querySelector(".debugging-bar .toggle_class_list > ul");
@@ -344,7 +450,11 @@ debugBarMenuTitle.innerText = selectedType;
 
     for (const pat in selectedClasses[par]) {
       //console.log("pat: " + selectedClasses[par][pat]);
-      debugBarSubMenu.innerHTML += `<li data-parent="${par}" data="${selectedClasses[par][pat]}">${pat}</li>`;
+      if ( selectedItem.classList.contains(selectedClasses[par][pat]) ) {
+        debugBarSubMenu.innerHTML += `<li data-parent="${par}" data="${selectedClasses[par][pat]}" class="active">${pat}</li>`;
+      } else {
+        debugBarSubMenu.innerHTML += `<li data-parent="${par}" data="${selectedClasses[par][pat]}">${pat}</li>`;
+      }
     }
   }
   
@@ -364,8 +474,7 @@ debugBarMenuTitle.innerText = selectedType;
           let thisDataParent = e.currentTarget.getAttribute("data-parent");
 
             for (const pat in selectedClasses[pParent]) {
-              //console.log("patttttttttt: " + selectedClasses[pParent][pat]);
-              //paramHtml += `<li data="${selectedClasses[par][pat]}">${pat}: </li>`;
+              //
               if ( selectedClasses[pParent][pat] === pVal ) {
                 //console.log("true");
                 
@@ -459,19 +568,13 @@ selectedItem.addEventListener("mouseleave", (e) => {
       //Get each debug menu attribute
     //Compare each debug menu variable to existing classes
     //if equal, mark active
-      defineClasses(selectedItem, selectedTitle, selectedType);
+      defineClasses(selectedItem, selectedTitle, selectedType, sectionClasses);
     });
 }
 
-function createExportYml(params, index) {
-  let exportBox = `
-  <textarea class="exportYMLbox">//iterate through params
-  section:
-    row:
-        - Column:
-  ${params.padding}
-  </textarea>`;
-  body.innerHTML = body.innerHTML + exportBox;
+function createExportYml(formattedParams, index) {
+  let exportBox = document.querySelector(".exportYMLbox");
+  exportBox.innerText = formattedParams;
 }
 } // End if body class contains inspect mode
 

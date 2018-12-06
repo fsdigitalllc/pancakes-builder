@@ -50,7 +50,7 @@
       {{ if in . "http" }}
       {{/* <!--if absolute link, not cloudinary--> */}}
         {{ $img_src = . }}
-        <img
+        <img data-element="element-image"
         srcset="
         {{ . }} 500w,
           {{ . }} 768w,
@@ -63,7 +63,7 @@
           
           {{ $resized900 := ($imageResource.Resize "900x q100") }}
           {{ $resized500 := ($imageResource.Resize "500x q100") }}
-          <img 
+          <img data-element="element-image" 
           data-sizes="(min-width: 1000px) 900px, 90vw" data-srcset="{{ $resized500.RelPermalink }} 500w, {{ $resized900.RelPermalink }} 900w" data-src="{{ $resized500.RelPermalink }}" class="lazyload" alt="{{ $alt_text }}"/>
 
       {{ else if $cloud_base }}
@@ -76,7 +76,7 @@
       {{ $img_src_tablet := print $cloud_base "q_" $img_quality "c_scale,w_768/" $cloud_folder . }}
       {{ $img_src_mobile := print $cloud_base "q_" $img_quality "c_scale,w_500/" $cloud_folder . }}
 
-      <img
+      <img data-element="element-image"
         src=""
         data-src="{{ $cloud_base }}q_auto,f_auto,w_{width}/{{ $cloud_folder }}{{ . }}"
         data-sizes="auto"
@@ -131,7 +131,7 @@
       transition: {{ .page.transition_hover}};
     }
   {{ else }}
-  <a id="{{ $element_prefix }}" class="button button-fill " href="{{ .page.link }}">{{ .page.text }}</a>
+  <a data-element="element-button" id="{{ $element_prefix }}" class="button button-fill " href="{{ .page.link }}">{{ .page.text }}</a>
 
   {{ end }}
   {{ end }}
@@ -145,7 +145,7 @@
 
   {{ else }}
 
-  <form name="{{ $global_page.Title | urlize }}" method="POST" netlify class="contact-base">
+  <form data-element="element-form" name="{{ $global_page.Title | urlize }}" method="POST" netlify class="contact-base">
     <div class="col-{{ .size | default "12" }} flex-container flex-item wrap">
       {{ range $index, $fields := .page.fields }}
       {{ if eq .template "text-field" }}

@@ -62,12 +62,11 @@
     
     <div class="dbg-pages dbg-btn">
         <ul>
-          <li alt="Browse within the current Sections">{{ .Sections | htmlEscape | replaceRE "\\(.*?\\)" "" }} - {{ .Title }} <i class="fas fa-caret-up"></i></li>
+          <li alt="Browse within the current Sections">{{ .Sections | htmlEscape | replaceRE "\\(.*?\\)" "" }} -- {{ .Title }} <i class="fas fa-caret-up"></i></li>
         </ul>
       </div>
     
     <div class="dbg-btns-container">
-    
     
     <div class="enable-debug dbg-btn">
       <ul>
@@ -233,6 +232,8 @@
     <div class='dbg_options_wrap'></div>
     
         </div>
+
+
 {{ end }}
 
 {{ end }}
