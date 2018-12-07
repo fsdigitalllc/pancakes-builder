@@ -15,33 +15,7 @@ window.addEventListener("load", (e) => {
 // if the class exists (is active), add the text to the text area.
 function pancakes() {
 
-//const sectionHTML = document.querySelector('.debugging-bar').innerHTML;
-const sections = document.querySelectorAll('section');
 
-
-let rows = document.querySelectorAll('#row');
-//console.log(rows);
-
-// DEBUG BAR ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-const previewBtn = document.querySelector('.enable-debug');
-const exportYML = document.querySelector('.export-yml');
-
-// Pages menu
-const pagesDrawer = document.querySelector(".dbg-pages-container");
-const pagesBtn = document.querySelector(".dbg-btn");
-// Call the function
-//section.addEventListener("click", functionName);
-
-// Toggle pages drawer on click
-pagesBtn.addEventListener("click", () => {
-  pagesDrawer.classList.toggle("debug-menu-active");
-});
-
-// Toggle inspect mode/preview mode on click
-previewBtn.addEventListener("click", () => {
-  body.classList.toggle("inspect-mode");
-});
 
 
 
@@ -187,6 +161,33 @@ if ( body.classList.contains("inspect-mode") ) {
       space_around: "v_c_space-around"
     }
   }
+//const sectionHTML = document.querySelector('.debugging-bar').innerHTML;
+const sections = document.querySelectorAll('section');
+
+
+let rows = document.querySelectorAll('#row');
+//console.log(rows);
+
+// DEBUG BAR ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const previewBtn = document.querySelector('.enable-debug');
+const exportYML = document.querySelector('.export-yml');
+
+// Pages menu
+const pagesDrawer = document.querySelector(".dbg-pages-container");
+const pagesBtn = document.querySelector(".dbg-btn");
+// Call the function
+//section.addEventListener("click", functionName);
+
+// Toggle pages drawer on click
+pagesBtn.addEventListener("click", () => {
+  pagesDrawer.classList.toggle("debug-menu-active");
+});
+
+// Toggle inspect mode/preview mode on click
+previewBtn.addEventListener("click", () => {
+  body.classList.toggle("inspect-mode");
+});
 
 formSections(sectionClasses);
 
@@ -393,6 +394,7 @@ section.addEventListener("click", (e) => {
       });
 
     });
+    console.log(formattedParams);
     exportYML.addEventListener("click", () => {
       console.log("start export");
       createExportYml(formattedParams);
@@ -414,7 +416,7 @@ section.addEventListener("click", (e) => {
 
 function defineClasses(selectedItem, selectedTitle, selectedType, sectionClasses, index) {
 
-  console.log("SELECTED TYPE: " + selectedType);
+  //console.log("SELECTED TYPE: " + selectedType);
 
   
 
@@ -578,29 +580,52 @@ function createExportYml(formattedParams, index) {
 }
 } // End if body class contains inspect mode
 
+let dragBtns = document.querySelectorAll("#section-dbg-menu .fa-arrows-alt");
 
-// const swappable = new Draggable.Swappable(
-// 	document.querySelectorAll('section'), {
-// 		draggable: '.button',
-// 		delay: 0,
-// 	}
-// )
-// swappable.on('drag:start', () => {
-// 	console.log('drag:start')
-// })
-// swappable.on('swappable:swapped', () => {
-// 	console.log('drag:swapped')
-// })
-// swappable.on('drag:stop', () => {
-// 	console.log('drag:stop')
-// })
-// swappable.on('drag:move', () => {
-// 	console.log('drag:move')
-// })
+console.log(dragBtns);
 
+// var draggable = new window.Draggable.Sortable(document.querySelectorAll('.my-other-awesome-div'), {
+//   draggable: '.my-awesome-div',
+//   appendTo: '.my-other-awesome-div',
+//   delay: 300,
+//   cancel: '.js-exclude', // elements decorated with this class are ignore - also cancel: []
+//   classes: {
+//       body: 'draggable-container--is-dragging',
+//   },
+// });
+
+// https://codepen.io/katasup/pen/aYwXoR
+let sortable = new Draggable.Sortable(
+  document.querySelectorAll('.row'), {
+    draggable: '.column',
+    delay: 300
+  }
+)
+
+    sortable.on('drag:start', (event) => {
+      console.log('drag:start');
+    })
+    sortable.on('swappable:swapped', () => {
+      console.log('drag:swapped')
+    })
+    sortable.on('drag:stop', () => {
+      console.log('drag:stop');
+      //pancakes();
+    })
+    sortable.on('drag:move', () => {
+      console.log('drag:move')
+    })
+dragBtns.forEach(function (dragBtn, index) {
+  
+
+  dragBtn.addEventListener("mousedown", (e) => {
+    
+
+  });
+});
 // const sortable = new Draggable.Sortable(
 // 	document.querySelectorAll('section'), {
-// 		draggable: '.col-6',
+// 		draggable: 'section',
 // 		delay: 0,
 // 	}
 // )
