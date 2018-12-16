@@ -23,7 +23,7 @@
   background: rgba(58, 58, 60, 0.985);
   z-index: 75;
   grid-gap: 10px;
-  grid-template-columns: 1fr 4fr 10fr 5fr;
+  grid-template-columns: 1fr 4fr 10fr 2fr 2fr;
 }
 .debugging-bar .dbg-logo {
   grid-column-start: 1;
@@ -105,11 +105,11 @@
 .debugging-bar .dbg-btn.active, .debugging-bar .dbg-btn.active a, .debugging-bar .dbg-btn.active i {
   color: #000;
 }
-.debugging-bar .toggle_class_list {
+.debugging-bar .toggle_class_list, .debugging-bar .element_list {
   position: relative;
   list-style: none;
 }
-.debugging-bar .toggle_class_list > ul {
+.debugging-bar .toggle_class_list > ul, .debugging-bar .element_list > ul {
   display: flex;
   flex-direction: column;
   background: #000000;
@@ -122,4 +122,10 @@
 }
 .debugging-bar .toggle_class_list li.active {
   color: yellow;
+}
+.debugging-bar .toggle_class_list > ul, .debugging-bar .element_list > ul {
+  display: none;
+}
+.debugging-bar .toggle_class_list > ul.active, .debugging-bar .element_list > ul.active {
+  display: flex;
 }

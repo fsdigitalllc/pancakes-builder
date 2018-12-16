@@ -18,7 +18,7 @@
   {{ partial "components/elements.html" (dict "page" . "global" $ "cloudinary_base" .cloudinary_base "element_index" $index ) }}
 {{ end }}
 {{ else if eq $css false }}
-<div data-column-size="col-{{ .page.size | default "6" }}"{{ with .page.background_color }} style="background-color: {{ . }}"{{ end }} class="flex-container flex-item column col-{{ .page.size | default "6" }} v_content_ h_content_ col_bg" selected-type="column">
+<div size="col-{{ .page.size | default "6" }}"{{ with .page.background_color }} style="background-color: {{ . }}"{{ end }} class="flex-container flex-item column col-{{ .page.size | default "6" }} v_content_ h_content_ col_bg" selected-type="column">
 
 <div{{ if .page.animate }} data-aos="{{ .page.animate }}" data-aos-offset="data_aos_offset" data-aos-anchor="#section_id" {{ end }} style="" class="elements-wrapper {{ with .page.content_width }} maxwidth-{{ . | lower }}{{ end }}{{ with .page.p_top }} padding-{{ . | lower }}-top{{ end }}{{ with .page.p_bottom }} padding-{{ . | lower }}-bottom{{ end }}{{ with .page.text_align }} text-align-children-{{ . }}{{ end }}">
 

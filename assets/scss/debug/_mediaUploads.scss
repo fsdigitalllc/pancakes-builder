@@ -1,0 +1,21 @@
+.mediaUploads {
+  display: none;
+  grid-template-columns: 1fr 1fr;
+  grid-column-gap: 30px;
+  grid-row-gap: 30px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  background: #ffffff;
+  min-height: 450px;
+  min-width: 450px;
+  max-height: 50%;
+  max-width: 50%;
+  overflow: scroll;
+  box-shadow: 1px 5px 8px #aaa;
+  padding: 20px;
+}
+.mediaUploads.active {
+  display: grid;
+}

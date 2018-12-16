@@ -13,7 +13,7 @@
   {{ partial "components/column.html" (dict "page" . "global" $ "cloudinary_base" .cloudinary_base ) }}
   {{ end }}
 {{ else }}
-<div id="row" selected-type="row" class="row flex-container h_c_{{ .page.h_content | default "space-between" }} {{ .page.container_size | default "container" }} padding-{{ .page.row_space | default "none" }}-bottom break-{{ .page.break | default "tablet" }} contain-tablet {{ with .page.wrap }}wrap{{ end }}">
+<div id="row" template="row" selected-type="row" class="row flex-container h_c_{{ .page.h_content | default "space-between" }} {{ .page.container_size | default "container" }} padding-{{ .page.row_space | default "none" }}-bottom break-{{ .page.break | default "tablet" }} contain-tablet {{ with .page.wrap }}wrap{{ end }}">
 {{ range .page.cols }}
 
 {{ partial "components/column.html" (dict "page" . "global" $ "cloudinary_base" .cloudinary_base ) }}

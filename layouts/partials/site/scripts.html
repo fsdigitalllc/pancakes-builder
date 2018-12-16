@@ -24,10 +24,12 @@
 {{ if eq $.Site.Params.debug_enabled true }}
 
 {{ $debugstyles := resources.Get "scss/debug.scss" | resources.ExecuteAsTemplate "style.main.scss" . | toCSS | minify | fingerprint }}
+{{ $debug_js := resources.Get "js/pancakes_debug.js" | minify }}
 
 <script type="text/javascript">
   fetchInject([
     '{{ $debugstyles.Permalink }}',
+    '{{ $debug_js.Permalink }}'
   ]).then(() => {
         console.log(`Loaded debugger css`);
   })
@@ -41,14 +43,10 @@
 {{ end }}
 
 {{/* <!--enable debug--> */}}
-{{/* {{ $debug_js := resources.Get "js/pancakes_debug.js" | minify }} */}}
 
-
-<!-- Entire bundle -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/draggable/1.0.0-beta.8/draggable.bundle.js"></script>
 
 
 <!--pancakes JS-->
-<script src="js/pancakes_debug.js"></script>
+<!-- <script src="js/pancakes_debug.js"></script> -->
 <!-- <script src="js/navigation.js"></script> -->
 

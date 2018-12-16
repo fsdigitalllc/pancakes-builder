@@ -46,6 +46,36 @@
         </li>
     </ul>
   </div>
+  <div class="m-bar dbg-btn">
+      <ul>
+          <li alt="save changes" class="saveChanges">
+              <i class="far fa-save"></i>
+          </li>
+      </ul>
+    </div>
+    <div class="m-bar dbg-btn">
+        <ul>
+            <li alt="save changes" class="revertChanges">
+                <i class="fas fa-undo"></i>
+            </li>
+        </ul>
+      </div>
+    <div class="m-bar dbg-btn">
+        <ul>
+            <li alt="save changes" class="clearChanges">
+                <i class="fa fa-trash" aria-hidden="true"></i>
+            </li>
+        </ul>
+      </div>
+      <div class="m-bar dbg-btn">
+          <ul>
+              <li alt="image uploader" class="imageUpload">
+                  <i class="far fa-image"></i>
+              </li>
+          </ul>
+        </div>
+      
+  
   </div><!--btn container-->
   
   <ul class="toggle_class_list">
@@ -62,6 +92,52 @@
       </li> -->
       <ul></ul>
   </ul>
+  <ul class="element_list">
+      <li class="debugBarElementsTitle"><i class="fas fa-plus"></i></li>
+      <!-- <li>
+        <label for="checkbox" class="checkbox__label">
+        <input type="checkbox" name="agree" {{ $.Scratch.Get "debug_section" }}>
+      </label>
+      </li>
+      <li>
+        <label for="checkbox" class="checkbox__label">
+        <input type="checkbox" name="agree" {{ $.Scratch.Get "debug_section" }}>
+      </label>
+      </li> -->
+      <ul>
+          <li data-tpl="header1" data-title="Header 1">
+            Header 1
+          </li>
+          <li data-tpl="header2" data-title="Header 2">
+            Header 2
+          </li>
+          <li data-tpl="header3" data-title="Header 3">
+            Header 3
+          </li>
+          <li data-tpl="shortparagraph" data-title="Short paragraph">
+            Short paragraph
+          </li>
+          <li data-tpl="mediumparagraph" data-title="Medium paragraph">
+            Medium paragraph
+          </li>
+          <li data-tpl="largeparagraph" data-title="Large paragraph">
+            Large paragraph
+          </li>
+          <li data-tpl="ullist" data-title="Ordened list">
+            Ordened list
+          </li>
+          <li data-tpl="ollist" data-title="Unordened list">
+            Unordened list
+          </li>
+          <li data-tpl="image" data-title="Image">
+            Image
+          </li>
+          <li data-tpl="code" data-title="Code">
+            Code
+          </li>     
+      </ul>
+  </ul>
+  
   <!--pages drawer-->
   
   <div class="dbg-pages-container">
@@ -133,4 +209,16 @@
       <!--force using relative URL?-->
       
       <textarea class="exportYMLbox"></textarea>
+      <div class="mediaUploads">
+          {{ range ( where .Site.Pages "Section" "uploads" ).Reverse }}
+          
+          {{ range .Resources }}
+            <img class="lazyload" src="{{ .Permalink }}">
+          {{ end }}
+
+          {{ end }}
+        {{/* <!--if resource upload in content/uploads, perform basic image processing--> */}}
+          {{/* <!--need to make these options manual--> */}}
+          
+      </div>
 {{- end -}}
