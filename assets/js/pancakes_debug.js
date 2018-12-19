@@ -512,23 +512,45 @@ function pancakes(pageId) {
           elements.forEach(function (element, index) {
             element.setAttribute('data-highlightable','1');
             
-            containers = [].slice.call([element, debugBarElementMenu]);
+            containers = [].slice.call(document.querySelectorAll(".elements-wrapper"));
+
+            // What I learned
+            // Return runs the function if a condition is met, like the param matching a certain value
+            // need another dragula instance for dragging elements between columns
+            // refer to this codepen for fixing the undefined issue on reordering in the same container
             //console.log(containers);
-            dragula(containers, {
+            dragula([element, debugBarElementMenu], {
+              moves: function (el, source) {
+                return true; // elements are always draggable by default
+              },
+              accepts: function (el, target, source, sibling) {
+                return true; // elements can be dropped in any of the `containers` by default
+              },
+              invalid: function (el, handle) {
+                return false; // don't prevent any drags from initiating by default
+              },
+              direction: 'vertical',             // elements in copy-source containers can be reordered
+              revertOnSpill: true,              // spilling will put the element back where it was dragged from, if this is true
+              removeOnSpill: false,              // spilling will `.remove` the element, if this is true
+              ignoreInputTextSelection: true,
               copy(el, source) {
                 return source === debugBarElementMenu;
               },
               accepts(el, target) {
                 return target !== debugBarElementMenu;
-              },
-              removeOnSpill: true
+              }
             })
               .on('drag', function (el) {
-              //el.className = el.className.replace('ex-moved', '');
-            }).on('drop', function (el) {
+              el.classList.add('creating_element');
+            }).on('drop', function (el, container) {
               //el.className += ' ex-moved';
-              var elementContent = getTpl(el.getAttribute('data-tpl') );
-              el.parentNode.replaceChild(makeElement(elementContent), el);
+              console.log("source");
+              console.log(container);
+              if (el.classList.contains("creating_element")) {
+                var elementContent = getTpl(el.getAttribute('data-tpl') );
+                el.parentNode.replaceChild(makeElement(elementContent), el);
+              }
+              el.classList.remove('creating_element');
             }).on('over', function (el, container) {
               //container.className += ' ex-over';
             }).on('out', function (el, container) {
