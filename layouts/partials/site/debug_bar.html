@@ -92,19 +92,11 @@
       </li> -->
       <ul></ul>
   </ul>
-  <ul class="element_list">
+  <ul class="dragSourceList">
       <li class="debugBarElementsTitle"><i class="fas fa-plus"></i></li>
-      <!-- <li>
-        <label for="checkbox" class="checkbox__label">
-        <input type="checkbox" name="agree" {{ $.Scratch.Get "debug_section" }}>
-      </label>
-      </li>
-      <li>
-        <label for="checkbox" class="checkbox__label">
-        <input type="checkbox" name="agree" {{ $.Scratch.Get "debug_section" }}>
-      </label>
-      </li> -->
-      <ul>
+      
+      <div class="dragMenu">
+      <ul class="elementsDrag">
           <li data-tpl="header1" data-title="Header 1">
             Header 1
           </li>
@@ -114,6 +106,9 @@
           <li data-tpl="header3" data-title="Header 3">
             Header 3
           </li>
+          <li data-tpl="header4" data-title="Header 4">
+              Header 4
+            </li>
           <li data-tpl="shortparagraph" data-title="Short paragraph">
             Short paragraph
           </li>
@@ -134,8 +129,14 @@
           </li>
           <li data-tpl="code" data-title="Code">
             Code
-          </li>     
+          </li>
       </ul>
+      <ul class="rowsDrag">
+          <li data-tpl="column" data-title="column">
+              Column
+          </li>  
+      </ul>
+    </div>
   </ul>
   
   <!--pages drawer-->

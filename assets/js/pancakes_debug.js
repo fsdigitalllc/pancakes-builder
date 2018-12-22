@@ -1,10 +1,11 @@
-//ADD draggable
-//https://github.com/Shopify/draggable
 const body = document.querySelector('body');
 
-/**
- * short localStorage
- */
+
+const _ = (el) => {
+  return document.querySelector(el);
+};
+
+//Short local storage
 const db = localStorage;
 let mainP = document.querySelector('main');
 
@@ -38,7 +39,13 @@ window.addEventListener("load", (e) => {
 
 function pancakes(pageId) {
   console.log("loading pancakes..." + pageId);
-  
+  const previewBtn = document.querySelector('.enable-debug');
+  const exportYML = document.querySelector('.export-yml');
+  const mediaUploadButton = document.querySelector(".imageUpload");
+  // Pages menu
+  const pagesDrawer = document.querySelector(".dbg-pages-container");
+  const pagesBtn = document.querySelector(".dbg-btn");
+  const mediaBox = document.querySelector(".mediaUploads");
   let savedData = `${pageId}.savedData`;
   
   //https://codepen.io/nakome/pen/qRWqBe -- copy elements
@@ -100,6 +107,9 @@ function pancakes(pageId) {
       // Delete dbg menus first
       sanitizeItems();
     };
+  }
+  function initOverlays() {
+    
   }
   // INSPECT MODE
   /////////////////////////////////////////////////////////////
@@ -243,27 +253,21 @@ function pancakes(pageId) {
       }
     }
   const tpl = {
-    'header1': '<h1>I am header 1</h1>',
+    'header1': '<h1>I am header 111</h1>',
     'header2': '<h2>I am header 2</h2>',
     'header3': '<h3>I am header 3</h3>',
+    'header4': '<h4>I am header 4</h4>',
     'shortparagraph': '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et</p>',
     'mediumparagraph': '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate</p>',
     'largeparagraph': '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a,</p>',
     'ullist': '<ul><li>item 1</li><li>item 2</li><li>item 3</li><li>item 4</li></ul>',
     'ollist': '<ol><li>item 1</li><li>item 2</li><li>item 3</li><li>item 4</li></ol>',
     'image': '<img src="http://lorempixel.com/400/200/">',
-    'code': '<pre>function say(name){\n return name;\n}</pre>'
+    'code': '<pre>function say(name){\n return name;\n}</pre>',
+    'column': '<div class="column"><div class="elements-wrapper"></div></div>'
   };
-
-  const previewBtn = document.querySelector('.enable-debug');
-  const exportYML = document.querySelector('.export-yml');
-  const mediaUploadButton = document.querySelector(".imageUpload");
-  // Pages menu
-  const pagesDrawer = document.querySelector(".dbg-pages-container");
-  const pagesBtn = document.querySelector(".dbg-btn");
-  const mediaBox = document.querySelector(".mediaUploads");
-
-  mediaUploadButton.addEventListener("click", () => {
+  
+    mediaUploadButton.addEventListener("click", () => {
     mediaBox.classList.toggle("active");
     mediaUploadButton.classList.toggle("active");
   });
@@ -273,17 +277,19 @@ function pancakes(pageId) {
   
   function sanitizeItems() {
   
+  //Clean out some generated elements before regenerating them
   document.querySelectorAll(".dbg-each-menu").forEach(e => e.parentNode.removeChild(e));
 
   let debugBarMenuTitle = document.querySelector(".debugging-bar .toggle_class_list .debugBarMenuTitle");
   let debugBarSubMenu = document.querySelector(".debugging-bar .toggle_class_list > ul");
-  let debugBarElementMenu = document.querySelector(".debugging-bar .element_list > ul");
-  let debugBarElementTitle = document.querySelector(".debugging-bar .element_list i");
-  console.log(debugBarElementMenu);
+  
+  let debugBarElementMenu = document.querySelector(".debugging-bar .dragSourceList");
+  let debugBarElementTitle = document.querySelector(".debugging-bar .dragSourceList i");
+  //console.log(debugBarElementMenu);
 
   debugBarMenuTitle.addEventListener("click", () => {
     debugBarMenuTitle.classList.toggle("active");
-    debugBarSubMenu.classList.toggle("active");
+    debugBarElementMenu.classList.toggle("active");
     console.log("debugbarmenutitle");
   });
   debugBarElementTitle.addEventListener("click", () => {
@@ -291,18 +297,7 @@ function pancakes(pageId) {
     debugBarElementMenu.classList.toggle("active");
     console.log("debugBarElementMenu");
   });
-    /**
-   * Gets the tpl.
-   *
-   * @param      {<type>}  element  The element
-   * @return     {string}  The tpl.
-   */
-  const getTpl = (element) => {
-    return tpl[element];
-  };
-  const _ = (el) => {
-    return document.querySelector(el);
-  };
+
 
   
   let sections = document.querySelectorAll('section');
@@ -338,11 +333,11 @@ function pancakes(pageId) {
     let selectedType = section.getAttribute('selected-type');
   
     createEditMenu(selectedItem, selectedTitle, selectedType, sectionClasses);
-    //Dragula 
-  
-    //needs to only apply to this section
+
     //defineClasses(selectedItem, selectedTitle);
     section.setAttribute('data-highlightable','1');
+
+    //dragIt(section);
   
     // redefine rows to current scope
     let rows = section.querySelectorAll('#row');
@@ -386,83 +381,7 @@ function pancakes(pageId) {
           //https://codepen.io/nakome/pen/qRWqBe -- editor/copy elements
           //https://codepen.io/ariona/pen/vgeoQx navbar builder
           //https://codepen.io/nakome/pen/ZLPYpy editor
-          let el = section;
-          let handle = el.querySelector(".fa-arrows-alt");
-        
-          dragula([document.querySelector("main")], {
-            moves: function (el, container, handle) {
-            return handle.classList.contains('fa-arrows-alt');
-          },
-            invalid(el, handle) {
-              // If the selected element className is column, 
-              //    dont allow the row to be dragged. This will allow 
-              //    the column to be dragged separate from the row. 
-              return (el.classList.contains("row") || el.classList.contains("column") );
-            }
-          })
-            .on('drag', function (el) {
-            //el.classList.remove('ex-moved');
-          }).on('drop', function (el) {
-            //nothing yet
-          }).on('over', function (el, container) {
-            //container.classList.add("ex-over");
-          }).on('out', function (el, container) {
-            //container.classList.remove("ex-over");
-          });
-  
-          el = row;
-          container = section;
-  
-          // add existing sections as an array
-          let containers = [].slice.call(document.querySelectorAll("section"));
-          handle = el.querySelector(".fa-move");
           
-            dragula(containers, {
-              moves: function (el, container, handle) {
-              return handle.classList.contains('fa-arrows-alt');
-            },
-              invalid(el, handle) {
-                // If the selected element className is column, 
-                //    dont allow the row to be dragged. This will allow 
-                //    the column to be dragged separate from the row. 
-                return (el.classList.contains("column") || el.classList.contains("element") );
-              }
-            })
-              .on('drag', function (el) {
-              //el.className = el.className.replace('ex-moved', '');
-            }).on('drop', function (el) {
-              //el.className += ' ex-moved';
-            }).on('over', function (el, container) {
-              //container.className += ' ex-over';
-            }).on('out', function (el, container) {
-              //container.className = container.className.replace('ex-over', '');
-            });
-  
-          el = column;
-          containers = [].slice.call(document.querySelectorAll(".row"));
-          handle = el.querySelector(".fa-move");
-  
-          dragula(containers, {
-            moves: function (el, container, handle) {
-            return handle.classList.contains('fa-arrows-alt');
-          },
-            direction: 'horizontal',
-            invalid(el, handle) {
-              // If the selected element className is column, 
-              //    dont allow the row to be dragged. This will allow 
-              //    the column to be dragged separate from the row. 
-              return (el.classList.contains("element") );
-            }
-          })
-            .on('drag', function (el) {
-            //el.className = el.className.replace('ex-moved', '');
-          }).on('drop', function (el) {
-            //el.className += ' ex-moved';
-          }).on('over', function (el, container) {
-            //container.className += ' ex-over';
-          }).on('out', function (el, container) {
-            //container.className = container.className.replace('ex-over', '');
-          });
           
   
   
@@ -493,79 +412,12 @@ function pancakes(pageId) {
               //console.log("doesnt");
             }
           });
-  
           column.addEventListener("mouseleave", () => {
               column.style = "";
           });
-  
           let elements = column.querySelectorAll('.elements-wrapper');
-          
-          function makeElement(elementContent){
-            console.log(elementContent);
-            var newNode = document.createElement("div");
-            newNode.innerHTML = elementContent;
-            console.log(newNode);
-            //newNode.classList.add("elem");
-            return newNode;
-          }
-
           elements.forEach(function (element, index) {
             element.setAttribute('data-highlightable','1');
-            
-            containers = [].slice.call(document.querySelectorAll(".elements-wrapper"));
-
-            // What I learned
-            // Return runs the function if a condition is met, like the param matching a certain value
-            // need another dragula instance for dragging elements between columns
-            // refer to this codepen for fixing the undefined issue on reordering in the same container
-            //console.log(containers);
-            dragula([element, debugBarElementMenu], {
-              moves: function (el, source) {
-                return true; // elements are always draggable by default
-              },
-              accepts: function (el, target, source, sibling) {
-                return true; // elements can be dropped in any of the `containers` by default
-              },
-              invalid: function (el, handle) {
-                return false; // don't prevent any drags from initiating by default
-              },
-              direction: 'vertical',             // elements in copy-source containers can be reordered
-              revertOnSpill: true,              // spilling will put the element back where it was dragged from, if this is true
-              removeOnSpill: false,              // spilling will `.remove` the element, if this is true
-              ignoreInputTextSelection: true,
-              copy(el, source) {
-                return source === debugBarElementMenu;
-              },
-              accepts(el, target) {
-                return target !== debugBarElementMenu;
-              }
-            })
-              .on('drag', function (el) {
-              el.classList.add('creating_element');
-            }).on('drop', function (el, container) {
-              //el.className += ' ex-moved';
-              console.log("source");
-              console.log(container);
-              if (el.classList.contains("creating_element")) {
-                var elementContent = getTpl(el.getAttribute('data-tpl') );
-                el.parentNode.replaceChild(makeElement(elementContent), el);
-              }
-              el.classList.remove('creating_element');
-            }).on('over', function (el, container) {
-              //container.className += ' ex-over';
-            }).on('out', function (el, container) {
-              if (container == element ) {
-                //el.innerHTML = getTpl(el.getAttribute('data-tpl'));
-                
-                //el.className = 'drop-element';
-                //makeEditable();
-              }
-              if (container == debugBarElementMenu) {
-                el.innerHTML = el.getAttribute('data-title');
-              }
-              //container.className = container.className.replace('ex-over', '');
-            });
-            
           });
   
         });
@@ -574,37 +426,8 @@ function pancakes(pageId) {
       }); 
     });
     }
-  
-  
-  // function sectionClick(sectionName, index) {
-  //   if ( document.querySelector('section.active') !== null ) {
-  //     document.querySelector('section.active').classList.remove('active');
-  //   }
-  //   sectionName.classList.toggle("active");
-  // }
-  
-  // Object to store all classes
-  // Use generic param names equal to the item specific values. So params depend on if a section, row, or column is selected. Then, based on what the value equals, a different constant is used.
- 
-  
-
-  
-  // dragula.on('out', (el, container) => {
-  //   if (container == document.querySelector("main")) {
-      
-  //     //makeEditable();
-  //     //db.setItem('savedData', debugBarElementMenu.innerHTML);
-  //   }
-  //   if (container == debugBarElementMenu) {
-  //     el.innerHTML = el.getAttribute('data-title');
-  //   }
-  // });
 
   function defineClasses(selectedItem, selectedTitle, selectedType, sectionClasses, index) {
-  
-    //console.log("SELECTED TYPE: " + selectedType);
-  
-    
   
   let selectedClasses = "";
   
@@ -615,14 +438,7 @@ function pancakes(pageId) {
   } else if ( selectedType == "column" ) {
     selectedClasses = columnClasses;
   }
-  
-  //console.log("selected classes:");
-  //console.log(selectedItem);
-  
-  
-  //console.log(debugBarMenuTitle);
-  
-  
+    
   debugBarSubMenu.innerHTML = "";
   debugBarMenuTitle.innerText = "";
   
@@ -688,17 +504,7 @@ function pancakes(pageId) {
             
               //in the menu, show which class is active
             dataVal.classList.add("active");
-  
-            // for the selected menu item parent name, remove any other active classes.
-  
-            // if( pParent == aParents ){
-            //   let activePvals = pParent.querySelector("li[data].active");
-            //   activePvals.classList.remove('active');
-            // }
-            //dataVal.classList.remove("active");
-            
-            //console.log("pval" + pVal);
-            //getselectedClasses();
+
         });
   
         
@@ -706,6 +512,7 @@ function pancakes(pageId) {
       });
    
     }
+
     
   // Create hover menus
   function createEditMenu(selectedItem, selectedTitle, selectedType, index) {
@@ -759,7 +566,154 @@ function pancakes(pageId) {
   });
   }
   
+
+  ////////////////////////Drag and drop functionality////////////////
+  /**Gets the tpl.
+   * @param      {<type>}  element  The element
+   * @return     {string}  The tpl.
+   */
+  const getTpl = (element) => {
+    return tpl[element];
+  };
+  function makeElement(elementContent){
+    console.log(elementContent);
+    var newNode = document.createElement("div");
+    newNode.innerHTML = elementContent;
+    console.log(newNode);
+    //newNode.classList.add("elem");
+    return newNode;
+  }
+  dragula([document.querySelector("main")], {
+    moves: function (el, container, handle) {
+    return handle.classList.contains('fa-arrows-alt');
+  },
+    invalid(el, handle) {
+      // If the selected element className is column, 
+      //    dont allow the row to be dragged. This will allow 
+      //    the column to be dragged separate from the row. 
+      return (el.classList.contains("row") || el.classList.contains("column") );
+    }
+  });
+
+  // add existing sections as an array
+  let containers = [].slice.call(document.querySelectorAll("section"));
   
+  dragula(containers, {
+    moves: function (el, container, handle) {
+    return handle.classList.contains('fa-arrows-alt');
+  },
+    invalid(el, handle) {
+      // If the selected element className is column, 
+      //    dont allow the row to be dragged. This will allow 
+      //    the column to be dragged separate from the row. 
+      return (el.classList.contains("column") || el.classList.contains("element") );
+    }
+  });
+
+  // el = column;
+  containers = [].slice.call(document.querySelectorAll(".row"));
+
+  dragula(containers, {
+    moves: function (el, container, handle) {
+    return handle.classList.contains('fa-arrows-alt');
+  },
+    direction: 'horizontal',
+    invalid(el, handle) {
+      // If the selected element className is column, 
+      //    dont allow the row to be dragged. This will allow 
+      //    the column to be dragged separate from the row. 
+      return (el.classList.contains("element") );
+    }
+  });
+  // // What I learned
+  // // Return runs the function if a condition is met, like the param matching a certain value
+  // // need another dragula instance for dragging elements between columns
+  // // refer to this codepen for fixing the undefined issue on reordering in the same container
+  // //console.log(containers);
+  //let containerSource = document.querySelector(".debugging-bar .dragSourceList ul");
+  let dragMenu = document.querySelector(".debugging-bar .dragSourceList .dragMenu ul.elementsDrag");
+  
+  containers = Array.prototype.slice.call(document.querySelectorAll("section .row .column .elements-wrapper")).concat(dragMenu);
+  
+  console.log(containers);
+  const elementDrake = dragula({
+    containers,
+    direction: 'vertical',
+    revertOnSpill: true,              // spilling will put the element back where it was dragged from, if this is true
+    removeOnSpill: false,              // spilling will `.remove` the element, if this is true
+    ignoreInputTextSelection: true,
+    copy(el, source) {
+      return source === dragMenu;
+    },
+    accepts(el, target, source) {
+      // if (el.getAttribute('data-title') == "column") {
+      //   console.log("a column is selected");
+      //   return target !== debugBarElementMenu;
+      // }
+      if (target.classList.contains("elements-wrapper")) {
+        return target !== dragMenu;
+      }
+      
+    },
+  });
+  elementDrake.on('out', function (el, container) {
+    if (container.classList.contains("elements-wrapper") && el.getAttribute('data-tpl') ) {
+      el.innerHTML = getTpl(el.getAttribute('data-tpl'));
+      //el.className = 'drop-element';
+      //makeEditable();
+    }
+    if (container == dragMenu) {
+      el.innerHTML = el.getAttribute('data-title');
+    }
+    //sanitizeItems();
+    
+  });
+
+  let rowDragMenu = document.querySelector(".debugging-bar .dragSourceList .dragMenu ul.rowsDrag");
+  containers = Array.prototype.slice.call(document.querySelectorAll(".row")).concat(rowDragMenu);
+  console.log(containers);
+
+  const rowDrake = dragula({
+    containers,
+    direction: 'horizontal',
+    revertOnSpill: true,              // spilling will put the element back where it was dragged from, if this is true
+    removeOnSpill: false,              // spilling will `.remove` the element, if this is true
+    ignoreInputTextSelection: true,
+    moves(el, source) {
+      return source === rowDragMenu;
+    },
+    copy(el, source) {
+      return source === rowDragMenu;
+    },
+    accepts(el, target, source) {
+      // if (el.getAttribute('data-title') == "column") {
+      //   console.log("a column is selected");
+      //   return target !== debugBarElementMenu;
+      // }
+      if (target.classList.contains("row")) {
+        return target !== rowDragMenu;
+      }
+    },
+    invalid(el, handle) {
+      // If the selected element className is column, 
+      //    dont allow the row to be dragged. This will allow 
+      //    the column to be dragged separate from the row. 
+      return (el.classList.contains("elements-wrapper") );
+    }
+  });
+  rowDrake.on('out', function (el, container) {
+    if (container.classList.contains("row") && el.getAttribute('data-tpl') ) {
+      el.innerHTML = getTpl(el.getAttribute('data-tpl'));
+      //el.className = 'drop-element';
+      //makeEditable();
+    }
+    if (container == rowDragMenu) {
+      el.innerHTML = el.getAttribute('data-title');
+    }
+    //sanitizeItems();
+    
+  });
+
   function createExportYml(index) {
     
     let exportBox = document.querySelector(".exportYMLbox");

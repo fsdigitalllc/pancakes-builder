@@ -105,11 +105,11 @@
 .debugging-bar .dbg-btn.active, .debugging-bar .dbg-btn.active a, .debugging-bar .dbg-btn.active i {
   color: #000;
 }
-.debugging-bar .toggle_class_list, .debugging-bar .element_list {
+.debugging-bar .toggle_class_list, .debugging-bar .dragSourceList {
   position: relative;
   list-style: none;
 }
-.debugging-bar .toggle_class_list > ul, .debugging-bar .element_list > ul {
+.debugging-bar .toggle_class_list > ul, .debugging-bar .dragSourceList .dragMenu {
   display: flex;
   flex-direction: column;
   background: #000000;
@@ -123,9 +123,9 @@
 .debugging-bar .toggle_class_list li.active {
   color: yellow;
 }
-.debugging-bar .toggle_class_list > ul, .debugging-bar .element_list > ul {
+.debugging-bar .dragSourceList .dragMenu, .debugging-bar .toggle_class_list > ul {
   display: none;
 }
-.debugging-bar .toggle_class_list > ul.active, .debugging-bar .element_list > ul.active {
+.debugging-bar .dragSourceList.active .dragMenu, .debugging-bar .toggle_class_list.active > ul {
   display: flex;
 }
