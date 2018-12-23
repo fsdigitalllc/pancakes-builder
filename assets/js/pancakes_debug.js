@@ -289,7 +289,6 @@ function pancakes(pageId) {
 
   debugBarMenuTitle.addEventListener("click", () => {
     debugBarMenuTitle.classList.toggle("active");
-    debugBarElementMenu.classList.toggle("active");
     console.log("debugbarmenutitle");
   });
   debugBarElementTitle.addEventListener("click", () => {
@@ -552,6 +551,7 @@ function pancakes(pageId) {
         //Get each debug menu attribute
       //Compare each debug menu variable to existing classes
       //if equal, mark active
+      document.querySelector(".debugging-bar .toggle_class_list").classList.toggle("active");
         defineClasses(selectedItem, selectedTitle, selectedType, sectionClasses);
       });
   }
