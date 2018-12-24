@@ -264,7 +264,7 @@ function pancakes(pageId) {
     'ollist': '<ol><li>item 1</li><li>item 2</li><li>item 3</li><li>item 4</li></ol>',
     'image': '<img src="http://lorempixel.com/400/200/">',
     'code': '<pre>function say(name){\n return name;\n}</pre>',
-    'column': '<div class="column"><div class="elements-wrapper"></div></div>'
+    'column': '<div class="column col-2"><div class="elements-wrapper"></div></div>'
   };
   
     mediaUploadButton.addEventListener("click", () => {
@@ -289,12 +289,12 @@ function pancakes(pageId) {
 
   debugBarMenuTitle.addEventListener("click", () => {
     debugBarMenuTitle.classList.toggle("active");
-    console.log("debugbarmenutitle");
+    //console.log("debugbarmenutitle");
   });
   debugBarElementTitle.addEventListener("click", () => {
     debugBarElementTitle.classList.toggle("active");
     debugBarElementMenu.classList.toggle("active");
-    console.log("debugBarElementMenu");
+    //console.log("debugBarElementMenu");
   });
 
 
@@ -370,19 +370,12 @@ function pancakes(pageId) {
   
         let columns = row.querySelectorAll('div[size]');
         row.setAttribute('data-highlightable','1');
-  
-        // cols:
-        // - template: block-column-builder
-        //Toggle green outlines for columns on this.hover
-  
+
         columns.forEach(function (column, index) {
           
           //https://codepen.io/nakome/pen/qRWqBe -- editor/copy elements
           //https://codepen.io/ariona/pen/vgeoQx navbar builder
-          //https://codepen.io/nakome/pen/ZLPYpy editor
-          
-          
-  
+          //https://codepen.io/nakome/pen/ZLPYpy editor  
   
           // Create the edit button for a row
           let selectedTitle = column.getAttribute('size');
@@ -392,11 +385,6 @@ function pancakes(pageId) {
           createEditMenu(selectedItem, selectedTitle, selectedType);
   
           column.setAttribute('data-highlightable','1');
-  
-  
-          // window.localStorage.setItem('columnAttributes', JSON.stringify(columnAttributes))
-  
-          // console.log("COL SIZE:" + columnAttributes.size);
   
           column.addEventListener("mouseenter", () => {
             event.target.style.outline = "1px solid green";
@@ -635,7 +623,7 @@ function pancakes(pageId) {
   
   containers = Array.prototype.slice.call(document.querySelectorAll("section .row .column .elements-wrapper")).concat(dragMenu);
   
-  console.log(containers);
+  //console.log(containers);
   const elementDrake = dragula({
     containers,
     direction: 'vertical',
@@ -680,6 +668,8 @@ function pancakes(pageId) {
     removeOnSpill: false,              // spilling will `.remove` the element, if this is true
     ignoreInputTextSelection: true,
     moves(el, source) {
+      console.log("el");
+      console.log(el);
       return source === rowDragMenu;
     },
     copy(el, source) {
@@ -703,7 +693,14 @@ function pancakes(pageId) {
   });
   rowDrake.on('out', function (el, container) {
     if (container.classList.contains("row") && el.getAttribute('data-tpl') ) {
-      el.innerHTML = getTpl(el.getAttribute('data-tpl'));
+      console.log("dropped1");
+      console.log(el);
+      //el.innerHTML = getTpl(el.getAttribute('data-tpl'));
+      if (el.querySelector(".element-content")) {
+        console.log("dropped2");
+        console.log(el.querySelector(".element-content"));
+      }
+      
       //el.className = 'drop-element';
       //makeEditable();
     }

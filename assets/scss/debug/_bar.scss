@@ -116,9 +116,10 @@
   color: #ffffff;
   overflow-y: scroll;
   height: 500px;
-  position: absolute;
+  position: fixed;
   bottom: 15px;
   list-style: none;
+  right: 0;
 }
 .debugging-bar .toggle_class_list li.active {
   color: yellow;
