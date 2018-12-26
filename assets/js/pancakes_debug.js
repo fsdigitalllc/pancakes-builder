@@ -29,6 +29,10 @@ window.addEventListener("load", (e) => {
   // Enable inspect mode by default
   body.classList.add("inspect-mode");
   
+  document.querySelector(".pb-close").addEventListener("click", (e) => {
+    body.classList.toggle("inspect-mode");
+    console.log("clicked close");
+  });
   
 });
 
@@ -39,12 +43,11 @@ window.addEventListener("load", (e) => {
 
 function pancakes(pageId) {
   console.log("loading pancakes..." + pageId);
-  const previewBtn = document.querySelector('.enable-debug');
-  const exportYML = document.querySelector('.export-yml');
+  const exportYML = document.querySelector('.pb-export__yml');
   const mediaUploadButton = document.querySelector(".imageUpload");
   // Pages menu
-  const pagesDrawer = document.querySelector(".dbg-pages-container");
-  const pagesBtn = document.querySelector(".dbg-btn");
+  const pagesDrawer = document.querySelector(".pb-pagesContainer");
+  const pagesBtn = document.querySelector(".pb-pageNavigator");
   const mediaBox = document.querySelector(".mediaUploads");
   let savedData = `${pageId}.savedData`;
   
@@ -69,9 +72,9 @@ function pancakes(pageId) {
     });
   };
   
-  let saveChangesButton = document.querySelector(".saveChanges");
-  let revertChangesButton = document.querySelector(".revertChanges");
-  let clearChangesButton = document.querySelector(".clearChanges");
+  let saveChangesButton = document.querySelector(".pb-quickBtns .pb-saveChanges");
+  let revertChangesButton = document.querySelector(".pb-quickBtns .pb-revertChanges");
+  let clearChangesButton = document.querySelector(".pb-quickBtns .pb-clearChanges");
   
 
   // Detect any changes and prompt the user to save
@@ -280,22 +283,19 @@ function pancakes(pageId) {
   //Clean out some generated elements before regenerating them
   document.querySelectorAll(".dbg-each-menu").forEach(e => e.parentNode.removeChild(e));
 
-  let debugBarMenuTitle = document.querySelector(".debugging-bar .toggle_class_list .debugBarMenuTitle");
-  let debugBarSubMenu = document.querySelector(".debugging-bar .toggle_class_list > ul");
-  
-  let debugBarElementMenu = document.querySelector(".debugging-bar .dragSourceList");
-  let debugBarElementTitle = document.querySelector(".debugging-bar .dragSourceList i");
+  let debugBarMenuTitle = document.querySelector(".debugging-bar .pb-dynamicArea .debugBarMenuTitle");
+  let debugBarSubMenu = document.querySelector(".debugging-bar .pb-dynamicArea > ul");
   //console.log(debugBarElementMenu);
 
   debugBarMenuTitle.addEventListener("click", () => {
     debugBarMenuTitle.classList.toggle("active");
     //console.log("debugbarmenutitle");
   });
-  debugBarElementTitle.addEventListener("click", () => {
-    debugBarElementTitle.classList.toggle("active");
-    debugBarElementMenu.classList.toggle("active");
-    //console.log("debugBarElementMenu");
+  _(".debugging-bar .pb-addItems").addEventListener("click", () => {
+    _(".debugging-bar .pb-dragSourceList").classList.toggle("active");
+    //console.log("debugbarmenutitle");
   });
+  
 
 
   
@@ -308,12 +308,7 @@ function pancakes(pageId) {
   
     // Toggle pages drawer on click
     pagesBtn.addEventListener("click", () => {
-      pagesDrawer.classList.toggle("debug-menu-active");
-    });
-  
-    // Toggle inspect mode/preview mode on click
-    previewBtn.addEventListener("click", () => {
-      body.classList.toggle("inspect-mode");
+      pagesDrawer.classList.toggle("active");
     });
   
     formSections(sectionClasses);
@@ -343,7 +338,7 @@ function pancakes(pageId) {
   
     //Sticky menu on click or hover
     // check event bubbling on this
-    let dbgSelectedTitle = document.querySelector(".debugging-bar .toggle_class_list > li");
+    let dbgSelectedTitle = document.querySelector(".debugging-bar .pb-dynamicArea > li");
   
     section.addEventListener("click", (e) => {
       let activeSection = document.querySelector('section.sticky');
@@ -387,7 +382,7 @@ function pancakes(pageId) {
           column.setAttribute('data-highlightable','1');
   
           column.addEventListener("mouseenter", () => {
-            event.target.style.outline = "1px solid green";
+            //event.target.style.outline = "1px solid green";
             column.classList.add("active");
   
             // Get classname based on prefix
@@ -539,7 +534,7 @@ function pancakes(pageId) {
         //Get each debug menu attribute
       //Compare each debug menu variable to existing classes
       //if equal, mark active
-      document.querySelector(".debugging-bar .toggle_class_list").classList.toggle("active");
+      document.querySelector(".debugging-bar .pb-dynamicArea").classList.toggle("active");
         defineClasses(selectedItem, selectedTitle, selectedType, sectionClasses);
       });
   }
@@ -618,8 +613,8 @@ function pancakes(pageId) {
   // // need another dragula instance for dragging elements between columns
   // // refer to this codepen for fixing the undefined issue on reordering in the same container
   // //console.log(containers);
-  //let containerSource = document.querySelector(".debugging-bar .dragSourceList ul");
-  let dragMenu = document.querySelector(".debugging-bar .dragSourceList .dragMenu ul.elementsDrag");
+  //let containerSource = document.querySelector(".debugging-bar .pb-dragSourceList ul");
+  let dragMenu = document.querySelector(".debugging-bar .pb-dragSourceList .dragMenu ul.elementsDrag");
   
   containers = Array.prototype.slice.call(document.querySelectorAll("section .row .column .elements-wrapper")).concat(dragMenu);
   
@@ -657,7 +652,7 @@ function pancakes(pageId) {
     
   });
 
-  let rowDragMenu = document.querySelector(".debugging-bar .dragSourceList .dragMenu ul.rowsDrag");
+  let rowDragMenu = document.querySelector(".debugging-bar .pb-dragSourceList .dragMenu ul.rowsDrag");
   containers = Array.prototype.slice.call(document.querySelectorAll(".row")).concat(rowDragMenu);
   console.log(containers);
 
@@ -695,11 +690,21 @@ function pancakes(pageId) {
     if (container.classList.contains("row") && el.getAttribute('data-tpl') ) {
       console.log("dropped1");
       console.log(el);
+
+      var pushData = [];
+	    var findElements = $(container).find(".element");
       //el.innerHTML = getTpl(el.getAttribute('data-tpl'));
-      if (el.querySelector(".element-content")) {
-        console.log("dropped2");
-        console.log(el.querySelector(".element-content"));
-      }
+      findElements.forEach(elements, function(key, value) {
+        data.push({
+          'el': $(value).data('element-name'),
+          'content': $(value).find(".element-content").html()
+        });
+      });
+      builderOutput(data);
+      // if (el.querySelector(".element-content")) {
+      //   console.log("dropped2");
+      //   console.log(el.querySelector(".element-content"));
+      // }
       
       //el.className = 'drop-element';
       //makeEditable();

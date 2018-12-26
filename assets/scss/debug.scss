@@ -23,15 +23,19 @@ $debug-before-font-size: 11px;
     align-items: center;
     position: relative;
 }
-.debug.inspect-mode main, .debug.inspect-mode header, .debug.inspect-mode footer {
-    width: 89%;
-    transition: margin .35s linear;
-    margin-right: auto;
+.debugging-bar .pb-close:hover {
+    cursor: pointer;
 }
-.debugging-bar .dbg-pages-menu-close {
+.debugging-bar .pb-close {
     position: absolute;
-    right: 10px;
-    top: 10px;
+    top: 50%;
+    left: -20px;
+    background: #3a3a3c;
+    padding: 10px 5px 10px 5px;
+    border-radius: 3px;
+    border-left: 1px solid #000000;
+    border-right: 1px solid #000000;
+    font-size: 12px;
 }
 section.debug {
     border-top: 1px solid;

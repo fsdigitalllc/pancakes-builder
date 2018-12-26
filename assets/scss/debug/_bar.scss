@@ -1,32 +1,46 @@
+.inspect-mode .debugging-bar {
+  transform: translate(0%,0%); 
+}
 .debugging-bar {
-  display: block;
   position: fixed;
-  bottom: 0;
-  width: 100%;
+  display: block;
+  top: 0;
+  right: 0;
+  width: 15%;
   max-width: 100%;
   min-height: 40px;
-  height: 5%;
+  height: 100%;
   z-index: 9999;
-  font-family: $debug-font-family;
+  font-family: montserrat,sans-serif;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  transform: translate(100%,0%);
 }
 .debugging-bar .dbg-container {
   width: 100%;
-  padding-left: 20px;
-  padding-right: 20px;
-  max-width: 100%;
+  padding: 0px 10px;
+  max-width: 200p;
   align-content: center;
   display: inline-grid;
   position: relative;
   height: 100%;
-  background: rgba(58, 58, 60, 0.985);
+  background: #3a3a3cfb;
   z-index: 75;
   grid-gap: 10px;
-  grid-template-columns: 1fr 4fr 10fr 2fr 2fr;
+  grid-template-rows: 1fr 10fr 1fr;
+  grid-template-columns: 100%;
+  box-sizing: border-box;
 }
-.debugging-bar .dbg-logo {
+.debugging-bar .pb-topLinks {
   grid-column-start: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  list-style: none;
+  padding: 0px;
+}
+.debugging-bar .pb-topLinks li:hover {
+  cursor: pointer;
 }
 .debugging-bar .dbg-pages:hover i {
   transform: translate(-1px,-5px);
@@ -56,17 +70,18 @@
 .debugging-bar .dbg-btns-container .dbg-btn {
   margin-left: 12px;
   margin-right: 12px;
-  padding: 0px 5px 0px 5px;
-  height: 100%;
+  padding: 0 5px;
+  height: 50px;
   align-items: center;
   display: flex;
 }
 .debugging-bar .dbg-btns-container {
-    display: flex;
-    flex-wrap: no-wrap;
-    flex-direction: row;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  width: 100%;
+  max-width: 100%;
 }
-/*button styles for debugger*/
 .debugging-bar li[alt]:hover:before {
   content: attr(alt);
   height: 80px;
@@ -105,28 +120,49 @@
 .debugging-bar .dbg-btn.active, .debugging-bar .dbg-btn.active a, .debugging-bar .dbg-btn.active i {
   color: #000;
 }
-.debugging-bar .toggle_class_list, .debugging-bar .dragSourceList {
+.debugging-bar .pb-dynamicArea, .debugging-bar .pb-dragSourceList {
   position: relative;
   list-style: none;
 }
-.debugging-bar .toggle_class_list > ul, .debugging-bar .dragSourceList .dragMenu {
+.debugging-bar .pb-dynamicArea ul {
   display: flex;
   flex-direction: column;
   background: #000000;
   color: #ffffff;
-  overflow-y: scroll;
-  height: 500px;
-  position: fixed;
-  bottom: 15px;
-  list-style: none;
-  right: 0;
 }
-.debugging-bar .toggle_class_list li.active {
+.debugging-bar .pb-dynamicArea li.active {
   color: yellow;
 }
-.debugging-bar .dragSourceList .dragMenu, .debugging-bar .toggle_class_list > ul {
+.debugging-bar .pb-dragSourceList .dragMenu, .debugging-bar .pb-dynamicArea .pb-populateValues {
   display: none;
 }
-.debugging-bar .dragSourceList.active .dragMenu, .debugging-bar .toggle_class_list.active > ul {
+.debugging-bar .pb-dragSourceList.active .dragMenu, .debugging-bar .pb-dynamicArea.active > .pb-populateValues {
   display: flex;
+  flex-direction: column;
+}
+.debugging-bar {
+  ul {
+    list-style: none;
+  }
+  .pb-dynamicArea {
+    overflow-y: hidden;
+    overflow-x: hidden;
+    padding: 0px;
+  }
+  .pb-dynamicArea.active {
+    overflow-y: scroll;
+  }
+  .pb-quickBtns {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    justify-content: space-between;
+    color: #ffffff;
+  }
+  .pb-quickBtns a, .pb-quickBtns li, .pb-quickBtns i {
+    color: #ffffff;
+  }
+  .pb-quickBtns li:hover {
+    cursor: pointer;
+  }
 }

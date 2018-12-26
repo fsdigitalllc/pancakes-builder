@@ -2,83 +2,19 @@
 {{ $current_page := .UniqueID }}
 <div class="debugging-bar">
   <div class="dbg-container">
-  <div class="dbg-logo">
-    <img class="lazyload" data-src="/images/pb_logo.jpg">
-  </div>
-  
-  <div class="dbg-pages dbg-btn">
-      <ul>
-        <li alt="Browse within the current section">{{ .Sections | htmlEscape | replaceRE "\\(.*?\\)" "" }} - {{ .Title }} <i class="fas fa-caret-up"></i></li>
-      </ul>
-    </div>
-  
-  <div class="dbg-btns-container">
-  
-  
-  <div class="enable-debug dbg-btn">
-    <ul>
-    <li alt="Enter Preview Mode to view section information">
-      <i class="fa fa-eye" aria-hidden="true"></i>
-    </li>
-  </ul>
-  </div>
-  
-  <div class="export-yml dbg-btn">
-    <ul>
-        <li alt="Enter Scratchpad Mode to test layout changes">
-            <i class="fas fa-code"></i>
-        </li>
+    <ul class="pb-topLinks">
+      <li class="pb-pageNavigator">
+        <i class="fas fa-bars"></i>
+      </li>
+      <li>
+        <img class="lazyload" data-src="/images/pb_logo.jpg">
+      </li>
+      <li class="pb-addItems">
+          <i class="fas fa-plus"></i>
+        </li> 
     </ul>
-  </div>
-  <div class="preview-link dbg-btn">
-    <ul>
-        <li alt="Edit this page in Forestry">
-            <a target="_blank" href="">
-              <i class="fas fa-edit"></i>
-            </a>
-        </li>
-    </ul>
-  </div>
-  <div class="m-bar dbg-btn">
-    <ul>
-        <li alt="Enter responsive mode" class="d_screen-mobile-s">
-          <i class="fa fa-mobile" aria-hidden="true"></i>
-        </li>
-    </ul>
-  </div>
-  <div class="m-bar dbg-btn">
-      <ul>
-          <li alt="save changes" class="saveChanges">
-              <i class="far fa-save"></i>
-          </li>
-      </ul>
-    </div>
-    <div class="m-bar dbg-btn">
-        <ul>
-            <li alt="save changes" class="revertChanges">
-                <i class="fas fa-undo"></i>
-            </li>
-        </ul>
-      </div>
-    <div class="m-bar dbg-btn">
-        <ul>
-            <li alt="save changes" class="clearChanges">
-                <i class="fa fa-trash" aria-hidden="true"></i>
-            </li>
-        </ul>
-      </div>
-      <div class="m-bar dbg-btn">
-          <ul>
-              <li alt="image uploader" class="imageUpload">
-                  <i class="far fa-image"></i>
-              </li>
-          </ul>
-        </div>
-      
   
-  </div><!--btn container-->
-  
-  <ul class="toggle_class_list">
+  <ul class="pb-dynamicArea">
       <li class="debugBarMenuTitle">Toggle Classes</li>
       <!-- <li>
         <label for="checkbox" class="checkbox__label">
@@ -90,66 +26,99 @@
         <input type="checkbox" name="agree" {{ $.Scratch.Get "debug_section" }}>
       </label>
       </li> -->
-      <ul></ul>
-  </ul>
-  <ul class="dragSourceList">
-      <li class="debugBarElementsTitle"><i class="fas fa-plus"></i></li>
+      <ul class="pb-populateValues"></ul>
+      <ul class="pb-dragSourceList">
       
-      <div class="dragMenu">
-      <ul class="elementsDrag">
-          <li data-tpl="header1" data-title="Header 1">
-            Header 1
-          </li>
-          <li data-tpl="header2" data-title="Header 2">
-            Header 2
-          </li>
-          <li data-tpl="header3" data-title="Header 3">
-            Header 3
-          </li>
-          <li data-tpl="header4" data-title="Header 4">
-              Header 4
-            </li>
-          <li data-tpl="shortparagraph" data-title="Short paragraph">
-            Short paragraph
-          </li>
-          <li data-tpl="mediumparagraph" data-title="Medium paragraph">
-            Medium paragraph
-          </li>
-          <li data-tpl="largeparagraph" data-title="Large paragraph">
-            Large paragraph
-          </li>
-          <li data-tpl="ullist" data-title="Ordened list">
-            Ordened list
-          </li>
-          <li data-tpl="ollist" data-title="Unordened list">
-            Unordened list
-          </li>
-          <li data-tpl="image" data-title="Image">
-            Image
-          </li>
-          <li data-tpl="code" data-title="Code">
-            Code
-          </li>
-      </ul>
-      <ul class="rowsDrag">
-          <li data-tpl="column" data-title="column">
-              Column
-              <div class="element-content">
-                <div class="column col-2">
-                  <div class="elements-wrapper">
-                    
+          <div class="dragMenu">
+          <ul class="elementsDrag">
+              <li data-tpl="header1" data-title="Header 1">
+                Header 1
+              </li>
+              <li data-tpl="header2" data-title="Header 2">
+                Header 2
+              </li>
+              <li data-tpl="header3" data-title="Header 3">
+                Header 3
+              </li>
+              <li data-tpl="header4" data-title="Header 4">
+                  Header 4
+                </li>
+              <li data-tpl="shortparagraph" data-title="Short paragraph">
+                Short paragraph
+              </li>
+              <li data-tpl="mediumparagraph" data-title="Medium paragraph">
+                Medium paragraph
+              </li>
+              <li data-tpl="largeparagraph" data-title="Large paragraph">
+                Large paragraph
+              </li>
+              <li data-tpl="ullist" data-title="Ordened list">
+                Ordened list
+              </li>
+              <li data-tpl="ollist" data-title="Unordened list">
+                Unordened list
+              </li>
+              <li data-tpl="image" data-title="Image">
+                Image
+              </li>
+              <li data-tpl="code" data-title="Code">
+                Code
+              </li>
+          </ul>
+          <ul class="rowsDrag">
+              <li data-tpl="column" data-title="column">
+                  Column
+                  <div class="element-content">
+                    <div class="column col-2">
+                      <div class="elements-wrapper">
+                        
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
-          </li>  
+              </li>  
+          </ul>
+        </div>
       </ul>
-    </div>
   </ul>
   
-  <!--pages drawer-->
+
+  <div class="pb-close">
+      <i class="fas fa-times"></i>
+  </div>
   
-  <div class="dbg-pages-container">
-      <ul class="dbg-pages-menu">
+    <!--quick access btns in the footer-->
+    <ul class="pb-quickBtns">
+      <li class="pb-export__yml" alt="Enter Scratchpad Mode to test layout changes">
+        <i class="fas fa-code"></i>
+      </li>
+      <li alt="image uploader" class="imageUpload">
+        <i class="far fa-image"></i>
+      </li>
+      <li class="pb-editPage" alt="Edit this page in Forestry">
+        <a target="_blank" href="">
+          <i class="fas fa-edit"></i>
+        </a>
+      </li>
+      <li class="pb-responsiveMode" alt="Enter responsive mode" class="d_screen-mobile-s">
+        <i class="fa fa-mobile" aria-hidden="true"></i>
+      </li>
+      <li alt="save changes" class="pb-saveChanges">
+        <i class="far fa-save"></i>
+      </li>
+      <li alt="save changes" class="pb-revertChanges">
+        <i class="fas fa-undo"></i>
+      </li>
+      <li alt="save changes" class="pb-clearChanges">
+        <i class="fa fa-trash" aria-hidden="true"></i>
+    </li>
+    </ul>
+
+  </div>
+  </div><!--END SIDEBAR, START STANDALONE WIDGETS-->
+    <!--pages drawer-->
+  
+  <div class="pb-pagesContainer">
+      <ul class="pb-listPages">
       {{ range ( where .Site.Pages "Section" .Section ).Reverse }}
       {{ if .Params.meta.og_image }}
       
@@ -175,18 +144,6 @@
       {{ end }}
       </ul>
   
-  </div>
-  <div class="dbg-pages-menu-close">
-      <i class="fas fa-times"></i>
-    </div>
-    <div class="dbg_preview_options_panel">
-          <ul class="list_sections_data">
-              
-    
-            
-          </ul>
-          </div>
-    
   </div><!--end pages pullout-->
   
   <!--start mobile preview panel-->
@@ -213,7 +170,7 @@
 
   <div class='dbg_options_wrap'></div>
   
-      </div>
+</div>
       <!--force using relative URL?-->
       
       <textarea class="exportYMLbox"></textarea>

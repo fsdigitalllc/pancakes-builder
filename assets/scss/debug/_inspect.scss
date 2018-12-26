@@ -1,3 +1,11 @@
+main, footer, header {
+    max-width: 100%;
+    margin-right: auto;
+    margin-left: auto;
+}
+.dbg-each-menu {
+    display: none;
+}
 .inspect-mode {
   section[data-highlightable][data-section-name='part-block-builder-section-part'] {
     outline: 1px solid rgba(232, 159, 0, 1);
@@ -27,6 +35,11 @@
     outline: 1px solid rgba(7, 99, 27, 1);
     outline-offset: 0px;
   }
+  main, footer, header {
+    max-width: 85%;
+    margin-right: auto;
+    margin-left: 0;
+}
   .row-dbg-menu.dbg-each-menu {
     left: 50%;
     transform: translateX(-50%);
