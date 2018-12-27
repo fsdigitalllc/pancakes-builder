@@ -1,3 +1,8 @@
+/*Functions need refactoring.
+On drop, regenerate sections, rows, columns, elements so that indicators display
+When dynamically generating content in the sidebar, make sure the current HTML in each variable is correct. This can be fixed by seperating functions
+- There's an issue where the variable for the dynamic content in the sidebar is undefined due to the order of HTML loaded in the dom. This is caused by the current function setup not being interrelated.
+*/
 const body = document.querySelector('body');
 
 
@@ -275,6 +280,7 @@ function pancakes(pageId) {
   
   function sanitizeItems() {
   
+  console.log("sanitizeItems...");
   //Clean out some generated elements before regenerating them
   document.querySelectorAll(".dbg-each-menu").forEach(e => e.parentNode.removeChild(e));
 
@@ -289,7 +295,7 @@ function pancakes(pageId) {
   _(".debugging-bar .pb-addItems").addEventListener("click", () => {
     //_(".debugging-bar .pb-dragSourceList").classList.toggle("active");
     html = _(".pb-dragSourceList").innerHTML;
-
+    //after forming classes, start draggable
     createDynamicContent(html);
     //console.log("debugbarmenutitle");
   });
@@ -314,7 +320,8 @@ function pancakes(pageId) {
     //do stuff for each section
     function formSections(sectionClasses) {
   
-    //console.log("Object Section Classes:");
+    console.log("formSections...");
+
     //console.log(sectionClasses);
   
     sections.forEach(function (section, index) {
@@ -398,6 +405,11 @@ function pancakes(pageId) {
           let elements = column.querySelectorAll('.elements-wrapper');
           elements.forEach(function (element, index) {
             element.setAttribute('data-highlightable','1');
+
+            //Split the formation function from the function that iterates through and makes things clickable
+            element.addEventListener('dblclick', function (e) {
+              element.classList.toggle('large');
+            });
           });
   
         });
@@ -405,6 +417,8 @@ function pancakes(pageId) {
   
       }); 
     });
+
+    
     }
 
   function defineClasses(selectedItem, selectedTitle, selectedType, sectionClasses, index) {
@@ -501,7 +515,7 @@ function pancakes(pageId) {
   // Create hover menus
   function createEditMenu(selectedItem, selectedTitle, selectedType, index) {
   
-    //console.log("create hover menus type: " + selectedType);
+    console.log("CreateEditMenu...");
     
     let debugWidget = `<div id="section-dbg-menu" class="dbg-each-menu">
     
@@ -560,168 +574,174 @@ function pancakes(pageId) {
   const getTpl = (element) => {
     return tpl[element];
   };
-  function makeElement(elementContent){
-    console.log(elementContent);
-    var newNode = document.createElement("div");
-    newNode.innerHTML = elementContent;
-    console.log(newNode);
-    //newNode.classList.add("elem");
-    return newNode;
-  }
-  dragula([document.querySelector("main")], {
-    moves: function (el, container, handle) {
-    return handle.classList.contains('fa-arrows-alt');
-  },
-    invalid(el, handle) {
-      // If the selected element className is column, 
-      //    dont allow the row to be dragged. This will allow 
-      //    the column to be dragged separate from the row. 
-      return (el.classList.contains("row") || el.classList.contains("column") );
-    }
-  });
 
-  // add existing sections as an array
-  let containers = [].slice.call(document.querySelectorAll("section"));
-  
-  dragula(containers, {
-    moves: function (el, container, handle) {
-    return handle.classList.contains('fa-arrows-alt');
-  },
-    invalid(el, handle) {
-      // If the selected element className is column, 
-      //    dont allow the row to be dragged. This will allow 
-      //    the column to be dragged separate from the row. 
-      return (el.classList.contains("column") || el.classList.contains("element") );
-    }
-  })
-  .on('drag', function (el) {
-    el.classList.add("in-transit");
-  }).on('out', function (el) {
-    el.classList.remove("in-transit");
-  });
+  function dragDrop () {
 
-  // el = column;
-  containers = [].slice.call(document.querySelectorAll(".row"));
+    console.log("dragDrop...");
 
-  dragula(containers, {
-    moves: function (el, container, handle) {
-    return handle.classList.contains('fa-arrows-alt');
-  },
-    direction: 'horizontal',
-    invalid(el, handle) {
-      // If the selected element className is column, 
-      //    dont allow the row to be dragged. This will allow 
-      //    the column to be dragged separate from the row. 
-      return (el.classList.contains("element") );
+    function makeElement(elementContent){
+      console.log(elementContent);
+      var newNode = document.createElement("div");
+      newNode.innerHTML = elementContent;
+      console.log(newNode);
+      //newNode.classList.add("elem");
+      return newNode;
     }
-  });
-  // // What I learned
-  // // Return runs the function if a condition is met, like the param matching a certain value
-  // // need another dragula instance for dragging elements between columns
-  // // refer to this codepen for fixing the undefined issue on reordering in the same container
-  // //console.log(containers);
-  //let containerSource = document.querySelector(".debugging-bar .pb-dragSourceList ul");
-  let dragMenu = document.querySelector(".debugging-bar .pb-dragSourceList .dragMenu ul.elementsDrag");
-  
-  containers = Array.prototype.slice.call(document.querySelectorAll("section .row .column .elements-wrapper")).concat(dragMenu);
-  
-  //console.log(containers);
-  const elementDrake = dragula({
-    containers,
-    direction: 'vertical',
-    revertOnSpill: true,              // spilling will put the element back where it was dragged from, if this is true
-    removeOnSpill: false,              // spilling will `.remove` the element, if this is true
-    ignoreInputTextSelection: true,
-    copy(el, source) {
-      return source === dragMenu;
+    dragula([document.querySelector("main")], {
+      moves: function (el, container, handle) {
+      return handle.classList.contains('fa-arrows-alt');
     },
-    accepts(el, target, source) {
-      // if (el.getAttribute('data-title') == "column") {
-      //   console.log("a column is selected");
-      //   return target !== debugBarElementMenu;
-      // }
-      if (target.classList.contains("elements-wrapper")) {
-        return target !== dragMenu;
+      invalid(el, handle) {
+        // If the selected element className is column, 
+        //    dont allow the row to be dragged. This will allow 
+        //    the column to be dragged separate from the row. 
+        return (el.classList.contains("row") || el.classList.contains("column") );
       }
-      
-    },
-  });
-  elementDrake.on('out', function (el, container) {
-    if (container.classList.contains("elements-wrapper") && el.getAttribute('data-tpl') ) {
-      el.innerHTML = getTpl(el.getAttribute('data-tpl'));
-      //el.className = 'drop-element';
-      //makeEditable();
-    }
-    if (container == dragMenu) {
-      el.innerHTML = el.getAttribute('data-title');
-    }
-    //sanitizeItems();
+    });
+
+    // add existing sections as an array
+    let containers = [].slice.call(document.querySelectorAll("section"));
     
-  });
-
-  let rowDragMenu = document.querySelector(".debugging-bar .pb-dragSourceList .dragMenu ul.rowsDrag");
-  containers = Array.prototype.slice.call(document.querySelectorAll(".row")).concat(rowDragMenu);
-  console.log(containers);
-
-  const rowDrake = dragula({
-    containers,
-    direction: 'horizontal',
-    revertOnSpill: true,              // spilling will put the element back where it was dragged from, if this is true
-    removeOnSpill: false,              // spilling will `.remove` the element, if this is true
-    ignoreInputTextSelection: true,
-    moves(el, source) {
-      console.log("el");
-      console.log(el);
-      return source === rowDragMenu;
+    dragula(containers, {
+      moves: function (el, container, handle) {
+      return handle.classList.contains('fa-arrows-alt');
     },
-    copy(el, source) {
-      return source === rowDragMenu;
-    },
-    accepts(el, target, source) {
-      // if (el.getAttribute('data-title') == "column") {
-      //   console.log("a column is selected");
-      //   return target !== debugBarElementMenu;
-      // }
-      if (target.classList.contains("row")) {
-        return target !== rowDragMenu;
+      invalid(el, handle) {
+        // If the selected element className is column, 
+        //    dont allow the row to be dragged. This will allow 
+        //    the column to be dragged separate from the row. 
+        return (el.classList.contains("column") || el.classList.contains("element") );
       }
-    },
-    invalid(el, handle) {
-      // If the selected element className is column, 
-      //    dont allow the row to be dragged. This will allow 
-      //    the column to be dragged separate from the row. 
-      return (el.classList.contains("elements-wrapper") );
-    }
-  });
-  rowDrake.on('out', function (el, container) {
-    if (container.classList.contains("row") && el.getAttribute('data-tpl') ) {
-      console.log("dropped1");
-      console.log(el);
+    })
+    .on('drag', function (el) {
+      el.classList.add("in-transit");
+    }).on('out', function (el) {
+      el.classList.remove("in-transit");
+    });
 
-      var pushData = [];
-	    var findElements = $(container).find(".element");
-      //el.innerHTML = getTpl(el.getAttribute('data-tpl'));
-      findElements.forEach(elements, function(key, value) {
-        data.push({
-          'el': $(value).data('element-name'),
-          'content': $(value).find(".element-content").html()
+    // el = column;
+    containers = [].slice.call(document.querySelectorAll(".row"));
+
+    dragula(containers, {
+      moves: function (el, container, handle) {
+      return handle.classList.contains('fa-arrows-alt');
+    },
+      direction: 'horizontal',
+      invalid(el, handle) {
+        // If the selected element className is column, 
+        //    dont allow the row to be dragged. This will allow 
+        //    the column to be dragged separate from the row. 
+        return (el.classList.contains("element") );
+      }
+    });
+    // // What I learned
+    // // Return runs the function if a condition is met, like the param matching a certain value
+    // // need another dragula instance for dragging elements between columns
+    // // refer to this codepen for fixing the undefined issue on reordering in the same container
+    // //console.log(containers);
+    //let containerSource = document.querySelector(".debugging-bar .pb-dragSourceList ul");
+    let dragMenu = document.querySelector(".debugging-bar .pb-dynamicArea .pb-populateValues ul.elementsDrag");
+    
+    containers = Array.prototype.slice.call(document.querySelectorAll("section .row .column .elements-wrapper")).concat(dragMenu);
+    
+    //console.log(containers);
+    const elementDrake = dragula({
+      containers,
+      direction: 'vertical',
+      revertOnSpill: true,              // spilling will put the element back where it was dragged from, if this is true
+      removeOnSpill: false,              // spilling will `.remove` the element, if this is true
+      ignoreInputTextSelection: true,
+      copy(el, source) {
+        return source === dragMenu;
+      },
+      accepts(el, target, source) {
+        // if (el.getAttribute('data-title') == "column") {
+        //   console.log("a column is selected");
+        //   return target !== debugBarElementMenu;
+        // }
+        if (target.classList.contains("elements-wrapper")) {
+          return target !== dragMenu;
+        }
+        
+      },
+    });
+    elementDrake.on('out', function (el, container) {
+      if (container.classList.contains("elements-wrapper") && el.getAttribute('data-tpl') ) {
+        el.innerHTML = getTpl(el.getAttribute('data-tpl'));
+        //el.className = 'drop-element';
+        //makeEditable();
+      }
+      if (container == dragMenu) {
+        el.innerHTML = el.getAttribute('data-title');
+      }
+      //sanitizeItems();
+      
+    });
+
+    let rowDragMenu = document.querySelector(".debugging-bar .pb-dynamicArea .pb-populateValues ul.rowsDrag");
+    containers = Array.prototype.slice.call(document.querySelectorAll(".row")).concat(rowDragMenu);
+    console.log(containers);
+
+    const rowDrake = dragula({
+      containers,
+      direction: 'horizontal',
+      revertOnSpill: true,              // spilling will put the element back where it was dragged from, if this is true
+      removeOnSpill: false,              // spilling will `.remove` the element, if this is true
+      ignoreInputTextSelection: true,
+      moves(el, source) {
+        console.log("el");
+        console.log(el);
+        return source === rowDragMenu;
+      },
+      copy(el, source) {
+        return source === rowDragMenu;
+      },
+      accepts(el, target, source) {
+        // if (el.getAttribute('data-title') == "column") {
+        //   console.log("a column is selected");
+        //   return target !== debugBarElementMenu;
+        // }
+        if (target.classList.contains("row")) {
+          return target !== rowDragMenu;
+        }
+      },
+      invalid(el, handle) {
+        // If the selected element className is column, 
+        //    dont allow the row to be dragged. This will allow 
+        //    the column to be dragged separate from the row. 
+        return (el.classList.contains("elements-wrapper") );
+      }
+    });
+    rowDrake.on('out', function (el, container) {
+      if (container.classList.contains("row") && el.getAttribute('data-tpl') ) {
+        console.log("dropped1");
+        console.log(el);
+
+        var pushData = [];
+        var findElements = $(container).find(".element");
+        //el.innerHTML = getTpl(el.getAttribute('data-tpl'));
+        findElements.forEach(elements, function(key, value) {
+          data.push({
+            'el': $(value).data('element-name'),
+            'content': $(value).find(".element-content").html()
+          });
         });
-      });
-      builderOutput(data);
-      // if (el.querySelector(".element-content")) {
-      //   console.log("dropped2");
-      //   console.log(el.querySelector(".element-content"));
-      // }
+        builderOutput(data);
+        // if (el.querySelector(".element-content")) {
+        //   console.log("dropped2");
+        //   console.log(el.querySelector(".element-content"));
+        // }
+        
+        //el.className = 'drop-element';
+        //makeEditable();
+      }
+      if (container == rowDragMenu) {
+        el.innerHTML = el.getAttribute('data-title');
+      }
+      //sanitizeItems();
       
-      //el.className = 'drop-element';
-      //makeEditable();
-    }
-    if (container == rowDragMenu) {
-      el.innerHTML = el.getAttribute('data-title');
-    }
-    //sanitizeItems();
-    
-  });
+    });
+  }
   function createDynamicContent(html, index) {
     console.log("html");
     

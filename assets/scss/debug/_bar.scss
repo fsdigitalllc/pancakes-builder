@@ -145,12 +145,10 @@
     list-style: none;
   }
   .pb-dynamicArea {
-    overflow-y: hidden;
-    overflow-x: hidden;
     padding: 0px;
   }
   .pb-dynamicArea.active {
-    overflow-y: scroll;
+    overflow-y: auto;
   }
   .pb-quickBtns {
     display: flex;
