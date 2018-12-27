@@ -257,12 +257,7 @@ function pancakes(pageId) {
     }
   const tpl = {
     'header1': '<h1>I am header 111</h1>',
-    'header2': '<h2>I am header 2</h2>',
-    'header3': '<h3>I am header 3</h3>',
-    'header4': '<h4>I am header 4</h4>',
     'shortparagraph': '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et</p>',
-    'mediumparagraph': '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate</p>',
-    'largeparagraph': '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a,</p>',
     'ullist': '<ul><li>item 1</li><li>item 2</li><li>item 3</li><li>item 4</li></ul>',
     'ollist': '<ol><li>item 1</li><li>item 2</li><li>item 3</li><li>item 4</li></ol>',
     'image': '<img src="http://lorempixel.com/400/200/">',
@@ -292,7 +287,10 @@ function pancakes(pageId) {
     //console.log("debugbarmenutitle");
   });
   _(".debugging-bar .pb-addItems").addEventListener("click", () => {
-    _(".debugging-bar .pb-dragSourceList").classList.toggle("active");
+    //_(".debugging-bar .pb-dragSourceList").classList.toggle("active");
+    html = _(".pb-dragSourceList").innerHTML;
+
+    createDynamicContent(html);
     //console.log("debugbarmenutitle");
   });
   
@@ -412,7 +410,7 @@ function pancakes(pageId) {
   function defineClasses(selectedItem, selectedTitle, selectedType, sectionClasses, index) {
   
   let selectedClasses = "";
-  
+  let html = "";
   if ( selectedType == "section" ) {
     selectedClasses = sectionClasses;
   } else if ( selectedType == "row" ) {
@@ -492,7 +490,11 @@ function pancakes(pageId) {
         
   
       });
-   
+      //html = debugBarSubMenu.innerHTML;
+      //createDynamicContent(html);
+      if ( !_(".debugging-bar .pb-dynamicArea").classList.contains("active") ) {
+        _(".debugging-bar .pb-dynamicArea").classList.add("active");
+      }
     }
 
     
@@ -534,7 +536,7 @@ function pancakes(pageId) {
         //Get each debug menu attribute
       //Compare each debug menu variable to existing classes
       //if equal, mark active
-      document.querySelector(".debugging-bar .pb-dynamicArea").classList.toggle("active");
+      //document.querySelector(".debugging-bar .pb-dynamicArea").classList.toggle("active");
         defineClasses(selectedItem, selectedTitle, selectedType, sectionClasses);
       });
   }
@@ -591,6 +593,11 @@ function pancakes(pageId) {
       //    the column to be dragged separate from the row. 
       return (el.classList.contains("column") || el.classList.contains("element") );
     }
+  })
+  .on('drag', function (el) {
+    el.classList.add("in-transit");
+  }).on('out', function (el) {
+    el.classList.remove("in-transit");
   });
 
   // el = column;
@@ -715,7 +722,18 @@ function pancakes(pageId) {
     //sanitizeItems();
     
   });
-
+  function createDynamicContent(html, index) {
+    console.log("html");
+    
+    _(".pb-dynamicArea .pb-populateValues").innerHTML = html;
+    if (html) {
+      _(".debugging-bar .pb-dynamicArea").classList.add("active");
+    } else {
+      _(".debugging-bar .pb-dynamicArea").classList.remove("active");
+    }
+    //_(".debugging-bar .pb-dynamicArea").classList.toggle("active");
+    console.log(_(".pb-dynamicArea .pb-populateValues").innerHTML);
+  }
   function createExportYml(index) {
     
     let exportBox = document.querySelector(".exportYMLbox");

@@ -1,5 +1,9 @@
 /*debug pages container drawer*/
 .pb-pagesContainer {
+  width: 100%;
+}
+.inspect-mode {
+.pb-pagesContainer {
   position: fixed;
   width: 85%;
   left: 0;
@@ -115,4 +119,6 @@
   width: 188px;
   height: auto;
 }
+}
+
 }
