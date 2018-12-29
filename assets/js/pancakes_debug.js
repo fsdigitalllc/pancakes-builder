@@ -210,20 +210,22 @@ function pancakes(pageId) {
 
   //https://codepen.io/nakome/pen/qRWqBe -- copy elements
   const makeEditable = () => {
-    let elements = document.querySelectorAll('.drop-element');
-    let toArr = Array.prototype.slice.call(elements);
+    let editElements = document.querySelectorAll('[data-edit]');
+    console.log("makeeditable");
+    console.log(editElements);
+    let toArr = Array.prototype.slice.call(editElements);
     Array.prototype.forEach.call(toArr, (obj, index) => {
       if (obj.querySelector('img')) {
         return false;
       } else {
-        obj.addEventListener('click', (e) => {
+        obj.addEventListener('dblclick', (e) => {
           e.preventDefault();
-          obj.children[0].setAttribute('contenteditable', '');
+          obj.setAttribute('contenteditable', '');
           obj.focus();
         });
-        obj.children[0].addEventListener('blur', (e) => {
+        obj.addEventListener('blur', (e) => {
           e.preventDefault();
-          obj.children[0].removeAttribute('contenteditable');
+          obj.removeAttribute('contenteditable');
         });
       }
     });
@@ -296,7 +298,7 @@ function pancakes(pageId) {
     //Clean out some generated elements before regenerating them
     document.querySelectorAll(".dbg-each-menu").forEach(e => e.parentNode.removeChild(e));
     formSections(sectionClasses);
-  
+    makeEditable();
   }//end sanitizeItems
 
   // Create hover menus
@@ -511,9 +513,9 @@ function formSections(sectionClasses) {
           element.setAttribute('data-highlightable','1');
 
           //Split the formation function from the function that iterates through and makes things clickable
-          element.addEventListener('dblclick', function (e) {
-            element.classList.toggle('large');
-          });
+          // element.addEventListener('dblclick', function (e) {
+          //   element.classList.toggle('large');
+          // });
         });
 
       });
@@ -594,15 +596,7 @@ function formSections(sectionClasses) {
 
 
     //////////////////////////////////////// CREATE ITEMS ON DROP ////////////////////////////////////////////////////
-    function makeElement(elementContent){
-      console.log(elementContent);
-      var newNode = document.createElement("div");
-      newNode.innerHTML = elementContent;
-      console.log(newNode);
-      //newNode.classList.add("elem");
-      return newNode;
-    }
-    
+   
     let debugBarMenuTitle = document.querySelector(".debugging-bar .pb-dynamicArea .debugBarMenuTitle");
     let debugBarSubMenu = document.querySelector(".debugging-bar .pb-dynamicArea > ul");
     //console.log(debugBarElementMenu);
@@ -658,10 +652,12 @@ function formSections(sectionClasses) {
 
       elementDrake.on('out', function (el, container) {
         if (container.classList.contains("elements-wrapper") && el.getAttribute('data-tpl') ) {
-          el.innerHTML = getTpl(el.getAttribute('data-tpl'));
+          //el.innerHTML = getTpl(el.getAttribute('data-tpl'));
           //el.className = 'drop-element';
           //makeEditable();
           //sanitizeItems(); //regen the overlays
+          //sanitizeItems();
+          itemCreate(el)
         }
         if (container == dragMenu) {
           el.innerHTML = el.getAttribute('data-title');
@@ -714,15 +710,9 @@ function formSections(sectionClasses) {
 
           //el.innerHTML = getTpl(el.getAttribute('data-tpl'));
           console.log("el");
-          let elReplace = el.querySelector(".element-content").innerHTML;
-          elReplace = document.createRange().createContextualFragment(elReplace);
-          console.log(elReplace);
-          
-          console.log(el.parentNode.querySelector("li[data-tpl]"));
-          el.parentNode.replaceChild(elReplace, el);
 
-          //formSections(sectionClasses);
-          sanitizeItems();
+          itemCreate(el);
+          
           //formSections(sectionClasses);
           // if (el.querySelector(".element-content")) {
           //   console.log("dropped2");
@@ -736,6 +726,18 @@ function formSections(sectionClasses) {
           el.innerHTML = el.getAttribute('data-title');
         }
       });
+      function itemCreate(el) {
+        let elReplace = el.querySelector(".element-content").innerHTML;
+        elReplace = document.createRange().createContextualFragment(elReplace);
+        console.log(elReplace);
+        
+        console.log(el.parentNode.querySelector("li[data-tpl]"));
+        el.parentNode.replaceChild(elReplace, el);
+
+        //formSections(sectionClasses);
+        sanitizeItems();
+      }
+      
     }
   }
     
