@@ -150,6 +150,18 @@
   .pb-dynamicArea.active {
     overflow-y: auto;
   }
+  .pb-dynamicArea::-webkit-scrollbar-track {
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	background-color: #F5F5F5;
+  }
+  .pb-dynamicArea::-webkit-scrollbar {
+    width: 10px;
+    background-color: #F5F5F5;
+  }
+  .pb-dynamicArea::-webkit-scrollbar-thumb {
+    background-color: #000000;
+    border: 2px solid #555555;
+  }
   .pb-quickBtns {
     display: flex;
     list-style: none;
@@ -162,5 +174,17 @@
   }
   .pb-quickBtns li:hover {
     cursor: pointer;
+  }
+  .dragMenu .element-content {
+    visibility: hidden;
+    display: none;
+  }
+  .pb-dynamicArea ul {
+    padding: 0px;
+  }
+  .dragMenu li {
+    border: 1px solid #fff;
+    margin-bottom: 10px;
+    padding: 4px;
   }
 }

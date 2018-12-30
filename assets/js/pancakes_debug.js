@@ -207,7 +207,8 @@ function pancakes(pageId) {
   let saveChangesButton = document.querySelector(".pb-quickBtns .pb-saveChanges");
   let revertChangesButton = document.querySelector(".pb-quickBtns .pb-revertChanges");
   let clearChangesButton = document.querySelector(".pb-quickBtns .pb-clearChanges");
-
+  let debugBarMenuTitle = document.querySelector(".debugging-bar .pb-dynamicArea .debugBarMenuTitle");
+  let debugBarSubMenu = document.querySelector(".debugging-bar .pb-dynamicArea > ul");
   //https://codepen.io/nakome/pen/qRWqBe -- copy elements
   const makeEditable = () => {
     let editElements = document.querySelectorAll('[data-edit]');
@@ -333,7 +334,7 @@ function pancakes(pageId) {
       //Get each debug menu attribute
     //Compare each debug menu variable to existing classes
     //if equal, mark active
-    //document.querySelector(".debugging-bar .pb-dynamicArea").classList.toggle("active");
+    document.querySelector(".debugging-bar .pb-dynamicArea").classList.toggle("active");
       defineClasses(selectedItem, selectedTitle, selectedType, sectionClasses);
     });
   }//end createEditMenu
@@ -597,8 +598,7 @@ function formSections(sectionClasses) {
 
     //////////////////////////////////////// CREATE ITEMS ON DROP ////////////////////////////////////////////////////
    
-    let debugBarMenuTitle = document.querySelector(".debugging-bar .pb-dynamicArea .debugBarMenuTitle");
-    let debugBarSubMenu = document.querySelector(".debugging-bar .pb-dynamicArea > ul");
+    
     //console.log(debugBarElementMenu);
 
     debugBarMenuTitle.addEventListener("click", () => {
@@ -650,7 +650,7 @@ function formSections(sectionClasses) {
         },
       });
 
-      elementDrake.on('out', function (el, container) {
+      elementDrake.on('drop', function (el, container) {
         if (container.classList.contains("elements-wrapper") && el.getAttribute('data-tpl') ) {
           //el.innerHTML = getTpl(el.getAttribute('data-tpl'));
           //el.className = 'drop-element';
