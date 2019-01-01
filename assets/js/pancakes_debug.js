@@ -186,15 +186,6 @@ function pancakes(pageId) {
       space_around: "v_c_space-around"
     }
   }
-  const tpl = {
-    'header1': '<h1>I am header 111</h1>',
-    'shortparagraph': '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et</p>',
-    'ullist': '<ul><li>item 1</li><li>item 2</li><li>item 3</li><li>item 4</li></ul>',
-    'ollist': '<ol><li>item 1</li><li>item 2</li><li>item 3</li><li>item 4</li></ol>',
-    'image': '<img src="http://lorempixel.com/400/200/">',
-    'code': '<pre>function say(name){\n return name;\n}</pre>',
-    'column': '<div class="column col-2"><div class="elements-wrapper"></div></div>'
-  };
   
   const exportYML = document.querySelector('.pb-export__yml');
   const mediaUploadButton = document.querySelector(".imageUpload");
@@ -212,29 +203,110 @@ function pancakes(pageId) {
   //https://codepen.io/nakome/pen/qRWqBe -- copy elements
   const makeEditable = () => {
     let editElements = document.querySelectorAll('[data-edit]');
+    
     console.log("makeeditable");
-    console.log(editElements);
+    //console.log(editElements);
     let toArr = Array.prototype.slice.call(editElements);
     Array.prototype.forEach.call(toArr, (obj, index) => {
-      if (obj.querySelector('img')) {
-        return false;
-      } else {
+      
         obj.addEventListener('dblclick', (e) => {
-          e.preventDefault();
-          obj.setAttribute('contenteditable', '');
-          obj.focus();
+          console.log("edit this element");
+          console.log(obj);
+          if (obj.getAttribute('data-element') == "element-image") {
+            console.log("it's an image");
+            let imageSrc = obj.getAttribute('src');
+            let imageSrcset = obj.getAttribute('srcset');
+            html = `<input type="text" value="${imageSrc}"></input>
+            <input id="submit" type="submit"></input>`;
+            createDynamicContent(html);
+
+            _(".pb-populateValues input[type='submit']").addEventListener("click", (e) => {
+              console.log("submit");
+              imageSrc = _(".pb-populateValues input[type='text']").value;
+              obj.setAttribute('src', imageSrc);
+              obj.setAttribute('srcset', '');
+              obj.setAttribute('data-srcset', '');
+            });
+          } else if (obj.getAttribute('data-element') == "element-title") {
+            let titleTag = obj.tagName;
+            let titleText = obj.innerText;
+            html = `
+            <input type="text" data-attr-text="title-text" value="${titleText}"></input>
+            <input type="text" data-attr-tag="title-tag" value="${titleTag}"></input>
+            <input id="submit" type="submit"></input>`;
+            createDynamicContent(html);
+            _(".pb-populateValues input[type='submit']").addEventListener("click", (e) => {
+              console.log("submit");
+              titleText = _(".pb-populateValues input[data-attr-text='title-text']").value;
+              titleTag = _(".pb-populateValues input[data-attr-tag='title-tag']").value;
+              let newTitle = document.createElement(titleTag);
+              newTitle.setAttribute("id", "seven");
+              let oldAttrs = obj.attributes;
+
+                Array.from(oldAttrs).forEach(function (item, key) {
+                  console.log("oldattrs");
+                  console.log(item);
+                  console.log(key);
+                  newTitle.setAttribute(item.name, item.value);
+                });
+              console.log(newTitle);
+              console.log(obj.attributes);
+              newTitle.innerText = titleText;
+
+              //var a = ​document.getElementsByTagName('a');
+              // var el, attrs;
+              // for(var i=0,l=obj.length;i<l;i++) {
+              //     el = document.createElement('div');
+              //     attrs = obj.attributes;
+              //     for(var j=0,k=attrs.length;j<k;j++) {
+              //         el.setAttribute(attrs[j].name, attrs[j].value);
+              //     }
+              //     el.innerHTML = obj.innerHTML;
+              //     obj.parentNode.replaceChild(el, obj);
+              // }
+              console.log(obj.parentNode.replaceChild(newTitle, obj));
+              sanitizeItems();
+              // // move children
+              // while(obj.firstChild) newTitle.appendChild(obj.firstChild);
+
+              // // copy attributes
+              // for( var i=0, a=obj.attributes, l=a.length; i<l; i++) {
+              //   newTitle.attributes[a[i].name] = a[i].value;
+              // }
+              // obj.parentNode.replaceChild(newTitle, obj);
+              // // obj.tagName(titleTag);
+              // // obj.innerText(titleText);
+            });
+          } else {
+            //e.preventDefault();
+            //obj.setAttribute('contenteditable', '');
+            //obj.focus();
+            html = obj;
+            createDynamicDialogue(obj, html);
+          }
         });
-        obj.addEventListener('blur', (e) => {
-          e.preventDefault();
-          obj.removeAttribute('contenteditable');
-        });
-      }
+        // obj.addEventListener('blur', (e) => {
+        //   e.preventDefault();
+        //   obj.removeAttribute('contenteditable');
+        // });
+      
     });
   };
   
 
   
+  function createDynamicDialogue(obj, html) {
+    console.log(html);
+    let dDialogue = _(".pb-dynamicDialogue");
+    dDialogue.classList.add("active");
+    let objNew = dDialogue.querySelector("textarea").value = html.innerHTML;
+    dDialogue.querySelector("input[type='submit']").addEventListener("click", (e) => {
+      dDialogue.classList.remove("active");
+      objNew = dDialogue.querySelector("textarea").value; 
+      obj.innerHTML = objNew;
+    });
 
+  }
   // Detect any changes and prompt the user to save
   function onChange() {
     console.log("something changed...");
@@ -542,7 +614,27 @@ function formSections(sectionClasses) {
   const getTpl = (element) => {
     return tpl[element];
   };
+  debugBarMenuTitle.addEventListener("click", () => {
+    debugBarMenuTitle.classList.toggle("active");
+    //console.log("debugbarmenutitle");
+  });
 
+  
+  if ( _(".pb-dynamicArea").classList.contains("active") ) {
+    dragulaCreate();
+  } else {
+    // Initialize the copy functionality on click
+    _(".debugging-bar .pb-addItems").addEventListener("click", () => {
+      //_(".debugging-bar .pb-dragSourceList").classList.toggle("active");
+      html = _(".pb-dragSourceList").innerHTML;
+      //after forming classes, start draggable
+      createDynamicContent(html);
+      dragDrop();
+      //dragulaCreate();
+      //sanitizeItems();
+      //console.log("debugbarmenutitle");
+    });
+  }
   function dragDrop() {
     console.log("dragDrop...");
 
@@ -601,27 +693,8 @@ function formSections(sectionClasses) {
     
     //console.log(debugBarElementMenu);
 
-    debugBarMenuTitle.addEventListener("click", () => {
-      debugBarMenuTitle.classList.toggle("active");
-      //console.log("debugbarmenutitle");
-    });
 
-    
-    if ( _(".pb-dynamicArea").classList.contains("active") ) {
-      dragulaCreate();
-    } else {
-      // Initialize the copy functionality on click
-      _(".debugging-bar .pb-addItems").addEventListener("click", () => {
-        //_(".debugging-bar .pb-dragSourceList").classList.toggle("active");
-        html = _(".pb-dragSourceList").innerHTML;
-        //after forming classes, start draggable
-        createDynamicContent(html);
-        dragulaCreate();
-        //sanitizeItems();
-        //console.log("debugbarmenutitle");
-      });
-    }
-    function dragulaCreate () {
+    //function dragulaCreate () {
       
       let dragMenu = document.querySelector(".debugging-bar .pb-dynamicArea .pb-populateValues ul.elementsDrag");
 
@@ -666,8 +739,9 @@ function formSections(sectionClasses) {
         
       });
 
+
       let rowDragMenu = document.querySelector(".debugging-bar .pb-dynamicArea .pb-populateValues ul.rowsDrag");
-      let findElements = rowDragMenu.querySelectorAll("[data-tpl]");
+      //let findElements = rowDragMenu.querySelectorAll("[data-tpl]");
       containers = Array.prototype.slice.call(document.querySelectorAll(".row")).concat(rowDragMenu);
       
 
@@ -703,13 +777,13 @@ function formSections(sectionClasses) {
       });
       rowDrake.on('drop', function (el, container) {
         if (container.classList.contains("row") && el.getAttribute('data-tpl') ) {
-          console.log("dragging...row level containers");
-          console.log(containers);
-          console.log("dropped1");
-          console.log(el);
+          //console.log("dragging...row level containers");
+          //console.log(containers);
+          //console.log("dropped1");
+          //console.log(el);
 
           //el.innerHTML = getTpl(el.getAttribute('data-tpl'));
-          console.log("el");
+          //console.log("el");
 
           itemCreate(el);
           
@@ -738,7 +812,7 @@ function formSections(sectionClasses) {
         sanitizeItems();
       }
       
-    }
+    //}
   }
     
 

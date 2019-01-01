@@ -13,6 +13,8 @@
 {{ $section_index := $scratch.Get "section_index" }}
 
 {{ $element_prefix := print $section_index "-" .element_index }}
+{{ $scratch.Set "element_prefix" $element_prefix }}
+
 {{ if $cloud_folder_name }}
   {{ $cloud_folder = print $cloud_folder_name "/" }}
 {{ end }}
@@ -63,7 +65,7 @@
           
           {{ $resized900 := ($imageResource.Resize "900x q100") }}
           {{ $resized500 := ($imageResource.Resize "500x q100") }}
-          <img data-element="element-image" 
+          <img data-element="element-image" data-edit 
           data-sizes="(min-width: 1000px) 900px, 90vw" data-srcset="{{ $resized500.RelPermalink }} 500w, {{ $resized900.RelPermalink }} 900w" data-src="{{ $resized500.RelPermalink }}" class="lazyload" alt="{{ $alt_text }}"/>
 
       {{ else if $cloud_base }}
@@ -76,7 +78,7 @@
       {{ $img_src_tablet := print $cloud_base "q_" $img_quality "c_scale,w_768/" $cloud_folder . }}
       {{ $img_src_mobile := print $cloud_base "q_" $img_quality "c_scale,w_500/" $cloud_folder . }}
 
-      <img data-element="element-image"
+      <img data-element="element-image" data-edit
         src=""
         data-src="{{ $cloud_base }}q_auto,f_auto,w_{width}/{{ $cloud_folder }}{{ . }}"
         data-sizes="auto"
@@ -101,10 +103,16 @@
   {{ if eq $css true }}
 
   {{ else }}
-  {{ with .page.tag }}{{ print "<" . ">" | safeHTML }}{{ else }}{{ print "<h2>" | safeHTML }}{{ end }}
+  {{ with .page.tag }}{{ print "<" . " data-edit data-element='element-title'>" | safeHTML }}{{ else }}{{ print "<h2>" | safeHTML }}{{ end }}
     {{ .page.title }}
   {{ with .page.tag }}{{ print "</" . ">" | safeHTML }}{{ else }}{{ print "</h2>" | safeHTML }}{{ end }}
   {{ end }}
+  {{ end }}
+
+  {{ if in .page.template "element-html" }}
+    <div data-edit class="pb-html-block">
+      {{ .page.html | safeHTML }}
+    </div>
   {{ end }}
 
   {{ if in .page.template "element-button" }}
@@ -132,6 +140,7 @@
     }
   {{ else }}
   <a data-element="element-button" id="{{ $element_prefix }}" class="button button-fill " href="{{ .page.link }}">{{ .page.text }}</a>
+  {{ partial "components/elements/button/source.html" . }}
 
   {{ end }}
   {{ end }}

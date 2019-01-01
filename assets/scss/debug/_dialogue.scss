@@ -1,4 +1,4 @@
-.exportYMLbox {
+.exportYMLbox, .pb-dynamicDialogue {
   position: fixed;
   top: 50%;
   left: 50%;
@@ -8,6 +8,10 @@
   overflow: scroll;
   display: none;
 }
-.exportYMLbox.active {
+.pb-dynamicDialogue textarea {
+  min-width: 100%;
+  min-height: 100%;
+}
+.exportYMLbox.active, .pb-dynamicDialogue.active {
   display: block;
 }
