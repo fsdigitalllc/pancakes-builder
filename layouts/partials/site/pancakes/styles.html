@@ -1,8 +1,8 @@
-{{ define "critical" }}
+{{ define "pancakes_critical" }}
 {{- $env := getenv "HUGO_ENV" -}}
 
 {{/* <!--conditionally load and inline scripts--> */}}
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/fetch-inject" media="screen"></script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lazysizes/3.0.0/plugins/rias/ls.rias.min.js"></script>
 <script src="//cdn.jsdelivr.net/g/lazysizes(lazysizes.min.js)"></script>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/dragula/3.7.2/dragula.min.js'></script>
@@ -69,14 +69,11 @@
 } */
 
   </style>
-{{- $vendor := resources.Get "js/vendor/jquery.min.js" | minify -}}
-{{- $vendorpermalink := $vendor.Permalink -}}
-{{- $.Scratch.Set "vendor" $vendorpermalink -}}
-{{- $mainjs := resources.Get "js/main.js" | minify -}}
-{{- $aos := resources.Get "js/plugins/aos.js" | minify -}}
-{{- $highlightjs := resources.Get "js/plugins/highlight.min.js" -}}
 
-{{- $lazysizesjs := resources.Get "js/plugins/lazysizes.min.js" -}}
+{{- $aos := resources.Get "pancakes/js/plugins/aos.js" | minify -}}
+{{- $highlightjs := resources.Get "pancakes/js/plugins/highlight.min.js" -}}
+
+{{- $lazysizesjs := resources.Get "pancakes/js/plugins/lazysizes.min.js" -}}
 
 {{- $file_path := replace .File.Path "." "-" -}}
 {{- $file_path_clean := replace $file_path "/" "-" -}}
@@ -96,7 +93,7 @@
 {{- $.Scratch.Set "is_css" true -}}
 {{- $.Scratch.Set "is_critical" true -}}
 {{/* <!--use on all environments for now--> */}}
-<style class="critical">
+<style pancakes-critical class="critical">
     {{ partial "components/component_generator.html" . | safeCSS }}
 </style>
 
@@ -108,9 +105,9 @@
 
 {{- if eq .Site.Params.postcss_testing true }}
 {{/* <!--use a resource for producition--> */}}
-{{ $critical := resources.Get "scss/critical.scss" | resources.ExecuteAsTemplate "style.critical.scss" . | toCSS | minify }}
+{{ $critical := resources.Get "pancakes/scss/critical.scss" | resources.ExecuteAsTemplate "pb.critical.scss" . | toCSS | minify }}
 
-<style class="critical-postcss">{{ (slice $critical | resources.Concat "style.scss").Content | safeCSS }}</style>
+<style pancakes-critical class="critical-postcss">{{ (slice $critical | resources.Concat "style.scss").Content | safeCSS }}</style>
 
 {{ end }}
 
@@ -118,9 +115,7 @@
 <script type="text/javascript">
 fetchInject([
   '{{ $aos.Permalink }}'
-], fetchInject([
-  '{{ $vendor.Permalink }}',
-])).then(() => {
+]).then(() => {
       console.log(`Loaded aos & lazysizes`);
       AOS.init();
 })

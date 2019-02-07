@@ -1,4 +1,7 @@
 {{- $debug_enabled := $.Scratch.Get "debug_enabled" -}}
+<!-- drag and drop functionality for PB-->
+<script src='https://cdnjs.cloudflare.com/ajax/libs/dragula/3.7.2/dragula.min.js'></script>
+
 <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
 <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 <link rel="stylesheet"
@@ -14,18 +17,18 @@
     {{ partial "components/component_generator.html" . | safeCSS }}
 </style>
 
-{{ $noncritical := resources.Get "scss/noncritical.scss" | resources.ExecuteAsTemplate "noncritical.scss" . | toCSS | minify | fingerprint }}
+{{ $noncritical := resources.Get "pancakes/scss/noncritical.scss" | resources.ExecuteAsTemplate "noncritical.scss" . | toCSS | minify | fingerprint }}
 
 {{ if eq $.Site.Params.postcss_testing true }}
 <!--use a resource for producition-->
-    {{ $noncritical = resources.Get "scss/noncritical.scss" | resources.ExecuteAsTemplate "noncritical.scss" . | toCSS | postCSS | minify | fingerprint }}   
+    {{ $noncritical = resources.Get "pancakes/scss/noncritical.scss" | resources.ExecuteAsTemplate "noncritical.scss" . | toCSS | postCSS | minify | fingerprint }}   
 <link rel="stylesheet" href="{{ $noncritical.Permalink }}" media="screen"> 
 {{ end }}
 
 {{ if eq $.Site.Params.debug_enabled true }}
 
-{{ $debugstyles := resources.Get "scss/debug.scss" | resources.ExecuteAsTemplate "style.main.scss" . | toCSS | minify | fingerprint }}
-{{ $debug_js := resources.Get "js/pancakes_debug.js" | minify }}
+{{ $debugstyles := resources.Get "pancakes/scss/debug.scss" | resources.ExecuteAsTemplate "style.main.scss" . | toCSS | minify | fingerprint }}
+{{ $debug_js := resources.Get "pancakes/js/pancakes_debug.js" | minify }}
 
 <script type="text/javascript">
   fetchInject([
@@ -38,7 +41,7 @@
 
 {{/* <!--Add Debugger HTMl block--> */}}
 
-{{ partial "site/debug_bar.html" . }}
+{{ partial "site/pancakes/debug_bar.html" . }}
 
 {{/* {{- block "debug_bar" . -}} */}}
 
@@ -46,7 +49,6 @@
 {{- end -}}
 
 {{/* <!--enable debug--> */}}
-
 
 
 <!--pancakes JS-->
