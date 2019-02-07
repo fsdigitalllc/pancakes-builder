@@ -1,6 +1,6 @@
 ![Pancakes Builder](./static/images/pb_logo_banner.jpg "Pancakes Builder")
 
-# Pancakes Builder
+## Pancakes Builder
 A theme component for Hugo that allows you to visually build optimized landing pages. Pancakes builder works along side your existing Hugo theme.
 
 **PB isn't a HTML generator**. Instead of generating static HTML, front-matter is generated, which references micro components. In other words, pages are built entirely with front-matter and PB generates this for you. As a result, the developer is able to achieve similar functionality to a Wordpress website (querying posts) without needing a database. Additionally, critical/non-critical CSS is [automatically generated](https://blog.fullstackdigital.com/how-to-automatically-generate-and-inline-critical-css-with-hugo-pipes-48c52c2d8f82) based on the styles in use across the site.
