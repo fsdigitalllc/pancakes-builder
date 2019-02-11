@@ -25,16 +25,22 @@
   background-repeat: no-repeat;
   background-size: cover;
 }
-{{ range .page.rows }}
-{{ partial "components/row.html" (dict "page" . "global" $ "cloudinary_base" .cloudinary_base ) }}
-{{ end }}
+  {{ range .page.rows }}
+    {{ partial "components/row.html" (dict "page" . "global" $ "cloudinary_base" .cloudinary_base ) }}
+  {{ end }}
+
 {{ else }}
 
-<section id="{{ .section_id }}" template="{{ .section_template }}" data-section-type="{{ .section_type }}" selected-type="section" class="{{ .this_class }} padding-{{ .page.p_top | default "none" | lower }}-top padding-{{ .page.p_bottom | default "none" | lower}}-bottom{{ if eq .page.full_height_section true }} full-height{{ end }}{{ if .page.background_parallax }} background-parallax{{ end }}">
-{{ range .page.rows }}
-  {{ partial "components/row.html" (dict "page" . "global" $ "cloudinary_base" .cloudinary_base ) }}
-{{ end }}
+  {{ if and (eq .page.template "include") (.page.path) }}
+    {{ $path := .page.path }}
+    {{ partial $path (dict "page" . "global" $ ) }}
+  {{ else }}
+  <section id="{{ .section_id }}" template="{{ .section_template }}" data-section-type="{{ .section_type }}" selected-type="section" class="{{ .this_class }} padding-{{ .page.p_top | default "none" | lower }}-top padding-{{ .page.p_bottom | default "none" | lower}}-bottom{{ if eq .page.full_height_section true }} full-height{{ end }}{{ if .page.background_parallax }} background-parallax{{ end }}">
+  {{ range .page.rows }}
+    {{ partial "components/row.html" (dict "page" . "global" $ "cloudinary_base" .cloudinary_base ) }}
+  {{ end }}
 
-</section>
+  </section>
 
+  {{ end }}
 {{ end }}

@@ -1,4 +1,10 @@
 {{- define "main" -}}
 {{- $.Scratch.Set "is_css" false -}}
+
+{{ if .Params.stacks_hero }}
+  {{ $hero_path := .Params.stacks_hero.path }}
+  {{ partial $hero_path . }}
+{{ end }}
+
     {{- partial "components/component_generator.html" . | safeHTML -}}
 {{- end -}}
