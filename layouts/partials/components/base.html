@@ -7,10 +7,6 @@
 {{- $padding_xxl := "200px" -}}
 
 {{/* <!--media queries--> */}}
-{{- $container := .global.Scratch.Get "container_size" -}}
-{{- $container_large := .global.Scratch.Get "container_size_large" -}}
-
-{{/* <!--media queries--> */}}
 {{- $screen_desktop_l := .global.Scratch.Get "screen_desktop_l" -}}
 {{- $screen_desktop_s := .global.Scratch.Get "screen_desktop_s" -}}
 {{- $screen_laptop := .global.Scratch.Get "screen_laptop" -}}
@@ -37,16 +33,6 @@ svg:not(:root) {
 {{/* <!--headers--> */}}
 {{/* <!--add margin button, letter spacing, weight, etc--> */}}
 {{/* <!--section base--> */}}
-.container {
-	max-width: {{ $container }};
-	margin: 0 auto;
-	position: relative;
-}
-.container-large {
-	max-width: {{ $container_large }};
-	margin: 0 auto;
-	position: relative;
-}
 .full-height {
 	height: 100vh;
 }
@@ -62,7 +48,6 @@ svg:not(:root) {
 {{/* <!--flex--> */}}
 .flex-container {
 	position: relative;
-	padding: 0;
 	list-style: none;
 	-ms-box-orient: horizontal;
 	display: -webkit-box;
@@ -72,28 +57,70 @@ svg:not(:root) {
 	display: -webkit-flex;
 	display: flex;
 }
-.wrap {
-  flex-direction: column;
+.flex-container.wrap {
+  flex-wrap: wrap;
 }
 {{/* <!--alignment--> */}}
-{{/* <!--horizontal align content--> */}}
-.h_c_center {
+{{/* <!--align content--> */}}
+.h_c-center {
 	-webkit-justify-content: center;
 	justify-content: center;
 }
-.h_c_start {
+.h_s-center {
+	-webkit-justify-self: center;
+	justify-self: center;
+}
+
+.v_c-center {
+	-webkit-align-items: center;
+	align-items: center;
+}
+.v_s-center {
+	-webkit-align-self: center;
+	align-self: center;
+}
+
+.h_c-start {
 	-webkit-justify-content: flex-start;
 	justify-content: flex-start;
 }
-.h_c_end {
+.h_s-start {
+	-webkit-justify-self: flex-start;
+	justify-self: flex-start;
+}
+
+.v_c-start {
+	-webkit-align-items: flex-start;
+	align-items: flex-start;
+}
+.v_s-start {
+	-webkit-align-self: flex-start;
+	align-self: flex-start;
+}
+
+.h_c-end {
 	-webkit-justify-content: flex-end;
 	justify-content: flex-end;
 }
-.h_c_space-between {
+.h_s-end {
+	-webkit-justify-self: flex-end;
+	justify-self: flex-end;
+}
+
+.v_c-end {
+	-webkit-align-items: flex-end;
+	align-items: flex-end;
+}
+.v_s-end {
+	-webkit-align-self: flex-end;
+	align-self: flex-end;
+}
+
+.h_c-space-between {
 	-webkit-justify-content: space-between;
 	justify-content: space-between;
 }
-.h_c_space-around {
+.h_c-space-around {
 	-webkit-justify-content: space-around;
 	justify-content: space-around;
 }

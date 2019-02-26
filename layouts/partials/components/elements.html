@@ -57,7 +57,15 @@
         {{ . }} 500w,
           {{ . }} 768w,
           {{ . }} 2x"
-        src="{{ . }}" alt="{{ $alt_text }}"/>
+        src="{{ . }}" alt="{{ $alt_text }}" class="{{ $.page.class | safeHTML }}"/>
+
+      {{ else if in . "images/" }}
+
+      {{ $img_src := $global_page.Resources.GetMatch . }}
+      {{ $img_src = $img_src.Permalink }}
+      <img data-element="element-image"
+      srcset="{{ $img_src }}" alt="{{ $.page.alt }}" class="{{ $.page.class | safeHTML }}"/>
+
       {{ else if in . "uploads" }}
       {{/* <!--if resource upload in content/uploads, perform basic image processing--> */}}
       {{/* <!--need to make these options manual--> */}}
@@ -66,7 +74,7 @@
           {{ $resized900 := ($imageResource.Resize "900x q100") }}
           {{ $resized500 := ($imageResource.Resize "500x q100") }}
           <img data-element="element-image" data-edit 
-          data-sizes="(min-width: 1000px) 900px, 90vw" data-srcset="{{ $resized500.RelPermalink }} 500w, {{ $resized900.RelPermalink }} 900w" data-src="{{ $resized500.RelPermalink }}" class="lazyload" alt="{{ $alt_text }}"/>
+          data-sizes="(min-width: 1000px) 900px, 90vw" data-srcset="{{ $resized500.RelPermalink }} 500w, {{ $resized900.RelPermalink }} 900w" data-src="{{ $resized500.RelPermalink }}" class="lazyload {{ $.page.class | safeHTML }}" alt="{{ $alt_text }}"/>
 
       {{ else if $cloud_base }}
 
@@ -100,20 +108,25 @@
 
   {{ if in .page.template "element-title" }}
 
-  {{ if eq $css true }}
+    {{ if eq $css true }}{{ else }}
+  
+  {{ $title_class := "" }}
 
-  {{ else }}
-  {{ with .page.tag }}{{ print "<" . " data-edit data-element='element-title'>" | safeHTML }}{{ else }}{{ print "<h2>" | safeHTML }}{{ end }}
+  {{ with .page.class }}
+    {{ $title_class = print " class='" . "'" }}
+  {{ end }}
+  {{ $title_tag := "h2" }}
+  {{ with .page.tag }}
+
+  {{ $title_tag = . }}
+  {{ print "<" $title_tag " data-edit data-element='element-title'" $title_class ">" | safeHTML }}{{ end }}
     {{ .page.title }}
-  {{ with .page.tag }}{{ print "</" . ">" | safeHTML }}{{ else }}{{ print "</h2>" | safeHTML }}{{ end }}
+  {{ with .page.tag }}{{ print "</" $title_tag ">" | safeHTML }}{{ end }}
+
   {{ end }}
   {{ end }}
 
-  {{ if in .page.template "element-html" }}
-    <div data-edit class="pb-html-block">
-      {{ .page.html | safeHTML }}
-    </div>
-  {{ end }}
+  {{ if in .page.template "element-html" }}<div data-edit class="pb-html-block">{{ .page.html | safeHTML }}</div>{{ end }}
 
   {{ if in .page.template "element-button" }}
   {{ $scratch.Set "element_button" true }}

@@ -1,8 +1,8 @@
 {{ $debug_enabled := $.Scratch.Get "debug_enabled" }}
 
 {{/* <!--container sizes--> */}}
-{{ $.Scratch.Set "container_size" "1160px" }}
-{{ $.Scratch.Set "container_size_large" "1350px" }}
+{{ $.Scratch.Set "container_size" $.Site.Data.css.container }}
+{{ $.Scratch.Set "container_size_l" $.Site.Data.css.container_l }}
 
 {{/* <!--media queries--> */}}
 {{ $.Scratch.Set "screen_desktop_l" "1920px" }}
@@ -63,25 +63,6 @@
       {{ if $.Scratch.Get "style_index" }}
       {{ if and (in .template "select-part") (.part) }}
       
-        {{ $stack_query = .part }}
-        {{ $.Scratch.Set "query" .part }}
-
-        {{ with $.Site.GetPage $stack_query }}
-          {{ $part_context := . }}
-          {{ $page_hash = .UniqueID | urlize }}
-
-        {{/* <!--start the part stack range--> */}}
-          {{ range $index, $parts_newrange := .Params.stacks }}
-            {{ $this_class = print "p-" $index "-" $page_hash }}
-            {{ $section_class = print "c-" $index "-" .template }}
-            {{/* <!--seciton template name needs to be pulled from parts page--> */}}
-            {{ $section_template = .template }}
-            {{ $page_hash = $.UniqueID | urlize }}
-            
-            {{ partial "components/section.html" (dict "page" . "global" $ "part_context" $part_context "section_id" $section_id "section_template" $section_template "page_hash" $page_hash "this_class" $this_class "section_type" $section_type ) }}
-
-          {{ end }}{{/* <!--end parts_newrange--> */}}
-        {{ end }}{{/* <!--end with stack query--> */}}
       {{/* <!--get the part values from the other page--> */}}
 
       {{ else }}{{/* <!--if not in template select-part display normal block--> */}}
