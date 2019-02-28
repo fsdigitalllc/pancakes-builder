@@ -126,7 +126,7 @@
   {{ end }}
   {{ end }}
 
-  {{ if in .page.template "element-html" }}<div data-edit class="pb-html-block">{{ .page.html | safeHTML }}</div>{{ end }}
+  {{ if in .page.template "element-html" }}<div data-edit class="pb-html-block{{ with .page.class }} {{ . }}{{ end }}">{{ .page.html | safeHTML }}</div>{{ end }}
 
   {{ if in .page.template "element-button" }}
   {{ $scratch.Set "element_button" true }}

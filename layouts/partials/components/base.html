@@ -5,6 +5,13 @@
 {{- $padding_l := "120px" -}}
 {{- $padding_xl := "160px" -}}
 {{- $padding_xxl := "200px" -}}
+{{- $t_padding_xxs := "10px" -}}
+{{- $t_padding_xs := "15px" -}}
+{{- $t_padding_s := "20px" -}}
+{{- $t_padding_m := "40px" -}}
+{{- $t_padding_l := "60px" -}}
+{{- $t_padding_xl := "80px" -}}
+{{- $t_padding_xxl := "100px" -}}
 
 {{/* <!--media queries--> */}}
 {{- $screen_desktop_l := .global.Scratch.Get "screen_desktop_l" -}}
@@ -22,7 +29,7 @@ main {
 }
 section {
   position: relative;
-  overflow-x: hidden;
+  overflow: hidden;
 }
 
 {{/* <!-- Fix IE9 SVG bug--> */}}
@@ -68,7 +75,9 @@ svg:not(:root) {
 }
 .h_s-center {
 	-webkit-justify-self: center;
-	justify-self: center;
+  justify-self: center;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .v_c-center {
@@ -77,7 +86,7 @@ svg:not(:root) {
 }
 .v_s-center {
 	-webkit-align-self: center;
-	align-self: center;
+  align-self: center;
 }
 
 .h_c-start {
@@ -236,8 +245,14 @@ img {
 .margin-m-top {
     margin-top: 80px;
 }
+.row.break-none {
+  flex-direction: inherit;
+}
+.row.break-none > div {
+  margin-bottom: 0px;
+}
 @media screen and (max-width: {{ $screen_laptop }}) {
-	.break-laptop {
+	.break-l {
 		flex-direction: column;
   }
 }
@@ -254,13 +269,162 @@ img {
 		margin-right: auto;
 		margin-left: 0;
   }
-  .break-tablet {
+  .break-t {
 		flex-direction: column;
+  }
+  .row {
+    flex-direction: column;
+  }
+  .row .column {
+    margin-bottom: 32px;
+  }
+  .row .column:last-of-type {
+    margin-bottom: 0px;
+  }
+  .strip-padding-tablet {
+    padding-bottom: 0px;
+    padding-top: 0px;
+  }
+  .t-col-1 {
+    flex-basis: 8.3333%;
+  }
+  .t-col-2 {
+    flex-basis: 12.6666%;
+  }
+  .t-col-3 {
+    flex-basis: 25%;
+  }
+  .t-col-4 {
+    flex-basis: 33.3333%;
+  }
+  .t-col-5 {
+    flex-basis: 41.666%;
+  }
+  .t-col-6 {
+    flex-basis: 50%;
+  }
+  .t-col-7 {
+    flex-basis: 58.3333%;
+  }
+  .t-col-8 {
+    flex-basis: 58.3333%;
+  }
+  .t-col-9 {
+    flex-basis: 75%;
+  }
+  .t-col-10 {
+    flex-basis: 83.3333%;
+  }
+  .t-col-11 {
+    flex-basis: 91.6666%;
+  }
+  .t-col-12 {
+    flex-basis: 100%;
+    width: 100%;
+  }
+  .padding-xxs {
+    padding-top: {{ $t_padding_xxs }};
+    padding-bottom: {{ $t_padding_xxs }};
+  }
+  .padding-xs {
+    padding-top: {{ $t_padding_xs }};
+    padding-bottom: {{ $t_padding_xs }};
+  }
+  .padding-s {
+    padding-top: {{ $t_padding_s }};
+    padding-bottom: {{ $t_padding_s }};
+  }
+  .padding-m {
+    padding-top: {{ $t_padding_m }};
+    padding-bottom: {{ $t_padding_m }};
+  }
+  .padding-l {
+    padding-top: {{ $t_padding_l }};
+    padding-bottom: {{ $t_padding_l }};
+  }
+  .padding-xl {
+    padding-top: {{ $t_padding_xl }};
+    padding-bottom: {{ $t_padding_xl }};
+  }
+  .padding-xxs-top {
+    padding-top: {{ $t_padding_xxs }};
+  }
+  .padding-xs-top {
+    padding-top: {{ $t_padding_xs }};
+  }
+  .padding-s-top {
+    padding-top: {{ $t_padding_s }};
+  }
+  .padding-m-top {
+    padding-top: {{ $t_padding_m }};
+  }
+  .padding-l-top {
+    padding-top: {{ $t_padding_l }};
+  }
+  .padding-xl-top {
+    padding-top: {{ $t_padding_xl }};
+  }
+  .padding-xxl-top {
+    padding-top: {{ $t_padding_xxl }};
+  }
+  .padding-xs-bottom {
+    padding-bottom: {{ $t_padding_xs }};
+  }
+  .padding-s-bottom {
+    padding-bottom: {{ $t_padding_s }};
+  }
+  .padding-m-bottom {
+    padding-bottom: {{ $t_padding_m }};
+  }
+  .padding-l-bottom {
+    padding-bottom: {{ $t_padding_l }};
+  }
+  .padding-xl-bottom {
+    padding-bottom: {{ $t_padding_xl }};
+  }
+  .padding-xxl-bottom {
+    padding-bottom: {{ $t_padding_xxl }};
   }
 }
 @media screen and (max-width: {{ $screen_mobile_l }}) {
-  .break-mobile {
+  .break-m {
     flex-direction: column;
+  }
+  .m-col-1 {
+    flex-basis: 8.3333%;
+  }
+  .m-col-2 {
+    flex-basis: 12.6666%;
+  }
+  .m-col-3 {
+    flex-basis: 25%;
+  }
+  .m-col-4 {
+    flex-basis: 33.3333%;
+  }
+  .m-col-5 {
+    flex-basis: 41.666%;
+  }
+  .m-col-6 {
+    flex-basis: 50%;
+  }
+  .m-col-7 {
+    flex-basis: 58.3333%;
+  }
+  .m-col-8 {
+    flex-basis: 58.3333%;
+  }
+  .m-col-9 {
+    flex-basis: 75%;
+  }
+  .m-col-10 {
+    flex-basis: 83.3333%;
+  }
+  .m-col-11 {
+    flex-basis: 91.6666%;
+  }
+  .m-col-12 {
+    flex-basis: 100%;
   }
 }
 @media screen and (max-width: {{ $screen_mobile }}) {

@@ -32,7 +32,7 @@ window.addEventListener("load", (e) => {
     pancakes(pageId);
   };
   // Enable inspect mode by default
-  body.classList.add("inspect-mode");
+  
   
   document.querySelector(".pb-close").addEventListener("click", (e) => {
     body.classList.toggle("inspect-mode");
@@ -377,7 +377,7 @@ function pancakes(pageId) {
   // Create hover menus
   function createEditMenu(selectedItem, selectedTitle, selectedType, index) {
     
-    let debugWidget = `<div id="section-dbg-menu" class="dbg-each-menu">
+    let debugWidget = `<span id="section-dbg-menu" class="dbg-each-menu">
     
     <div class="dbg-main-btns">
     
@@ -386,7 +386,7 @@ function pancakes(pageId) {
     <a class="prepend-me part-edit" title="Open the Page Editor for this Part" href="https://app.forestry.io/sites/site_id/#/pages/content-{{ $.Scratch.Get "part_preview_link" }}"><i class="fas fa-external-link-alt"></i></a>
     <i class="fas fa-pen-square"></i>
     </div>
-    </div><!--dbg-each-menu-->`;
+    </span><!--dbg-each-menu-->`;
     
     selectedItem.innerHTML = selectedItem.innerHTML + debugWidget;
     
@@ -649,6 +649,9 @@ function formSections(sectionClasses) {
         //    the column to be dragged separate from the row. 
         return (el.classList.contains("row") || el.classList.contains("column") );
       }
+    }).on('out', function (el) {
+      el.classList.remove("in-transit");
+      AOS.refresh();
     });
 
     // add existing sections as an array
@@ -669,6 +672,7 @@ function formSections(sectionClasses) {
         el.classList.add("in-transit");
     }).on('out', function (el) {
         el.classList.remove("in-transit");
+        AOS.refresh();
     });
 
     containers = [].slice.call(document.querySelectorAll(".row"));
@@ -685,7 +689,10 @@ function formSections(sectionClasses) {
         //    the column to be dragged separate from the row. 
         return (el.classList.contains("element") );
       }
-    });
+    }).on('out', function (el) {
+      el.classList.remove("in-transit");
+      AOS.refresh();
+    });;
 
 
     //////////////////////////////////////// CREATE ITEMS ON DROP ////////////////////////////////////////////////////

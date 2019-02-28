@@ -1,0 +1,37 @@
+desktop:
+  spacing: 
+  - label: "Padding XXL Top"
+    value: padding-xxl-top
+  - label: "Padding XL Top"
+    value: padding-xl-top
+  - label: "Padding L Top"
+    value: padding-l-top
+  - label: "Padding M Top"
+    value: padding-m-top
+  - label: "Padding S Top"
+    value: padding-s-top
+  - label: "Padding XS Top"
+    value: padding-xs-top
+  - label: "Padding XXS Top"
+    value: padding-xxs-top
+  - label: "Padding XXL Bottom"
+    value: padding-xxl-bottom
+  - label: "Padding XL Bottom"
+    value: padding-xl-bottom
+  - label: "Padding L Bottom"
+    value: padding-l-bottom
+  - label: "Padding M Bottom"
+    value: padding-m-bottom
+  - label: "Padding S Bottom"
+    value: padding-s-bottom
+  - label: "Padding XS Bottom"
+    value: padding-xs-bottom
+  - label: "Padding XXS Bottom"
+    value: padding-xxs-bottom
+  section:
+    spacing:
+  row:
+  column:
+  element:
+tablet:
+mobile:

@@ -1,7 +1,3 @@
-container_size:
-  normal: "1080px"
-  large: "1350px"
-  full: "100%"
 device_width:
   screen_desktop_s: "1200px"
   screen_laptop: "1024px"

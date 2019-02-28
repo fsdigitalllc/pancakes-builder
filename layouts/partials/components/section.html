@@ -25,6 +25,9 @@
   background-repeat: no-repeat;
   background-size: cover;
 }
+{{ print "." .this_class }} {
+
+}
   {{ range .page.rows }}
     {{ partial "components/row.html" (dict "page" . "global" $ "cloudinary_base" .cloudinary_base ) }}
   {{ end }}
