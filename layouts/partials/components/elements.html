@@ -28,6 +28,81 @@
   {{ end }}
 
   {{/* <!--individual elements--> */}}
+
+  {{/* <!--draggable slider--> */}}
+  {{ if in .page.template "element-flickity" }}
+
+    {{ if eq $css true }}
+    .video-autoplay {
+      width: 100%;
+    }
+    {{ else }}
+    
+    {{ $flickslider_js := resources.Get "pancakes/js/plugins/flickity.pkgd.min.js" }}
+    {{ $flickslider_css := resources.Get "pancakes/css/plugins/flickity.css" }}
+
+    <script type="text/javascript">
+      fetchInject([
+        '{{ $flickslider_js.Permalink }}',
+        '{{ $flickslider_css.Permalink }}'
+      ]).then(() => {
+            console.log(`Loaded FLICKITY JS`);
+      })
+    </script>
+<style>
+
+.carousel {
+  background: #EEE;
+}
+
+.carousel-cell {
+  width: 66%;
+  height: 200px;
+  margin-right: 10px;
+  background: #8C8;
+  border-radius: 5px;
+  counter-increment: carousel-cell;
+}
+
+/* cell number */
+.carousel-cell:before {
+  display: block;
+  text-align: center;
+  content: counter(carousel-cell);
+  line-height: 200px;
+  font-size: 80px;
+  color: white;
+}
+.flickity-viewport {
+  overflow: visible;
+}
+</style>
+    <div class="carousel"
+    data-flickity='{ "wrapAround": false, "freeScroll": true, "draggable": true }'>
+      <div class="carousel-cell"></div>
+      <div class="carousel-cell"></div>
+      <div class="carousel-cell"></div>
+      <div class="carousel-cell"></div>
+      <div class="carousel-cell"></div>
+    </div>
+    {{ end }}
+
+  {{ end }}
+
+
+  {{ if in .page.template "element-video" }}
+
+    {{ if eq $css true }}
+    .video-autoplay {
+      width: 100%;
+    }
+    {{ else }}
+    <video autoplay="{{ if eq .page.autoplay false }}false{{ else }}true {{ end }}" muted="{{ if eq .page.muted false }}false{{ else }}true{{ end }}" preload="metadata" loop="loop" playsinline="playsinline" poster="{{ .page.cover }}" class="video-autoplay">
+      <source src="{{ .page.src }}" type="video/mp4">
+      </video>
+    {{ end }}
+  {{ end }}
+
   {{ if in .page.template "element-image" }}
 
   {{ if eq $css true }}

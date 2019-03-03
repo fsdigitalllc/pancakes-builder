@@ -1,4 +1,3 @@
-{{ define "pancakes_critical" }}
 {{- $env := getenv "HUGO_ENV" -}}
 
 {{/* <!--conditionally load and inline scripts--> */}}
@@ -93,7 +92,7 @@
 {{- $.Scratch.Set "is_css" true -}}
 {{- $.Scratch.Set "is_critical" true -}}
 {{/* <!--use on all environments for now--> */}}
-<style pancakes-critical class="critical">
+<style pancakes-critical class="pb_criticalCSS">
     {{ partial "components/component_generator.html" . | safeCSS }}
 </style>
 
@@ -134,5 +133,3 @@ fetchInject([
 
 
 {{- end -}}
-
-{{ end }}

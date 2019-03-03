@@ -10,3 +10,6 @@ In some cases, when saving html partials that have css, the page css doesn't rel
 ## image SRC Resource Object
 If an image is referenced in the front matter, but the file doesn't exist, the site won't build
 **Fix** use iffileexists to check before creating resource object
+
+## Custom CSS
+when adding custom css, it must be inserted as a string. It's not possible to just use safeCSS or safeHTML, it must be a string.

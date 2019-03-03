@@ -25,9 +25,20 @@
   background-repeat: no-repeat;
   background-size: cover;
 }
-{{ print "." .this_class }} {
-
+{{ print "." .this_class }} [data-aos="reveal-left"]:before {
+    background: {{ .page.background_color }};
 }
+{{ print "." .this_class }} [data-aos="reveal-right"]:before {
+  background: {{ .page.background_color }};
+}
+
+{{ if .page.css }}
+{{/* <!--force rule to be a string so that it's valid css--> */}}
+  {{ range .page.css }}
+    {{- $rule := string .rule -}}
+    {{ print "." $.this_class " " $rule }}
+  {{ end }}
+{{ end }}
   {{ range .page.rows }}
     {{ partial "components/row.html" (dict "page" . "global" $ "cloudinary_base" .cloudinary_base ) }}
   {{ end }}
