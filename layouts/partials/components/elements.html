@@ -49,41 +49,25 @@
             console.log(`Loaded FLICKITY JS`);
       })
     </script>
-<style>
 
-.carousel {
-  background: #EEE;
-}
-
-.carousel-cell {
-  width: 66%;
-  height: 200px;
-  margin-right: 10px;
-  background: #8C8;
-  border-radius: 5px;
-  counter-increment: carousel-cell;
-}
-
-/* cell number */
-.carousel-cell:before {
-  display: block;
-  text-align: center;
-  content: counter(carousel-cell);
-  line-height: 200px;
-  font-size: 80px;
-  color: white;
-}
-.flickity-viewport {
-  overflow: visible;
-}
-</style>
+    {{ $wrapAround := .page.wrapAround | default false }}
+    {{ $freeScroll := .page.freeScroll | default true }}
+    {{ $draggable := .page.draggable | default true }}
+    {{ $prevNextButtons := .page.prevNextButtons | default false }}
+    {{ $pageDots := .page.pageDots | default false }}
+    {{ $contain := .page.contain | default true }}
+    {{- /* <!--can be a number or true false--> */ -}}
+    {{ $groupCells := .page.groupCells | default false }}
+    {{ $autoPlay := .page.autoPlay | default false }}
+    
     <div class="carousel"
-    data-flickity='{ "wrapAround": false, "freeScroll": true, "draggable": true }'>
-      <div class="carousel-cell"></div>
-      <div class="carousel-cell"></div>
-      <div class="carousel-cell"></div>
-      <div class="carousel-cell"></div>
-      <div class="carousel-cell"></div>
+    data-flickity='{ "wrapAround": {{ $wrapAround }}, "freeScroll": {{ $freeScroll }}, "draggable": {{ $draggable }}, "prevNextButtons": {{ $prevNextButtons}}, "pageDots": {{ $pageDots }}, "contain": {{ $contain }}, "groupCells": {{ $groupCells }}, "autoPlay": {{ $autoPlay }} }'>
+
+      {{ range .page.images }}
+      {{ $img_src := $global_page.Resources.GetMatch .image }}
+      {{ $img_src = $img_src.Permalink }}
+        <div class="carousel-cell{{ with $.page.class }} {{ . }}{{ end }}"><img src="{{ $img_src }}"/></div>
+      {{ end }}
     </div>
     {{ end }}
 

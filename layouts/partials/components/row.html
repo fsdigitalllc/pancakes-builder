@@ -9,6 +9,11 @@
 {{ $css := $global_scratch.Get "is_css"}}
 
 {{ if eq $css true }}
+{{ range .page.css }}
+  {{- $rule := string .rule -}}
+  {{ print "." $.global.this_class " " $rule }}
+{{ end }}
+
   {{ range .page.cols }}
   {{ partial "components/column.html" (dict "page" . "global" $ "cloudinary_base" .cloudinary_base ) }}
   {{ end }}

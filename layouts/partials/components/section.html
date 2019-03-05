@@ -45,6 +45,7 @@
 
 {{ else }}
 
+
   {{ if and (eq .page.template "include") (.page.path) }}
     {{ $path := .page.path }}
     {{ partial $path (dict "page" . "global" $ ) }}
@@ -55,6 +56,18 @@
   {{ end }}
 
   </section>
+
+  {{ if .page.scripts }}
+  {{ range .page.scripts }}
+    {{ $src := string .src }}
+    {{ $src := resources.Get $src | minify }}
+    <script type="text/javascript">
+      fetchInject([
+        '{{ $src.Permalink }}'
+      ]);
+    </script>
+  {{ end }}
+{{ end }}
 
   {{ end }}
 {{ end }}
