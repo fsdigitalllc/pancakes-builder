@@ -37,6 +37,17 @@
   {{ range .page.css }}
     {{- $rule := string .rule -}}
     {{ print "." $.this_class " " $rule }}
+
+    {{ if .tablet }}
+
+    {{ print "@media screen and (max-width: 900px) {" }}
+    {{ range .tablet }}
+    {{- $rule := string .rule -}}
+    {{ print "." $.this_class " " $rule }}
+    {{ end }}
+    {{ print "}" }}
+
+    {{ end }}
   {{ end }}
 {{ end }}
   {{ range .page.rows }}
