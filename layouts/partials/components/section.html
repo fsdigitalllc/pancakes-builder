@@ -26,10 +26,10 @@
   background-size: cover;
 }
 {{ print "." .this_class }} [data-aos="reveal-left"]:before {
-    background: {{ .page.background_color }};
+    background: {{ .page.background_color | default "#ffffff" }};
 }
 {{ print "." .this_class }} [data-aos="reveal-right"]:before {
-  background: {{ .page.background_color }};
+  background: {{ .page.background_color | default "#ffffff" }};
 }
 
 {{ if .page.css }}

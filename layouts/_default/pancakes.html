@@ -1,4 +1,13 @@
 {{- define "main" -}}
+{{- $.Scratch.Set "is_css" true -}}
+{{- $.Scratch.Set "is_critical" true -}}
+{{ $yes := true }}
+{{ if eq $yes true }}
+{{/* <!--use on all environments for now--> */}}
+<style pancakes-critical class="pb_criticalCSS">
+    {{ partial "components/component_generator.html" . | safeCSS }}
+</style>
+{{ end }}
 {{- $.Scratch.Set "is_css" false -}}
 
 {{ if .Params.stacks_hero }}
@@ -6,5 +15,29 @@
   {{ partial $hero_path . }}
 {{ end }}
 
-    {{- partial "components/component_generator.html" . | safeHTML -}}
+{{- partial "components/component_generator.html" . | safeHTML -}}
+{{- $.Scratch.Set "is_css" true -}}
+{{- $.Scratch.Set "is_critical" false -}}
+
+
+<!--for isserver just inline the style so front matter changes reload the style-->
+{{- $env := getenv "HUGO_ENV" -}}
+{{- $debug_enabled := $.Scratch.Get "debug_enabled" -}}
+
+{{ if eq $debug_enabled true }}
+<!-- drag and drop functionality for PB-->
+<script type="text/javascript">
+  fetchInject([
+    'https://cdnjs.cloudflare.com/ajax/libs/dragula/3.7.2/dragula.min.js',
+  ]).then(() => {
+        console.log(`PB Builder CSS JS loaded`);
+  })
+  </script>
+<!-- <script src='https://cdnjs.cloudflare.com/ajax/libs/dragula/3.7.2/dragula.min.js'></script>
+
+<link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+<link rel="stylesheet"
+      href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"> -->
+{{ end }}
 {{- end -}}

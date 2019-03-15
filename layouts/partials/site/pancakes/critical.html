@@ -89,12 +89,7 @@
 {{- $clean_slug := replace .Params.slug "/" "" -}}
 {{- $page_slug := $clean_slug -}}  
 
-{{- $.Scratch.Set "is_css" true -}}
-{{- $.Scratch.Set "is_critical" true -}}
-{{/* <!--use on all environments for now--> */}}
-<style pancakes-critical class="pb_criticalCSS">
-    {{ partial "components/component_generator.html" . | safeCSS }}
-</style>
+
 
 {{- $env := getenv "HUGO_ENV" -}}
 {{ if or (.Site.IsServer) (eq $env "") (eq $env "undefined") }}
@@ -102,13 +97,6 @@
 {{ end }}
 
 
-{{- if eq .Site.Params.postcss_testing true }}
-{{/* <!--use a resource for producition--> */}}
-{{ $critical := resources.Get "pancakes/scss/critical.scss" | resources.ExecuteAsTemplate "pb.critical.scss" . | toCSS | minify }}
-
-<style pancakes-critical class="critical-postcss">{{ (slice $critical | resources.Concat "style.scss").Content | safeCSS }}</style>
-
-{{ end }}
 
 
 <script type="text/javascript">
