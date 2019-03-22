@@ -42,6 +42,18 @@
     {{ $flickslider_css := resources.Get "pancakes/css/plugins/flickity.css" }}
 
     <script type="text/javascript">
+    (function(ns, fetch){
+      if(typeof fetch !== 'function') return;
+      
+      ns.fetch = function() {
+        var out = fetch.apply(this, arguments);
+        out.then(({ok}) => console.log('loaded', ok) )
+        
+        return out;
+      }
+      
+    }(window, window.fetch))
+    
       fetchInject([
         '{{ $flickslider_js.Permalink }}',
         '{{ $flickslider_css.Permalink }}'
