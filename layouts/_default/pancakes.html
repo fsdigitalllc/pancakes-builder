@@ -21,8 +21,9 @@
 
 {{ $css := partial "components/component_generator.html" . | safeCSS }}
 {{ $string := print $css }}
-{{ $vars := $css | resources.FromString "scss/pb_noncritical.scss" | resources.ToCSS | resources.Minify | resources.Fingerprint }}
+{{ $vars := $css | resources.FromString "scss/pb_noncritical.scss" | resources.ToCSS | resources.Minify }}
 
+<style class="noncritical">{{ partial "components/component_generator.html" . | safeCSS }}</style>
 
 <script type="text/javascript">
 fetchInject([
