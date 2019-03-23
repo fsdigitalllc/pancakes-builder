@@ -19,6 +19,18 @@
 {{- $.Scratch.Set "is_css" true -}}
 {{- $.Scratch.Set "is_critical" false -}}
 
+{{ $css := partial "components/component_generator.html" . | safeCSS }}
+{{ $string := print $css }}
+{{ $vars := $css | resources.FromString "scss/pb_noncritical.scss" | resources.ToCSS | resources.Minify | resources.Fingerprint }}
+
+
+<script type="text/javascript">
+fetchInject([
+  '{{ $vars.Permalink }}',
+]).then(() => {
+      console.log(`PB Noncritical css loaded`);
+})
+</script>
 
 <!--for isserver just inline the style so front matter changes reload the style-->
 {{- $env := getenv "HUGO_ENV" -}}
