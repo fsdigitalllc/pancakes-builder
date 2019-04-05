@@ -11,7 +11,7 @@
 {{ if eq $css true }}
 {{ range .page.css }}
   {{- $rule := string .rule -}}
-  {{ print "." $.global.this_class " " $rule }}
+  {{ print "." $.global.this_class " " $rule | safeHTML }}
 {{ end }}
 
   {{ range .page.cols }}

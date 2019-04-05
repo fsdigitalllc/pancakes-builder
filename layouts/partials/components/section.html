@@ -36,14 +36,14 @@
 {{/* <!--force rule to be a string so that it's valid css--> */}}
   {{ range .page.css }}
     {{- $rule := string .rule -}}
-    {{ print "." $.this_class " " $rule }}
+    {{ print "." $.this_class " " $rule | safeHTML }}
 
     {{ if .tablet }}
 
     {{ print "@media screen and (max-width: 900px) {" }}
     {{ range .tablet }}
     {{- $rule := string .rule -}}
-    {{ print "." $.this_class " " $rule }}
+    {{ print "." $.this_class " " $rule | safeHTML }}
     {{ end }}
     {{ print "}" }}
 
