@@ -3,8 +3,8 @@ On drop, regenerate sections, rows, columns, elements so that indicators display
 When dynamically generating content in the sidebar, make sure the current HTML in each variable is correct. This can be fixed by seperating functions
 - There's an issue where the variable for the dynamic content in the sidebar is undefined due to the order of HTML loaded in the dom. This is caused by the current function setup not being interrelated.
 */
-const body = document.querySelector('body');
-
+//let body = document.querySelector('body');
+console.log("loadedddddddd");
 
 const _ = (el) => {
   return document.querySelector(el);
@@ -35,7 +35,7 @@ window.addEventListener("load", (e) => {
   
   
   document.querySelector(".pb-close").addEventListener("click", (e) => {
-    body.classList.toggle("inspect-mode");
+    document.querySelector('body').classList.toggle("inspect-mode");
     console.log("clicked close");
   });
   
