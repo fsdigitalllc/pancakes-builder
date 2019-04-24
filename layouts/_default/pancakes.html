@@ -1,64 +1,44 @@
 {{- define "main" -}}
-{{- $env := getenv "HUGO_ENV" -}}
-{{- $debug_enabled := $.Site.Params.debug_enabled -}}
-{{- $.Scratch.Set "is_css" true -}}
-{{- $.Scratch.Set "is_critical" true -}}
-{{ $yes := true }}
-{{ if eq $yes true }}
-<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/fetch-inject" media="screen"></script>
-{{ if eq $debug_enabled true }}
-<link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/dragula/3.7.2/dragula.min.js" media="screen"></script>
+
+{{ $env := getenv "HUGO_ENV" }}
+{{/* <!-- "staging" "production." Staging is hugo server or user defined env --> */}}
+{{ with partial "pancakesBuilder/helpers/getEnvironment.html" . }}
+   {{ $env = . }}
 {{ end }}
-{{/* <!--use on all environments for now--> */}}
+
+{{ partial "pancakesBuilder/scripts_critical.html" . | safeHTML }}
+
+{{ if eq $env "staging" }}
+  {{ partial "pancakesBuilder/app/styles.html" . | safeHTML }}
+{{ end }}
+
+{{/* <!-- Critical CSS --> */}}
 <style pancakes-critical class="pb_criticalCSS">
     {{ partial "components/component_generator.html" . | safeCSS }}
 </style>
-{{ end }}
-{{- $.Scratch.Set "is_css" false -}}
 
-{{ if .Params.stacks_hero }}
-  {{ $hero_path := .Params.stacks_hero.path }}
-  {{ partial $hero_path . }}
-{{ end }}
-
+{{/* <!-- Page HTML --> */}}
 {{- partial "components/component_generator.html" . | safeHTML -}}
-{{- $.Scratch.Set "is_css" true -}}
-{{- $.Scratch.Set "is_critical" false -}}
 
-{{ $css := partial "components/component_generator.html" . | safeCSS }}
-{{ $string := print $css }}
-{{ $vars := $css | resources.FromString "scss/pb_noncritical.scss" | resources.ToCSS | resources.Minify }}
-
-<style class="noncritical">{{ partial "components/component_generator.html" . | safeCSS }}</style>
-
-<script type="text/javascript">
-fetchInject([
-  '{{ $vars.Permalink }}',
-]).then(() => {
-      console.log(`Pancakes Noncritical css loaded`);
-})
-</script>
-
-<!--for isserver just inline the style so front matter changes reload the style-->
-
-{{ if eq $debug_enabled true }}
-<!-- drag and drop functionality for PB-->
-<!-- <script type="text/javascript">
-  fetchInject([
-    'https://cdnjs.cloudflare.com/ajax/libs/dragula/3.7.2/dragula.min.js',
-  ]).then(() => {
-        console.log(`PB Builder CSS JS loaded`);
-  })
-  </script> -->
-<!-- <script src='https://cdnjs.cloudflare.com/ajax/libs/dragula/3.7.2/dragula.min.js'></script>
-
-<link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
-
-<link rel="stylesheet"
-      href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"> -->
+{{/* <!-- Page Noncritical CSS --> */}}
+{{ $yes := false }}
+{{ if $yes }}
+  {{ $css := partial "components/component_generator.html" . | safeCSS }}
+  {{ $string := print $css }}
+  {{ $vars := $css | resources.FromString "scss/pb_noncritical.scss" | resources.ToCSS | resources.Minify }}
 {{ end }}
-{{ partial "site/pancakes/scripts.html" . | safeHTML }}
+
+{{/* <!-- Page Scripts --> */}}
+{{ partial "pancakesBuilder/scripts.html" . | safeHTML }}
+
+{{ if eq $env "staging" }}
+  {{/* <!-- Builder UI Components --> */}}
+  {{ partial "pancakesBuilder/app/components/drawer.html" . | safeHTML }}
+  {{ partial "pancakesBuilder/app/components/modal.html" . | safeHTML }}
+
+  {{/* <!-- Builder JS --> */}}
+  {{ partial "pancakesBuilder/app/scripts.html" . | safeHTML }}
+{{ end }}
+
+
 {{- end -}}

@@ -1,0 +1,11 @@
+{{ $p_1 := resources.Get "pancakesBuilder/app/js/plugins/fetch-inject.js" }}
+{{ with $p_1 }}
+  <script src="{{ .Permalink }}"></script>
+{{ end }}
+
+{{ $p_2 := resources.Get "pancakesBuilder/js/plugins/lazysizes.js" }}
+{{ with $p_2 }}
+  <script src="{{ .Permalink }}"></script>
+{{ end }}
+
+<script>document.getElementsByTagName("html")[0].className += " js";</script>

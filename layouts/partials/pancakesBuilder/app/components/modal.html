@@ -1,0 +1,26 @@
+<button class="btn btn--primary" aria-controls="modal1">Show modal window</button>
+
+<div class="modal js-modal" id="modal1">
+  <div class="modal__content modal__content--sm" role="alertdialog" tabindex="-1" aria-labelledby="modalTitle1" aria-describedby="modalDescription1">
+    <header class="modal__header">
+      <h4 class="truncate" id="modalTitle1">Modal title</h4>
+    </header>
+
+    <div class="modal__body">
+      <div class="text-component">
+        <p id="modalDescription1">Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae culpa, inventore alias ab atque similique quod ea reprehenderit.</p>
+      </div>
+    </div>
+
+    <footer class="modal__footer">
+      <div class="flex flex--end flex--gap-xs">
+        <button class="btn btn--subtle js-modal__close">Cancel</button>
+        <button class="btn btn--primary">Install</button>
+      </div>
+    </footer>
+  </div>
+
+  <button class="reset modal__close-btn js-modal__close">
+    <svg class="icon" viewBox="0 0 16 16"><title>Close modal window</title><g stroke-width="1" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10"><line x1="13.5" y1="2.5" x2="2.5" y2="13.5"></line><line x1="2.5" y1="2.5" x2="13.5" y2="13.5"></line></g></svg>
+  </button>
+</div>

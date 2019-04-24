@@ -1,0 +1,99 @@
+//Edit here: https://codyhouse.co/ds/globals/colors
+:root, [data-theme="default"] {
+  // main
+  @include defineColorHSL(--color-primary-darker, 240, 100%, 30%);
+  @include defineColorHSL(--color-primary-dark, 240, 100%, 40%);
+  @include defineColorHSL(--color-primary, 240, 100%, 50%);
+  @include defineColorHSL(--color-primary-light, 240, 100%, 60%);
+  @include defineColorHSL(--color-primary-lighter, 240, 100%, 70%);
+
+  @include defineColorHSL(--color-accent-darker, 240, 100%, 30%);
+  @include defineColorHSL(--color-accent-dark, 240, 100%, 40%);
+  @include defineColorHSL(--color-accent, 240, 100%, 50%);
+  @include defineColorHSL(--color-accent-light, 240, 100%, 60%);
+  @include defineColorHSL(--color-accent-lighter, 240, 100%, 70%);
+
+  @include defineColorHSL(--color-black, 240, 8%, 12%);
+  @include defineColorHSL(--color-white, 0, 0%, 100%);
+
+  // feedback
+  @include defineColorHSL(--color-warning-darker, 46, 100%, 41%);
+  @include defineColorHSL(--color-warning-dark, 46, 100%, 51%);
+  @include defineColorHSL(--color-warning, 46, 100%, 61%);
+  @include defineColorHSL(--color-warning-light, 46, 100%, 71%);
+  @include defineColorHSL(--color-warning-lighter, 46, 100%, 81%);
+
+  @include defineColorHSL(--color-success-darker, 94, 48%, 36%);
+  @include defineColorHSL(--color-success-dark, 94, 48%, 46%);
+  @include defineColorHSL(--color-success, 94, 48%, 56%);
+  @include defineColorHSL(--color-success-light, 94, 48%, 66%);
+  @include defineColorHSL(--color-success-lighter, 94, 48%, 76%);
+
+  @include defineColorHSL(--color-error-darker, 355, 90%, 41%);
+  @include defineColorHSL(--color-error-dark, 355, 90%, 51%);
+  @include defineColorHSL(--color-error, 355, 90%, 61%);
+  @include defineColorHSL(--color-error-light, 355, 90%, 71%);
+  @include defineColorHSL(--color-error-lighter, 355, 90%, 81%);
+
+  // color contrasts
+  @include defineColorHSL(--color-bg, 0, 0%, 100%);
+  @include defineColorHSL(--color-contrast-lower, 0, 0%, 95%);
+  @include defineColorHSL(--color-contrast-low, 240, 1%, 83%);
+  @include defineColorHSL(--color-contrast-medium, 240, 1%, 48%);
+  @include defineColorHSL(--color-contrast-high, 240, 4%, 20%);
+  @include defineColorHSL(--color-contrast-higher, 240, 8%, 12%);
+}
+
+[data-theme] {
+  background-color: var(--color-bg);
+  color: var(--color-contrast-high);
+}
+[data-theme=dark] {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  --color-primary-dark: hsl(197, 73%, 47%);
+  --color-primary-dark-h: 197;
+  --color-primary-dark-s: 73%;
+  --color-primary-dark-l: 47%;
+  --color-primary: hsl(197, 73%, 57%);
+  --color-primary-h: 197;
+  --color-primary-s: 73%;
+  --color-primary-l: 57%;
+  --color-primary-light: hsl(197, 73%, 67%);
+  --color-primary-light-h: 197;
+  --color-primary-light-s: 73%;
+  --color-primary-light-l: 67%;
+  --color-primary-lighter: hsl(197, 73%, 95%);
+  --color-primary-lighter-h: 197;
+  --color-primary-lighter-s: 73%;
+  --color-primary-lighter-l: 95%;
+  --color-bg: hsl(240, 8%, 12%);
+  --color-bg-h: 240;
+  --color-bg-s: 8%;
+  --color-bg-l: 12%;
+  --color-contrast-lower: hsl(240, 6%, 19%);
+  --color-contrast-lower-h: 240;
+  --color-contrast-lower-s: 6%;
+  --color-contrast-lower-l: 19%;
+  --color-contrast-low: hsl(240, 3%, 27%);
+  --color-contrast-low-h: 240;
+  --color-contrast-low-s: 3%;
+  --color-contrast-low-l: 27%;
+  --color-contrast-medium: hsl(240, 1%, 57%);
+  --color-contrast-medium-h: 240;
+  --color-contrast-medium-s: 1%;
+  --color-contrast-medium-l: 57%;
+  --color-contrast-high: hsl(0, 0%, 89%);
+  --color-contrast-high-h: 0;
+  --color-contrast-high-s: 0%;
+  --color-contrast-high-l: 89%;
+  --color-contrast-higher: hsl(0, 0%, 100%);
+  --color-contrast-higher-h: 0;
+  --color-contrast-higher-s: 0%;
+  --color-contrast-higher-l: 100%;
+  --form-element-bg: var(--color-bg);
+  --color-border: var(--color-contrast-low);
+}
+[data-theme=softGrey] {
+  --color-bg:hsl(0, 0%, 97%);--color-bg-h:0;--color-bg-s:0%;--color-bg-l:97%;--color-contrast-lower:hsl(0, 0%, 92%);--color-contrast-lower-h:0;--color-contrast-lower-s:0%;--color-contrast-lower-l:92%;--color-contrast-low:hsl(240, 1%, 81%);--color-contrast-low-h:240;--color-contrast-low-s:1%;--color-contrast-low-l:81%;--color-contrast-medium:hsl(240, 2%, 47%);--color-contrast-medium-h:240;--color-contrast-medium-s:2%;--color-contrast-medium-l:47%;--color-contrast-high:hsl(240, 5%, 20%);--color-contrast-high-h:240;--color-contrast-high-s:5%;--color-contrast-high-l:20%;--color-contrast-higher:hsl(240, 8%, 12%);--color-contrast-higher-h:240;--color-contrast-higher-s:8%;--color-contrast-higher-l:12%;--form-element-bg: var(--color-white)
+}

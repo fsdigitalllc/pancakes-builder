@@ -1,8 +1,0 @@
-device_width:
-  screen_desktop_s: "1200px"
-  screen_laptop: "1024px"
-  screen_tablet: "900px"
-  screen_tablet_s: "768px"
-  screen_mobile_l: "520px"
-  screen_mobile_m: "480px"
-  screen_mobile_s: "320px"

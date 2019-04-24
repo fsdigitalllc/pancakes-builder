@@ -1,0 +1,7 @@
+{{ $env := false }}
+{{ $env := getenv "HUGO_ENV" }}
+
+{{ if eq $env "" }}
+  {{ $env = "staging" }}
+{{ end }}
+{{ return $env }}

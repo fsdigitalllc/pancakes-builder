@@ -1,0 +1,10 @@
+{{ $r_1 := resources.Get "pancakesBuilder/app/js/util.js" }}
+{{ $p_1 := resources.Get "pancakesBuilder/app/js/plugins/dragula.js" }}
+{{ $c_1 := resources.Get "pancakesBuilder/app/js/components/modal_window.js" }}
+{{ $c_2 := resources.Get "pancakesBuilder/app/js/components/drawer.js" }}
+{{ $c_3 := resources.Get "pancakesBuilder/app/js/components/accordian.js" }}
+
+{{ $appjs := slice $r_1 $p_1 $c_1 $c_2 $c_3 | resources.Concat "pancakesBuilder.js" }}
+{{ with $appjs }}
+<script src="{{ .Permalink }}"></script>
+{{ end }}

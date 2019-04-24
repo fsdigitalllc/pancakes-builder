@@ -1,0 +1,25 @@
+/* -------------------------------- 
+
+Title: Scrollbar
+Descr: (WebKit) Custom Scrollbar
+
+-------------------------------- */
+
+.scrollbar {
+  &::-webkit-scrollbar { // general scrollbar style
+    width: 12px;
+  }
+
+  &::-webkit-scrollbar-track { // progress bar
+    background-color: var(--color-contrast-lower);
+  }
+
+  &::-webkit-scrollbar-thumb { // handle
+    background-color: alpha(var(--color-contrast-higher), 0.9);
+    border-radius: 0;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: var(--color-contrast-higher);
+  }
+}

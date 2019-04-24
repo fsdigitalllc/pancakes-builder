@@ -1,0 +1,28 @@
+/* -------------------------------- 
+
+Title: Custom Select Control
+
+-------------------------------- */
+
+:root {
+  --select-icon-size: 1em;
+  --select-icon-right-margin: var(--space-sm);
+}
+
+.select {
+  position: relative;
+
+  select {
+    padding-right: calc(var(--select-icon-size) + var(--select-icon-right-margin) * 2);
+  }
+
+  .icon {
+    width: var(--select-icon-size);
+    height: var(--select-icon-size);
+    position: absolute;
+    right: var(--select-icon-right-margin);
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+  }
+}

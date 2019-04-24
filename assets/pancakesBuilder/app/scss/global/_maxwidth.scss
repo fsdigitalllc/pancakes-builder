@@ -1,0 +1,31 @@
+.maxwidth-xxxs {
+  max-width: 350px;
+}
+
+.maxwidth-xxs {
+  max-width: 450px
+}
+
+.maxwidth-xs {
+  max-width: 550px
+}
+
+.maxwidth-s {
+  max-width: 650px
+}
+.maxwidth-m {
+  max-width: 750px
+}
+
+.maxwidth-l {
+  max-width: 850px
+}
+
+.maxwidth-xl {
+  max-width: 950px
+}
+@include breakpoint(md) {
+  .maxwidth-xxl,.maxwidth-xl,.maxwidth-l,.maxwidth-m {
+    max-width:100%
+  }
+}

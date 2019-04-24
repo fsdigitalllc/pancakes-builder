@@ -1,0 +1,23 @@
+<button class="btn btn--primary" aria-controls="drawer2">Show Drawer Panel</button>
+
+<div class="drawer drawer--fixed-header js-drawer" id="drawer2">
+  <div class="drawer__content" role="alertdialog" tabindex="-1" aria-labelledby="drawerTitle2">
+    <header class="drawer__header">
+      <h4 id="drawerTitle2" class="truncate">Drawer title</h4>
+
+      <button class="reset drawer__close-btn js-drawer__close">
+        <svg class="icon" viewBox="0 0 16 16" ><title>Close drawer panel</title><g stroke-width="1" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10"><line x1="13.5" y1="2.5" x2="2.5" y2="13.5"></line><line x1="2.5" y1="2.5" x2="13.5" y2="13.5"></line></g></svg>
+      </button>
+    </header>
+
+    <div class="drawer__body scrollbar js-drawer__body">
+      <div class="changeContent">
+        
+        
+        {{ partial "pancakesBuilder/app/components/elements/accordian.html" . }}
+
+        
+      </div>
+    </div>
+  </div>
+</div>

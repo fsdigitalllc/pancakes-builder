@@ -1,0 +1,4 @@
+{{ $p_1 := resources.Get "pancakesBuilder/js/plugins/aos.js" }}
+{{ with $p_1 }}
+  <script src="{{ .Permalink }}"></script>
+{{ end }}

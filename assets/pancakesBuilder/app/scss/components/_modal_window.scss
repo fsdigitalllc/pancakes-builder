@@ -1,0 +1,100 @@
+/* -------------------------------- 
+
+Title: Modal Window
+Descr: A modal dialog used to display critical information.
+
+-------------------------------- */
+
+:root {
+  /* close button */
+  --modal-close-btn-size: 1.5em;
+  --modal-close-btn-padding: var(--space-sm);
+}
+
+.modal {
+  position: fixed;
+  z-index: var(--zindex-overlay);
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: alpha(var(--color-contrast-higher), 0.9);
+  // hide element
+  clip: rect(1px, 1px, 1px, 1px);
+  clip-path: inset(50%);
+}
+
+.modal--is-visible {
+  clip: auto;
+  clip-path: none;
+}
+
+.modal__content {
+  border-radius: 0.25em;
+  overflow: auto;
+  width: calc(100% - 2*var(--component-padding));
+  max-width: var(--container-width-xs);
+  max-height: calc(100vh - 4*(var(--modal-close-btn-size) + var(--modal-close-btn-padding)));
+  background-color: var(--color-bg);
+}
+
+.modal__header {
+  padding: var(--space-sm) var(--component-padding);
+  background-color: var(--color-contrast-lower);
+}
+
+.modal__body {
+  padding: var(--space-sm) var(--component-padding);
+}
+
+.modal__footer {
+  padding: var(--component-padding);
+}
+
+.modal__close-btn {
+  position: fixed;
+  top: var(--space-sm);
+  right: var(--space-sm);
+  z-index: var(--zindex-fixed-element);
+  padding: var(--modal-close-btn-padding);
+  border-radius: 50%;
+  background-color: alpha(var(--color-contrast-higher), 0.9);
+
+  &:hover {
+    background-color: var(--color-contrast-higher);
+  }
+
+  .icon {
+    display: block;
+    color: var(--color-bg);
+    width: var(--modal-close-btn-size);
+    height: var(--modal-close-btn-size);
+    transition: transform .2s;
+  }
+
+  &:hover .icon {
+    transform: scale(1.1);
+  }
+}
+
+// close btn inside header
+.modal__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .modal__close-btn { // alt close btn style (if it's inside header)
+    --modal-close-btn-size: 1em;
+    --modal-close-btn-padding: 0;
+    position: static;
+    flex-shrink: 0;
+    background-color: transparent;
+
+    .icon {
+      color: inherit;
+    }
+  }
+}
