@@ -6,9 +6,14 @@ Descr: A slide-in panel used to display critical content.
 -------------------------------- */
 
 :root {
-  --drawer-width: 400px;
+  --drawer-width: 320px;
 }
-
+.openDrawer {
+  position: fixed;
+  right: 0;
+  top: 50%;
+  transform: translate(-50%, -50%) rotate(-90deg);
+}
 .drawer {
   position: fixed;
   z-index: var(--zindex-overlay);

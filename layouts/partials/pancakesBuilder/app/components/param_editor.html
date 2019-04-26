@@ -1,0 +1,34 @@
+{{ $.Scratch.Set "value" "" }}
+<form class="container container--xs">
+  
+    {{ range $key, $value := $.Site.Data.pb_fields.params }}
+    
+    
+      {{ if reflect.IsSlice . }}
+    
+      <label class="form-label" for="inputFirstName">
+          {{ $key }}
+      </label>
+    
+        {{ range $value }}
+        {{ $key = print "'" . "', " }}
+        {{ $.Scratch.Add "value" $key }}
+        {{ end }}
+        {{ $value = $.Scratch.Get "value" }}
+        {{ $value = print "[ " $value " ]"}}
+
+      {{ else }}
+    
+    <!--normal param-->
+    <!--Set input type (array etc)-->
+    
+    {{ end }}
+    <label class="form-label" for="inputFirstName">
+        {{ $key }}
+      </label>
+      
+      <input class="form-control" type="text" name="inputFirstName" id="inputFirstName" autocomplete="off" style="background-image: url(&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAkCAYAAADo6zjiAAAAAXNSR0IArs4c6QAAAbNJREFUWAntV8FqwkAQnaymUkpChB7tKSfxWCie/Yb+gbdeCqGf0YsQ+hU95QNyDoWCF/HkqdeiIaEUqyZ1ArvodrOHxanQOiCzO28y781skKwFW3scPV1/febP69XqarNeNTB2KGs07U3Ttt/Ozp3bh/u7V7muheQf6ftLUWyYDB5yz1ijuPAub2QRDDunJsdGkAO55KYYjl0OUu1VXOzQZ64Tr+IiPXedGI79bQHdbheCIAD0dUY6gV6vB67rAvo6IxVgWVbFy71KBKkAFaEc2xPQarXA931ot9tyHphiPwpJgSbfe54Hw+EQHMfZ/msVEEURjMfjCjbFeG2dFxPo9/sVOSYzxmAwGIjnTDFRQLMQAjQ5pJAQkCQJ5HlekeERxHEsiE0xUUCzEO9AmqYQhiF0Oh2Yz+ewWCzEY6aYKKBZCAGYs1wuYTabKdNNMWWxnaA4gp3Yry5JBZRlWTXDvaozUgGTyQSyLAP0dbb3DtQlmcan0yngT2ekE9ARc+z4AvC7nauh9iouhpcGamJeX8XF8MaClwaeROWRA7nk+tUnyzGvZrKg0/40gdME/t8EvgG0/NOS6v9NHQAAAABJRU5ErkJggg==&quot;); background-repeat: no-repeat; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%; cursor: auto;" value="{{ $value }}">
+
+    {{ end }}
+    
+    </form>

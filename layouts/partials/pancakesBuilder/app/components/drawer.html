@@ -1,5 +1,4 @@
-<button class="btn btn--primary" aria-controls="drawer2">Show Drawer Panel</button>
-
+<button class="openDrawer toggleDrawer" aria-controls="drawer2">Open</button>
 <div class="drawer drawer--fixed-header js-drawer" id="drawer2">
   <div class="drawer__content" role="alertdialog" tabindex="-1" aria-labelledby="drawerTitle2">
     <header class="drawer__header">
@@ -11,10 +10,11 @@
     </header>
 
     <div class="drawer__body scrollbar js-drawer__body">
+        {{- partial "pancakesBuilder/app/generator/all.html" . | safeHTML -}}
       <div class="changeContent">
         
+        {{ partial "pancakesBuilder/app/components/elements/tabs.html" . }}
         
-        {{ partial "pancakesBuilder/app/components/elements/accordian.html" . }}
 
         
       </div>

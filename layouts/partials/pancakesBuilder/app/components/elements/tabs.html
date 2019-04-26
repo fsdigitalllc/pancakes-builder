@@ -1,0 +1,20 @@
+<div class="tabs js-tabs">
+    <ul class="tabs__controls js-tabs__controls" aria-label="Tabs Interface">
+      <li><a href="#tab1Panel1" class="tabs__control--selected">Tab 1</a></li>
+      <li><a href="#tab1Panel2">Tab 2</a></li>
+    </ul>
+  
+    <div class="tabs__panels js-tabs__panels">
+      <section id="tab1Panel1" class="tabs__panel tabs__panel--selected js-tabs__panel">
+        <div>
+          <h1>Panel 1</h1>
+        </div>
+      </section>
+  
+      <section id="tab1Panel2" class="tabs__panel js-tabs__panel">
+        <div>
+          {{ partial "pancakesBuilder/app/components/elements/accordian.html" . }}
+        </div>
+      </section>
+    </div>
+  </div>

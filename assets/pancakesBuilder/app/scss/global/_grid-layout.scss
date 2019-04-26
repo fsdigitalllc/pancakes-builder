@@ -4,6 +4,7 @@
   --container-width-md: 64rem;   // ~1024px
   --container-width-lg: 80rem;   // ~1280px
   --container-width-xl: 90rem;   // ~1440px
+  --container-editor-width: calc(100% - var(--drawer-width))
 }
 
 // classes used to center content on x-axis and set content max width

@@ -27,3 +27,34 @@ Each component that is added should have an associated partial HTML file, SCSS, 
 The path for the html, scss, js for the page will look like this: `pancakesBuilder/`. These are included in both production and staging.
 
 Use the same approach as above with a different path. 
+
+Open sidedrawer:
+aria-controls="drawer2"
+
+Open modal small:
+aria-controls="modal1"
+
+open modal large:
+aria-controls="modal2"
+
+```
+constructor
+function Human(firstName, lastName) {
+	this.firstName = firstName,
+	this.lastName = lastName,
+	this.fullName = function() {
+		return this.firstName + " " + this.lastName;
+	}
+}
+
+var person1 = new Human("Virat", "Kohli");
+
+console.log(person1)
+```
+
+```
+someValues.forEach((element, index) => {
+    console.log(`Current index: ${index}`);
+    console.log(element);
+});
+```

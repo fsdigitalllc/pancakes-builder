@@ -1,4 +1,4 @@
-<div class="modal js-modal" id="modal1">
+<div class="modal modal--full-screen js-modal" id="modal2">
   <div class="modal__content modal__content--sm" role="alertdialog" tabindex="-1" aria-labelledby="modalTitle1" aria-describedby="modalDescription1">
     <header class="modal__header">
       <h4 class="truncate" id="modalTitle1">Modal title</h4>
@@ -10,14 +10,14 @@
 
     <div class="modal__body">
       <div class="text-component">
-        <p id="modalDescription1">Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae culpa, inventore alias ab atque similique quod ea reprehenderit.</p>
+        {{ partial "pancakesBuilder/app/components/param_editor.html" . }}
       </div>
     </div>
 
     <footer class="modal__footer">
       <div class="flex flex--end flex--gap-xs">
-        <button class="btn btn--subtle js-modal__close">Cancel</button>
-        <button class="btn btn--primary">Install</button>
+        <button class="btn btn--subtle js-modal__close">Close</button>
+        <button class="btn btn--primary">Save</button>
       </div>
     </footer>
   </div>

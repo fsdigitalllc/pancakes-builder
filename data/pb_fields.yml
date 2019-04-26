@@ -1,0 +1,25 @@
+params:
+  title: "Page Title"
+  date: ""
+  rows: "theRow"
+  tags:
+    - tag1
+    - tag2
+    - "tag3"
+  customParam: "Custom Value"
+stacks:
+  - template: "section"
+    id: "testID"
+    class: "flex"
+    rows:
+    - template: "row"
+      id:
+      class: "container container--md"
+      columns:
+      - template: "column"
+        id: "custom-id"
+        class: "col-6"
+        elements:
+        - template: "text"
+          html: |
+            <p>Text</p>

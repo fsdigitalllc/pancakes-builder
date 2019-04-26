@@ -23,8 +23,11 @@
 @import 'components/forms/check';
 
 // builder ui
+@import 'global/edit_mode';
 @import 'components/modal_window';
+@import 'components/modal_window_full';
 @import 'components/drawer';
 @import 'components/scrollbar';
 @import 'components/btn_group';
 @import 'components/accordian';
+@import 'components/tabs';

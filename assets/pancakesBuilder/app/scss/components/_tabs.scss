@@ -1,0 +1,145 @@
+/* -------------------------------- 
+
+Title: Tabs
+Descr: Tabs are multiple content sections (panels), accessible one at a time using control labels
+
+-------------------------------- */
+
+:root {
+  --tabs-border-width: 2px;
+  --tabs-radius: 0.25em;
+  --tabs-control-gap: 0;
+  --tabs-control-radius: 0;
+}
+
+.tabs {
+  border: var(--tabs-border-width) solid var(--color-contrast-low);
+  padding: var(--component-padding);
+  border-radius: var(--tabs-radius);
+  background-color: var(--color-bg);
+}
+
+.tabs__controls {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: var(--space-xs);
+
+  li {
+    display: inline-block; //flex fallback
+    margin: 0 var(--space-xs) var(--space-xs) 0;
+  }
+
+  a {
+    display: inline-flex;
+    background-color: var(--color-contrast-low);
+    padding: var(--space-xs) var(--space-sm);
+    white-space: nowrap;
+    color: inherit;
+    border-radius: var(--tabs-control-radius);
+
+    &:hover {
+      background-color: var(--color-contrast-lower);
+    }
+  }
+}
+
+.tabs__panel {
+  margin-bottom: var(--space-md);
+}
+
+.js {
+  .tabs__controls {
+    a {
+      text-decoration: none;
+    }
+
+    .tabs__control--selected {
+      background-color: var(--color-primary);
+      color: var(--color-white);
+      @include fontSmooth;
+  
+      &:hover {
+        background-color: var(--color-primary-light);
+      }
+    }
+  }
+
+  .tabs__panel {
+    margin-bottom: 0;
+    display: none;
+  }
+  
+  .tabs__panel--selected {
+    display: block;
+  }
+
+  @include breakpoint(md) {
+    .tabs {
+      padding: 0;
+      border: none;
+      background-color: transparent;
+    }
+
+    .tabs__controls {
+      margin-bottom: 0;
+
+      li {
+        margin-top: 0;
+        margin-left: calc(-1 * var(--tabs-border-width));
+        margin-right: var(--tabs-control-gap);
+        margin-bottom: 0;
+      }
+
+      li:first-child {
+        margin-left: 0;
+      }
+
+      li:first-child a {
+        border-radius: var(--tabs-radius) var(--tabs-control-radius) 0 0;
+      }
+
+      li:last-child a {
+        border-radius: var(--tabs-control-radius) var(--tabs-radius) 0 0;
+      }
+
+      a {
+        height: 100%;
+        border: var(--tabs-border-width) solid transparent;
+        border-bottom-width: 0;
+        border-radius: var(--tabs-control-radius) var(--tabs-control-radius) 0 0;
+      }
+
+      .tabs__control--selected {
+        background-color: var(--color-bg);
+        color: var(--color-primary);
+        position: relative;
+        border-color: var(--color-contrast-low);
+  
+        &:hover {
+          background-color: inherit;
+        }
+  
+        &::after { // border bottom -> it covers the border of the panel element
+          content: '';
+          position: absolute;
+          left: 0;
+          bottom: calc(-1 * var(--tabs-border-width));
+          width: 100%;
+          height: var(--tabs-border-width);
+          background-color: var(--color-bg);
+          z-index: 1;
+        }
+      }
+    }
+
+    .tabs__panels {
+      border: var(--tabs-border-width) solid var(--color-contrast-low);
+      border-radius: 0 var(--tabs-radius) var(--tabs-radius) var(--tabs-radius);
+      background-color: var(--color-bg);
+    }
+
+    .tabs__panel {
+      padding: var(--space-sm);
+    }
+  }
+}

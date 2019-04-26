@@ -228,3 +228,11 @@ Math.easeInOutQuad = function (t, b, c, d) {
 	t--;
 	return -c/2 * (t*(t-2) - 1) + b;
 };
+
+const _ = (el) => {
+  return document.querySelector(el);
+};
+
+const _All = (el) => {
+  return document.querySelectorAll(el);
+};

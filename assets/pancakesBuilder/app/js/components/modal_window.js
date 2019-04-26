@@ -82,8 +82,8 @@
 	};
 
 	Modal.prototype.initClick = function(event) {
-		//close modal when clicking on close button or modal bg layer 
-		if( !event.target.closest('.js-modal__close') && !Util.hasClass(event.target, 'js-modal') ) return;
+		//close modal when clicking on close button or x
+		if( !event.target.closest('.js-modal__close') ) return;
 		event.preventDefault();
 		this.closeModal();
 	};

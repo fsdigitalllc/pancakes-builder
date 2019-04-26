@@ -35,6 +35,7 @@
 		this.firstFocusable.focus();
 		// wait for the end of transitions before moving focus
 		this.element.addEventListener("transitionend", function(event) {self.firstFocusable.focus();}, {once: true});
+		_('html').classList.toggle("editing--mode");
 		this.emitDrawerEvents('drawerIsOpen');
 	};
 
@@ -45,6 +46,7 @@
 		if(this.selectedTrigger) this.selectedTrigger.focus();
 		//remove listeners
 		this.cancelDrawerEvents();
+		_('html').classList.toggle("editing--mode");
 		this.emitDrawerEvents('drawerIsClose');
 	};
 

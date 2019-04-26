@@ -2,9 +2,11 @@
 
 {{ $env := getenv "HUGO_ENV" }}
 {{/* <!-- "staging" "production." Staging is hugo server or user defined env --> */}}
+
 {{ with partial "pancakesBuilder/helpers/getEnvironment.html" . }}
    {{ $env = . }}
 {{ end }}
+{{ .Scratch.Set "env" $env }}
 
 {{ partial "pancakesBuilder/scripts_critical.html" . | safeHTML }}
 
@@ -12,13 +14,17 @@
   {{ partial "pancakesBuilder/app/styles.html" . | safeHTML }}
 {{ end }}
 
+
 {{/* <!-- Critical CSS --> */}}
+{{ .Scratch.Set "generatorType" "gen_criticalcss" }}
 <style pancakes-critical class="pb_criticalCSS">
+    {{ partial "pancakesBuilder/app/generator/all.html" . | safeCSS }}
     {{ partial "components/component_generator.html" . | safeCSS }}
 </style>
 
 {{/* <!-- Page HTML --> */}}
-{{- partial "components/component_generator.html" . | safeHTML -}}
+{{ .Scratch.Set "generatorType" "gen_pagehtml" }}
+{{- partial "pancakesBuilder/app/generator/all.html" . | safeHTML -}}
 
 {{/* <!-- Page Noncritical CSS --> */}}
 {{ $yes := false }}
@@ -32,12 +38,30 @@
 {{ partial "pancakesBuilder/scripts.html" . | safeHTML }}
 
 {{ if eq $env "staging" }}
+<div class="builderUIComponents">
   {{/* <!-- Builder UI Components --> */}}
+  {{ .Scratch.Set "generatorType" "gen_menu_buttons" }}
+
   {{ partial "pancakesBuilder/app/components/drawer.html" . | safeHTML }}
   {{ partial "pancakesBuilder/app/components/modal.html" . | safeHTML }}
+  {{ partial "pancakesBuilder/app/components/modal_full.html" . | safeHTML }}
 
+  
+
+  {{/* <!-- Builder draggable HTML --> */}}
+  {{ .Scratch.Set "generatorType" "gen_menu_content" }}
+  <div class="pb-template-contentWrapper">
+  {{- partial "pancakesBuilder/app/generator/all.html" . | safeHTML -}}
+  </div>
+  
   {{/* <!-- Builder JS --> */}}
   {{ partial "pancakesBuilder/app/scripts.html" . | safeHTML }}
+</div>
+
+
+{{ .Scratch.Set "generatorType" "gen_noncriticalcss" }}
+
+
 {{ end }}
 
 
