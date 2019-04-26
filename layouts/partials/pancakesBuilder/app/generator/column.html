@@ -1,0 +1,28 @@
+{{ $scratch := .global.global.Scratch }}
+
+{{ with .page.columns }}
+
+  {{ range . }}
+
+  <div id="{{ with .id }}{{ . }}{{ else }}{{ end }}"{{ with .template }} pb-template="{{ . }}"{{ end }} class="{{ .class }}">
+
+
+      {{ with .elements }}
+
+        {{ range . }}
+
+          {{ if eq .template "text" }}
+
+          {{ partial "pancakesBuilder/app/generator/elements/text.html" (dict "page" . "global" $) }}
+
+          {{ end }}
+
+        {{ end }}
+
+      {{ end }}
+
+
+
+  </div>
+  {{ end }}
+{{ end }}

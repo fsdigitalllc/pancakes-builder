@@ -1,1 +1,14 @@
-// Use scratch to pass variables defined in all.html
+{{ $scratch := .global.Scratch }}
+
+{{ with .page.rows }}
+
+    {{ range . }}
+
+
+      <div id="{{ with .id }}{{ . }}{{ else }}{{ end }}"{{ with .template }} pb-template="{{ . }}"{{ end }} class="{{ .class }}">
+
+          {{ partial "pancakesBuilder/app/generator/column.html" (dict "page" . "global" $) }}
+
+      </div>
+    {{ end }}
+  {{ end }}
