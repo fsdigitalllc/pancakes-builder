@@ -1,0 +1,29 @@
+{{ $scratch := .global.global.global.global.Scratch }}
+
+{{ with .page.elements }}
+  {{ range $index, $value := . }}
+
+  
+    {{ if $scratch.Get "gen_menu_buttons" }}
+    <button{{ with .template }} pb-template-level="element" pb-template-add="{{ . }}"{{ end }}>{{ .template }}</button>
+    {{ end }}
+
+    {{ if $scratch.Get "gen_criticalcss" }}
+
+    {{/* <!--Start row, but maybe not needed if we decide to only insert Css at the section level --> */}}
+    {{ end }}
+
+
+    {{/* <!-- get each element --> */}}
+    {{ if $scratch.Get "gen_pagehtml" }}
+
+    {{/* <!-- Note: throws error if file doesn't exist. Fix this later --> */}}
+    {{ $path := print "pancakesBuilder/app/generator/elements/" .template ".html" }}
+
+    {{ partial $path (dict "page" . "global" $ "scratch" $scratch) }}
+
+
+    {{ end }} 
+
+  {{ end }}
+{{ end }}

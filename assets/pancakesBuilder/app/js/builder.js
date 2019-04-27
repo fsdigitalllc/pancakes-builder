@@ -21,7 +21,7 @@ function moveFromMain(){
 }
 
 var promise1 = new Promise(function(resolve, reject) {
-  resolve(moveFromMain());
+  //resolve(moveFromMain());
 });
 
 promise1.then(function() {

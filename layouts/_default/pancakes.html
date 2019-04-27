@@ -54,15 +54,16 @@
   {{- partial "pancakesBuilder/app/generator/all.html" . | safeHTML -}}
   </div>
 
-  {{/* <!-- Builder JS --> */}}
-  {{ partial "pancakesBuilder/app/scripts.html" . | safeHTML }}
 </div>
 
+{{/* <!-- Builder JS --> */}}
+{{ partial "pancakesBuilder/app/scripts.html" . | safeHTML }}
+{{ end }}
 
 {{ .Scratch.Set "generatorType" "gen_noncriticalcss" }}
 
 
-{{ end }}
+
 
 
 {{- end -}}

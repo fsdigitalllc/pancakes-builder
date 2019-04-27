@@ -1,47 +1,58 @@
 {{/* <!--if menu--> */}}
 {{ $env := $.Scratch.Get "env" }}
-{{ $context := $.Site.Data.pb_fields }}
 
+{{ $scratch := $.Scratch }}
+{{ $mode := $.Scratch.Get "generatorType" }}
+
+{{ $scratch.Set "context" $.Site.Data.pb_fields }}
+{{ if eq $mode "gen_pagehtml" }}
+  {{ $scratch.Set "context" .Params }}
+{{ else if eq $mode "gen_menu_content" }}
+  {{ $scratch.Set "context" $.Site.Data.pb_fields }}
+{{ end }}
+
+{{ $context := $scratch.Get "context" }}
 {{/* <!--if menu--> */}}
 {{ $pageid := $.File.UniqueID }}
 
 {{/* <!-- Get the mode --> */}}
-{{ $genType := $.Scratch.Get "generatorType" }}
-{{ $mode := $genType }}
-{{ $gen_css := false }}
-{{ $gen_criticalcss := false }}
-{{ $gen_noncriticalcss := false }}
-{{ $gen_pagehtml := false }}
-{{ $gen_menu_buttons := false }}
-{{ $gen_menu_content := false }}
+
+
+{{ $scratch.Set "gen_css" false }}
+{{ $scratch.Set "gen_criticalcss" false }}
+{{ $scratch.Set "gen_noncriticalcss" false }}
+{{ $scratch.Set "gen_pagehtml" false }}
+{{ $scratch.Set "gen_menu_buttons" false }}
+{{ $scratch.Set "gen_menu_content" false }}
 
 {{ if eq $mode "gen_criticalcss" }}
-  {{ $gen_css = true }}
-  {{ $gen_criticalcss = true }}
+  {{ $scratch.Set "gen_css" true }}
+  {{ $scratch.Set "gen_criticalcss" true }}
 {{ else if eq $mode "gen_noncriticalcss" }}
-  {{ $gen_css = true }}
-  {{ $gen_noncriticalcss = true }}
+  {{ $scratch.Set "gen_css" true }}
+  {{ $scratch.Set "gen_noncriticalcss" true }}
 {{ else if eq $mode "gen_pagehtml" }}
-  {{ $gen_pagehtml = true }}
+  {{ $scratch.Set "gen_pagehtml" true }}
 {{ else if eq $mode "gen_menu_buttons" }}
-  {{ $gen_menu_buttons = true }}
+  {{ $scratch.Set "gen_menu_buttons" true }}
 {{ else if eq $mode "gen_menu_content" }}
-  {{ $gen_menu_content = true }}
+  {{ $scratch.Set "gen_pagehtml" true }}
 {{ end }}
 {{/* <!--if html , context is page params--> */}}
 
-{{ range $index, $value := $context.stacks }}
+{{ if eq $mode "gen_pagehtml" }}
+  {{ with $context.stacks }}
+pagecontent
+  {{ partial "pancakesBuilder/app/generator/section.html" (dict "page" . "global" $) }}
 
-{{ if $gen_menu_buttons }}
-<button{{ with .template }} pb-template-add="{{ . }}"{{ end }}>{{ .template }}</button>
+  {{ end }}
 {{ end }}
 
+{{ if eq $mode "gen_menu_content" }}
+menu content
+  {{ with $context.stacks }}
 
-<section id="{{ with .id }}{{ . }}{{ else }}{{ $index }}{{ end }}"{{ with .template }} pb-template="{{ . }}"{{ end }} class="{{ .class }}">
+  {{ partial "pancakesBuilder/app/generator/section.html" (dict "page" . "global" $) }}
 
-
-{{ partial "pancakesBuilder/app/generator/row.html" (dict "page" . "global" $) }}
-  
-
-</section>
+  {{ end }}
 {{ end }}

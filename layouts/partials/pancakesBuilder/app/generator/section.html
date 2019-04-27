@@ -1,0 +1,30 @@
+{{ $scratch := .global.Scratch }}
+{{ $context := $scratch.Get "context" }}
+
+{{ range $index, $value := $context.stacks }}
+
+  {{ $scratch.Set "index" $index }}
+
+  {{ if $scratch.Get "gen_menu_buttons" }}
+    <button{{ with .template }} pb-template-level="section" pb-template-add="{{ . }}"{{ end }}>{{ .template }}</button>
+
+    {{/* <!--Start row --> */}}
+    {{ partial "pancakesBuilder/app/generator/row.html" (dict "page" . "global" $) }}
+  {{ end }}
+
+  {{ if $scratch.Get "gen_criticalcss" }}
+
+    {{/* <!--Start row, but maybe not needed if we decide to only insert Css at the section level --> */}}
+    {{ partial "pancakesBuilder/app/generator/row.html" (dict "page" . "global" $) }}
+  {{ end }}
+
+  {{ if $scratch.Get "gen_pagehtml" }}
+  <section id='{{ with .id }}{{ . }}{{ else }}{{ $index }}{{ end }}' class="{{ .class }}"{{ with .id }} pb-id="{{ . }}"{{ end }}{{ with .template }} pb-index="{{ $index }}" pb-template="{{ . }}"{{ end }}{{ with .class }} pb-class="{{ . }}"{{ end }}>
+
+
+    {{/* <!--Start row --> */}}
+    {{ partial "pancakesBuilder/app/generator/row.html" (dict "page" . "global" $) }}
+  </section>
+  {{ end }}
+
+{{ end }}
