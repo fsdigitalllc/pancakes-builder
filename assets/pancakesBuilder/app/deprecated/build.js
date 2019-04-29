@@ -680,6 +680,7 @@ function formSections(sectionClasses) {
     //Reorder rows with drag and drop using a handle
     dragula(containers, {
       moves: function (el, container, handle) {
+        
       return handle.classList.contains('fa-arrows-alt');
     },
       direction: 'horizontal',

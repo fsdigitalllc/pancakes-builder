@@ -10,6 +10,21 @@ params:
 stacks:
   - template: "section"
     id: "testID"
+    class: "padding-top--xl padding-bottom--xl"
+    rows:
+    - template: "row"
+      id:
+      class: "flex container container--md padding-top--md padding-bottom--md"
+      columns:
+      - template: "column"
+        id: "custom-id"
+        class: "col-6"
+        elements:
+        - template: "text"
+          html: | 
+            <p>Text</p>
+  - template: "section-2"
+    id: "testID"
     class: "flex"
     rows:
     - template: "row"
@@ -22,4 +37,4 @@ stacks:
         elements:
         - template: "text"
           html: | 
-            <p>Text</p>
+            <p>Text 2</p>

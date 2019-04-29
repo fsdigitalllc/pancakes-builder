@@ -19,7 +19,7 @@
   {{ end }}
 
   {{ if $scratch.Get "gen_pagehtml" }}
-  <section id='{{ with .id }}{{ . }}{{ else }}{{ $index }}{{ end }}' class="{{ .class }}"{{ with .id }} pb-id="{{ . }}"{{ end }}{{ with .template }} pb-index="{{ $index }}" pb-template="{{ . }}"{{ end }}{{ with .class }} pb-class="{{ . }}"{{ end }}>
+  <section id='{{ with .id }}{{ . }}{{ else }}{{ $index }}{{ end }}' class="{{ .class }}"{{ with .id }} pb-id="{{ . }}"{{ end }}{{ with .template }} pb-index="{{ $index }}" pb-template-level="section" pb-template="{{ . }}"{{ end }}{{ with .class }} pb-class="{{ . }}"{{ end }}>
 
 
     {{/* <!--Start row --> */}}

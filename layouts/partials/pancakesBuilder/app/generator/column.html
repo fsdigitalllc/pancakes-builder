@@ -3,11 +3,11 @@
 {{ with .page.columns }}
 
   {{ range $index, $value := . }}
-  {{ if $scratch.Get "gen_menu_buttons" }}
-  <button{{ with .template }} pb-template-level="column" pb-template-add="{{ . }}"{{ end }}>{{ .template }}</button>
+    {{ if $scratch.Get "gen_menu_buttons" }}
+    <button{{ with .template }} pb-template-level="column" pb-template-add="{{ . }}"{{ end }}>{{ .template }}</button>
 
-  {{ partial "pancakesBuilder/app/generator/elements.html" (dict "page" . "global" $) }}
-  {{ end }}
+    {{ partial "pancakesBuilder/app/generator/elements.html" (dict "page" . "global" $) }}
+    {{ end }}
 
 
   {{ if $scratch.Get "gen_criticalcss" }}
@@ -17,13 +17,13 @@
   {{ end }}
 
   {{ if $scratch.Get "gen_pagehtml" }}
-  <div id="{{ with .id }}{{ . }}{{ else }}{{ $index }}{{ end }}"{{ with .template }} pb-template="{{ . }}"{{ end }} class="{{ .class }}">
+  <div id="{{ with .id }}{{ . }}{{ else }}{{ $index }}{{ end }}"{{ with .template }} pb-template-level="column" pb-template="{{ . }}"{{ end }} class="{{ .class }}">
 
   {{ partial "pancakesBuilder/app/generator/elements.html" (dict "page" . "global" $) }}
       
-
+  </div>
   {{ end }}
 
-  </div>
+  
   {{ end }}
 {{ end }}

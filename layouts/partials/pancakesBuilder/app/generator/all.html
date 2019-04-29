@@ -40,19 +40,8 @@
 {{ end }}
 {{/* <!--if html , context is page params--> */}}
 
-{{ if eq $mode "gen_pagehtml" }}
-  {{ with $context.stacks }}
-pagecontent
-  {{ partial "pancakesBuilder/app/generator/section.html" (dict "page" . "global" $) }}
+{{ with $context.stacks }}
 
-  {{ end }}
-{{ end }}
+{{ partial "pancakesBuilder/app/generator/section.html" (dict "page" . "global" $) }}
 
-{{ if eq $mode "gen_menu_content" }}
-menu content
-  {{ with $context.stacks }}
-
-  {{ partial "pancakesBuilder/app/generator/section.html" (dict "page" . "global" $) }}
-
-  {{ end }}
 {{ end }}

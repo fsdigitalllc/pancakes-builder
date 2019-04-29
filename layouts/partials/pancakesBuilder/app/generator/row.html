@@ -18,13 +18,13 @@
 
 
         {{ if $scratch.Get "gen_pagehtml" }}
-        <div id="{{ with .id }}{{ . }}{{ else }}{{ $index }}{{ end }}"{{ with .template }} pb-template="{{ . }}"{{ end }} class="{{ .class }}">
+        <div id="{{ with .id }}{{ . }}{{ else }}{{ $index }}{{ end }}"{{ with .template }} pb-template-level="row" pb-template="{{ . }}"{{ end }} class="{{ .class }}">
 
             {{ partial "pancakesBuilder/app/generator/column.html" (dict "page" . "global" $) }}
 
         </div>
         {{ end }}
 
-
     {{ end }}
+    
   {{ end }}
