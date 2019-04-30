@@ -55,13 +55,27 @@ For nested partials, pass the global and current level context with dict: `{{ pa
 - staging - localHost, Forestry preview.
 - production - netlify
 
-* generatorType - get the mode that the generator is in (css, html, etc)
-- gen_pagehtml - output sections, rows, cols, elements based on page front matter. This is the generated page html. **active in production**.
-- gen_criticalcss - output CSS defined as critical (usually if the current section loop has an index of < 2). **active in production**.
-- gen_menu_buttons - generate the buttons for the draggable items in the editor drawer. **Not active in production.**.
-- gen_menu_content - generate all the supported HTML that can be inserted using the builder. This is based on front matter from a data file. **Not active in production**.
-- gen_noncriticalcss - generate site-wide styles based on the theme stylesheet and user-defined styles that are in the section loop $index > 2. **active in production**.
+* generatorType (get the mode that the generator is in (css, html, etc))
+- Set var: {{ $.Scratch.Set "generatorType" "name" }}
+- Get var: {{ $scratch generatorType }}
 
+* gen_pagehtml 
+- output sections, rows, cols, elements based on page front matter. This is the generated page html. **active in production**.
+
+* gen_criticalcss 
+- output CSS defined as critical (usually if the current section loop has an index of < 2). **active in production**.
+* gen_menu_buttons 
+- generate the buttons for the draggable items in the editor drawer. **Not active in production.**.
+
+* gen_menu_content 
+- generate all the supported HTML that can be inserted using the builder. This is based on front matter from a data file. **Not active in production**.
+
+* gen_noncriticalcss 
+- generate site-wide styles based on the theme stylesheet and user-defined styles that are in the section loop $index > 2. **active in production**.
+
+### HTML gen
+
+* the pb- prefix is used for values in the div. These correspond with front matter fields. We have id="" and pb-id="" because the user might set the id="" using javascript. In this case, we would not want to add this to the front matter field `id`. in the `pb_fields` partial file, we can set some default values, such as class. This is inserted into the page using the drag-and-drop editor. We can then parse the pb-class selector to identify the default classes. These classes will not be overridden by the user defined editor values.
 
 ### Constructors 
 
