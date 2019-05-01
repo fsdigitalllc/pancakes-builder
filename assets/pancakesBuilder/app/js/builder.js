@@ -44,32 +44,46 @@ promise1.then(function() {
   
 }).then(function() {
   hoverState();
+}).then(function() {
+  dragOrder();
 });
 
 function hoverState() {
   _All("[pb-template-level='section'], [pb-template-level='row'], [pb-template-level='column']").forEach((item, index) => {
+  
+    var inactiveHover = function () {
+      item.classList.remove("edit-hover");
+      let faMove = item.querySelector(".fa-move");
+        if (faMove) {
+          faMove.parentNode.removeChild(faMove);
+        }
+    }
+
+    var activeHover = function (e) {
+      item.classList.add("edit-hover");
+    }
     
-    var toggleHover = function (e) {
-      if (item === e.target) {
-        item.classList.add("edit-hover");
-        console.log(item);
+    var createHandle = function (event) {
+      
+      // If handle wasn't already created, create it
+      if (!item.querySelector(".fa-move")) {
+        
+        //console.log("item", e.currentTarget);
         var node = document.createElement("div");
         node.classList.add("fa-move");
         node.innerText = "Move Me";
         item.appendChild(node);
       }
-    }
-    var removeHover = function () {
-      item.classList.remove("edit-hover");
-      if (item.querySelector(".fa-move")) {
-        var elem = item.querySelector(".fa-move");
-        elem.parentNode.removeChild(elem);
+
+      if (event.target === item) {
+        activeHover(event);
       }
     }
-    item.addEventListener("mouseover", toggleHover, false);
-    //item.addEventListener("mouseout", removeHover, false);
+    
+    item.addEventListener("mouseover", createHandle, false);
+    item.addEventListener("mouseleave", inactiveHover, false);
 
-  })
+  });
 }
 
 
@@ -91,7 +105,7 @@ function dragDrop() {
       return false; // only elements in drake.containers will be taken into account
     },
     moves: function (el, source, handle, sibling) {
-      if (handle.getAttribute("pb-template-level")) {
+      if (handle.getAttribute("pb-template-level") && source === dragMenu) {
         return true; // elements are always draggable by default
       }
     },
@@ -136,6 +150,54 @@ function dragDrop() {
   
 }
 
+function dragOrder() {
+  let containers = Array.prototype.slice.call(_("main"));
+  var reorder = dragula([containers], {
+    isContainer: function (el) {
+      return false; // only elements in drake.containers will be taken into account
+    },
+    moves: function (el, source, handle, sibling) {
+      if (handle.classList.contains("fa-move")) {
+        return true; // elements are always draggable by default
+      }
+    },
+    accepts: function (el, target, source, sibling) {
+      if (el.getAttribute("pb-template-level") === "section" && target.classList.contains("site-main")) {
+        return true; // elements can be dropped in any of the `containers` by default
+      } else if (el.getAttribute("pb-template-level") === "row" && target.getAttribute("pb-template") === "section") {
+        return true; // elements can be dropped in any of the `containers` by default
+      } else if (el.getAttribute("pb-template-level") === "column" && target.getAttribute("pb-template") === "row") {
+        return true; // elements can be dropped in any of the `containers` by default
+      }
+    },
+    invalid: function (el, handle) {
+      return false;
+      //return false; // don't prevent any drags from initiating by default
+    },
+    direction: 'vertical',             // Y axis is considered when determining where an element would be dropped
+    copy: true,                       // elements are moved by default, not copied
+    copySortSource: true,             // elements in copy-source containers can be reordered
+    revertOnSpill: true,              // spilling will put the element back where it was dragged from, if this is true
+    removeOnSpill: false,              // spilling will `.remove` the element, if this is true
+    //mirrorContainer: document.body,    // set the element that gets mirror elements appended
+    ignoreInputTextSelection: true     // allows users to select input text, see details below
+  });
+
+  reorder.containers.push(_("main"));
+
+  reorder.on('drag', function (el) {
+    console.log("moving");
+    console.log(containers);
+    console.log(el);
+    el.classList.add("in-transit");
+  }).on('out', function (el) {
+    el.classList.remove("in-transit");
+  }).on('drop', function (el, container, source) {
+    hoverState();
+  });
+  
+}
+
 function dragCreate (el, drake, containers) {
   let pbTemplateAdd = el.getAttribute("pb-template-add");
   let pbCreateContent = _(".pb-template-contentWrapper");
@@ -148,28 +210,5 @@ function dragCreate (el, drake, containers) {
   console.log(drake.containers);
   //reorder();
   hoverState();
+  dragOrder();
 }
-
-// function reorder() {
-//   dragula([_("main")], {
-//     isContainer: function (el) {
-//       return false; // only elements in drake.containers will be taken into account
-//     },
-//     moves: function (el, source, handle, sibling) {
-//       return true; // elements are always draggable by default
-//     },
-//     accepts: function (el, target, source, sibling) {
-//       return true; // elements can be dropped in any of the `containers` by default
-//     },
-//     invalid: function (el, handle) {
-//       return false; // don't prevent any drags from initiating by default
-//     },
-//     direction: 'vertical',             // Y axis is considered when determining where an element would be dropped
-//     copy: false,                       // elements are moved by default, not copied
-//     copySortSource: true,             // elements in copy-source containers can be reordered
-//     revertOnSpill: false,              // spilling will put the element back where it was dragged from, if this is true
-//     removeOnSpill: false,              // spilling will `.remove` the element, if this is true
-//     mirrorContainer: document.body,    // set the element that gets mirror elements appended
-//     ignoreInputTextSelection: true     // allows users to select input text, see details below
-//   });
-// }
