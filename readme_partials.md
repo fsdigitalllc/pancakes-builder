@@ -50,14 +50,14 @@ In a nested file that uses (dict), the var might look like this: `{{ $scratch :=
 For nested partials, pass the global and current level context with dict: `{{ partial "partial/path/file.html" (dict "page" . "global" $) }}`. Now we reference global context with somethingn like `{{ .global.Site.Data.data_file_name }}` instead of `{{ $.Site.Data.data_file_name }}`. We reference the current page context with `.page.template` instead of `.template`. If we need to go "up" one level of context, we can still use `$` for page context. However, global context requires `.global`.
 
 ### Scratch names
-{{ $scratch "name" }}:
+`{{ $scratch "name" }}`:
 * env - Get current environment state:
 - staging - localHost, Forestry preview.
 - production - netlify
 
-* generatorType (get the mode that the generator is in (css, html, etc))
-- Set var: {{ $.Scratch.Set "generatorType" "name" }}
-- Get var: {{ $scratch generatorType }}
+* `generatorType` (get the mode that the generator is in (css, html, etc))
+- Set var: `{{ $.Scratch.Set "generatorType" "name" }}`
+- Get var: `{{ $scratch generatorType }}`
 
 * gen_pagehtml 
 - output sections, rows, cols, elements based on page front matter. This is the generated page html. **active in production**.
@@ -71,7 +71,7 @@ For nested partials, pass the global and current level context with dict: `{{ pa
 - generate all the supported HTML that can be inserted using the builder. This is based on front matter from a data file. **Not active in production**.
 
 * gen_noncriticalcss 
-- generate site-wide styles based on the theme stylesheet and user-defined styles that are in the section loop $index > 2. **active in production**.
+- generate site-wide styles based on the theme stylesheet and user-defined styles that are in the section `loop $index > 2`. **active in production**.
 
 ### HTML gen
 

@@ -26,7 +26,6 @@ function moveFromMain(){
   _All(".modal").forEach((element, index) => {
     _("body").appendChild(element);
   });
-
   // Move out nested elements
   _All(`.pb-template-contentWrapper [pb-template-level^='row']`).forEach((element, index) => {
     _(".pb-template-contentWrapper").appendChild(element);
@@ -41,13 +40,36 @@ var promise1 = new Promise(function(resolve, reject) {
 });
 
 promise1.then(function() {
-  listeners();
-}).then(function() {
   dragDrop();
+  
+}).then(function() {
+  hoverState();
 });
 
-function listeners() {
-  console.log("listeners activated");
+function hoverState() {
+  _All("[pb-template-level='section'], [pb-template-level='row'], [pb-template-level='column']").forEach((item, index) => {
+    
+    var toggleHover = function (e) {
+      if (item === e.target) {
+        item.classList.add("edit-hover");
+        console.log(item);
+        var node = document.createElement("div");
+        node.classList.add("fa-move");
+        node.innerText = "Move Me";
+        item.appendChild(node);
+      }
+    }
+    var removeHover = function () {
+      item.classList.remove("edit-hover");
+      if (item.querySelector(".fa-move")) {
+        var elem = item.querySelector(".fa-move");
+        elem.parentNode.removeChild(elem);
+      }
+    }
+    item.addEventListener("mouseover", toggleHover, false);
+    //item.addEventListener("mouseout", removeHover, false);
+
+  })
 }
 
 
@@ -83,7 +105,8 @@ function dragDrop() {
       }
     },
     invalid: function (el, handle) {
-      return false; // don't prevent any drags from initiating by default
+      return false;
+      //return false; // don't prevent any drags from initiating by default
     },
     direction: 'vertical',             // Y axis is considered when determining where an element would be dropped
     copy: true,                       // elements are moved by default, not copied
@@ -124,6 +147,7 @@ function dragCreate (el, drake, containers) {
   drake.containers.push(pbReplace);
   console.log(drake.containers);
   //reorder();
+  hoverState();
 }
 
 // function reorder() {
