@@ -2,10 +2,6 @@ params:
   title: "Page Title"
   date: ""
   rows: "theRow"
-  tags:
-    - tag1
-    - tag2
-    - "tag3"
   customParam: "Custom Value"
 stacks:
   - template: "section"

@@ -41,6 +41,11 @@ Descr: A modal dialog used to display critical information.
   background-color: var(--color-bg);
 }
 
+textarea {
+  width: 100%;
+  height: 100%;
+}
+
 .modal__header {
   padding: var(--space-sm) var(--component-padding);
   background-color: var(--color-contrast-lower);
