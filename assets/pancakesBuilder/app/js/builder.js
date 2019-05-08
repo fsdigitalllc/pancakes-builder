@@ -6,6 +6,10 @@
 _("html").classList.add("editing--mode");
 _(".drawer").classList.add("drawer--fixed-header", "drawer--is-visible");
 
+let dataSections = "main [data-pb-template-level='section']";
+let dataRows = "main [data-pb-template-level='row']"
+let dataColumns = "main [data-pb-template-level='column']";
+
 // move UI Outside of main
 function moveFromMain(){
   //console.log(_(".pb-template-contentWrapper"));
@@ -203,6 +207,7 @@ let dialogueTrigger = document.querySelector('[pb-function="exportYml"]');
 var exportYml = function  () {
   console.log("export YML starting...");
   let sections = _All("main [data-pb-template-level='section']");
+  let rows, columns, indent;
   let textArea = dialogue.querySelector('textarea');
   let yml = `---\n`;
   let params = _All(".modal--full-screen label, .modal--full-screen input");
@@ -210,8 +215,10 @@ var exportYml = function  () {
   let key, value, prefix;
   params.forEach((param, index) => {
       key = param.getAttribute("data-pb-key");
+      
       value = param.value;
       if ( (key != undefined && key != null) && (value != undefined || value != null) ) {
+        
         yml += `${key}: ${value}\n`;
       }
     
@@ -220,6 +227,7 @@ var exportYml = function  () {
 
   yml += "stacks:\n";
 
+  
   sections.forEach((section, index) => {
     let keys = Object.entries(section.dataset);
 
@@ -229,10 +237,24 @@ var exportYml = function  () {
       } else {
         prefix = "";
       }
-      yml += `${prefix}${key[0]}: ${key[1]}\n`; 
+      
+      
+      const camelToDash = str => str
+      .replace(/(^[A-Z])/, ([first]) => first.toLowerCase())
+      .replace(/([A-Z])/g, ([letter]) => `-${letter.toLowerCase()}`)
+
+      let newkey = camelToDash(key[0]).replace("pb-", "");
+      //let newkey = key[0].replace("pb", "").toLowerCase();
+
+      yml += `${indent}${prefix}${newkey}: ${key[1]}\n`; 
       
       
     });
+    rows = section.querySelectorAll(dataRows);
+    rows.forEach((row, index) => {
+      console.log(row);
+    });
+
   });
   textArea.value = yml;
 }
