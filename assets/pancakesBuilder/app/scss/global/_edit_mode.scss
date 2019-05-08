@@ -12,8 +12,8 @@
   }
   main {
     [data-pb-template-level="section"],
-    [pb-template-level="row"],
-    [pb-template-level="column"] {
+    [data-pb-template-level="row"],
+    [data-pb-template-level="column"] {
       position: relative;
       overflow-Y: visible;
     }
@@ -25,19 +25,19 @@
       border: 1px solid red;
       z-index: 54;
     }
-    [pb-template-level="row"] {
+    [data-pb-template-level="row"] {
       min-height: 150px;
       border: 1px dotted blue;
     }
-    [pb-template-level="row"]:hover {
+    [data-pb-template-level="row"]:hover {
       border: 1px solid blue;
       z-index: 55;
     }
-    [pb-template-level="column"] {
+    [data-pb-template-level="column"] {
       min-height: 150px;
       border: 1px dotted green;
     }
-    [pb-template-level="column"]:hover {
+    [data-pb-template-level="column"]:hover {
       border: 1px solid green;
       z-index: 56;
     }
@@ -83,7 +83,7 @@
     max-width: 100%;
     margin: 0 auto;
   }
-  button[pb-template-level="row"].gu-transit {
+  button[data-pb-template-level="row"].gu-transit {
     background: blue;
     height: 100px;
     min-height: 100px;
@@ -91,7 +91,7 @@
     max-width: 100%;
     margin: 0 auto;
   }
-  button[pb-template-level="column"].gu-transit {
+  button[data-pb-template-level="column"].gu-transit {
     background: green;
     height: 100px;
     min-height: 100px;

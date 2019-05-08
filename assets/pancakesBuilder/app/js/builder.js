@@ -28,10 +28,10 @@ function moveFromMain(){
   });
 
   // Move out nested elements
-  _All(`.pb-template-contentWrapper [pb-template-level^='row']`).forEach((element, index) => {
+  _All(`.pb-template-contentWrapper [data-pb-template-level^='row']`).forEach((element, index) => {
     _(".pb-template-contentWrapper").appendChild(element);
   });
-  _All(`.pb-template-contentWrapper [pb-template-level^='column']`).forEach((element, index) => {
+  _All(`.pb-template-contentWrapper [data-pb-template-level^='column']`).forEach((element, index) => {
     _(".pb-template-contentWrapper").appendChild(element);
   });
 }
@@ -50,7 +50,7 @@ promise1.then(function() {
 });
 
 function hoverState() {
-  _All("main [data-pb-template-level='section'], main [pb-template-level='row'], main [pb-template-level='column']").forEach((item, index) => {
+  _All("main [data-pb-template-level='section'], main [data-pb-template-level='row'], main [data-pb-template-level='column']").forEach((item, index) => {
   
     var inactiveHover = function () {
       item.classList.remove("edit-hover");
@@ -107,9 +107,9 @@ function dragDrop() {
     accepts: function (el, target, source, sibling) {
       if (el.getAttribute("data-pb-template-level") === "section" && target.classList.contains("site-main")) {
         return true;
-      } else if (el.getAttribute("pb-template-level") === "row" && target.getAttribute("data-pb-template-level") === "section") {
+      } else if (el.getAttribute("data-pb-template-level") === "row" && target.getAttribute("data-pb-template-level") === "section") {
         return true;
-      } else if (el.getAttribute("pb-template-level") === "column" && target.getAttribute("pb-template-level") === "row") {
+      } else if (el.getAttribute("data-pb-template-level") === "column" && target.getAttribute("data-pb-template-level") === "row") {
         return true;
       }
     },
@@ -142,7 +142,7 @@ function dragOrder() {
       return handle.classList.contains('fa-move');
   },
     invalid(el, handle) {
-      return (el.getAttribute("pb-template-level") === "row" || el.getAttribute("pb-template-level") === "column" );
+      return (el.getAttribute("data-pb-template-level") === "row" || el.getAttribute("data-pb-template-level") === "column" );
     }
   }).on('out', function (el) {
     el.classList.remove("in-transit");
@@ -160,7 +160,7 @@ function dragOrder() {
       // If the selected element className is column, 
       //    dont allow the row to be dragged. This will allow 
       //    the column to be dragged separate from the row. 
-      return (el.getAttribute("pb-template-level") === "column" );
+      return (el.getAttribute("data-pb-template-level") === "column" );
     }
   }).on('drag', function (el) {
       el.classList.add("in-transit");
@@ -168,7 +168,7 @@ function dragOrder() {
       el.classList.remove("in-transit");
   });
 
-  containers = [].slice.call(document.querySelectorAll("[pb-template-level='row']"));
+  containers = [].slice.call(document.querySelectorAll("[data-pb-template-level='row']"));
 
   //Reorder rows with drag and drop using a handle
   dragula(containers, {

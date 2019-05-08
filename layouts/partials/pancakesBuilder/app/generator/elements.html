@@ -5,7 +5,7 @@
 
   
     {{ if $scratch.Get "gen_menu_buttons" }}
-    <button{{ with .template }} pb-template-level="element" pb-template-add="{{ . }}"{{ end }}>{{ .template }}</button>
+    <button{{ with .template }} data-pb-template-level="element" data-pb-template-add="{{ . }}"{{ end }}>{{ .template }}</button>
     {{ end }}
 
     {{ if $scratch.Get "gen_criticalcss" }}

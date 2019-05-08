@@ -4,7 +4,7 @@
     {{ range $index, $value := . }}
 
         {{ if $scratch.Get "gen_menu_buttons" }}
-        <button{{ with .template }} pb-template-level="row" pb-template-add="{{ . }}"{{ end }}>{{ .template }}</button>
+        <button{{ with .template }} data-pb-template-level="row" data-pb-template-add="{{ . }}"{{ end }}>{{ .template }}</button>
 
         {{ partial "pancakesBuilder/app/generator/column.html" (dict "page" . "global" $) }}
         {{ end }}
@@ -18,7 +18,7 @@
 
 
         {{ if $scratch.Get "gen_pagehtml" }}
-        <div id="{{ with .id }}{{ . }}{{ else }}{{ $index }}{{ end }}"{{ with .template }} pb-template-level="row" pb-template="{{ . }}"{{ end }} class="{{ .class }}">
+        <div id="{{ with .id }}{{ . }}{{ else }}{{ $index }}{{ end }}"{{ with .template }} data-pb-template-level="row" data-pb-template="{{ . }}"{{ end }} class="{{ .class }}">
 
             {{ partial "pancakesBuilder/app/generator/column.html" (dict "page" . "global" $) }}
 
