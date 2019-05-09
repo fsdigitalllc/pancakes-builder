@@ -11,6 +11,13 @@ _(".drawer").classList.add("drawer--fixed-header", "drawer--is-visible");
 let dataSections = "main [data-pb-template-level='section']";
 let dataRows = "main [data-pb-template-level='row']"
 let dataColumns = "main [data-pb-template-level='column']";
+const dataSelect = "fa-move";
+
+//local storage
+const db = localStorage;
+const pageId = window.location;
+const savedData = `${pageId}.savedData`;
+const autoSavedData = `${savedData}.auto`;
 
 // move UI Outside of main
 function moveFromMain(){
@@ -47,8 +54,9 @@ var promise1 = new Promise(function(resolve, reject) {
 });
 
 promise1.then(function() {
+  loadAutoSave();
+}).then(function() {
   dragDrop();
-  
 }).then(function() {
   hoverState();
 }).then(function() {
@@ -78,8 +86,10 @@ function hoverState() {
         //console.log("item", e.currentTarget);
         var node = document.createElement("div");
         node.classList.add("fa-move");
-        node.innerText = "Move Me";
+        node.innerHTML = `<svg class="icon-arrows"><use xlink:href="/images/icons.svg#icon-arrows"></use></svg>Move Me <svg class="icon-pencil" pb-function="edit-item"><use xlink:href="/images/icons.svg#icon-pencil"></use></svg>`;
         item.appendChild(node);
+
+        item.querySelector(`[pb-function='edit-item']`).addEventListener("click", editItem, false);
       }
 
       if (event.target === item) {
@@ -87,16 +97,42 @@ function hoverState() {
       }
     }
     
+    
     item.addEventListener("mouseover", createHandle, false);
     item.addEventListener("mouseleave", inactiveHover, false);
 
   });
 }
 
+// On click, allow user to toggle the selected items classes using the options in the sidebar
+let editItem = editBtn => {
+  console.log(editBtn.target)
+
+  let tabSections = _All(".drawer .tabs__panels section");
+  let tabs = _All(".drawer .tabs .tab-title");
+
+  tabSections.forEach(tabSection => {
+    tabSection.classList.remove("tabs__panel--selected");
+    if (!tabSection.classList.contains("tab__panel--is-hidden") ) {
+      tabSection.classList.add("tab__panel--is-hidden");
+    }
+  })
+
+  // Need to fix tab active state
+  // Set aria-selected to true/false and selected class
+  tabs.forEach(tab => {
+    tab.classList.remove("tabs__control--selected");
+    if (!tab.classList.contains("tab__panel--is-hidden") ) {
+      tab.classList.add("tab__panel--is-hidden");
+    }
+  });
+
+  _('.drawer .tabs__panels [pb-function="edit-item" ]').classList.add("tabs__panel--selected");
+}
 
 function dragDrop() {
   // Elements that are created on drag start in the drawer sidebar
-  let dragMenu = document.querySelector(".drawer .drawer__body");
+  let dragMenu = document.querySelector('.drawer .drawer__body [pb-function="item-drawer"]');
   let containers = Array.prototype.slice.call(_("main"));
   //console.log(containers);
   //[dragMenu, containers], 
@@ -234,49 +270,59 @@ var exportYml = function  () {
   .replace(/([A-Z])/g, ([letter]) => `-${letter.toLowerCase()}`)
 
   const ymlString = (item, index) => {
-    console.log(item.getAttribute("data-pb-template-level"));
+
+    // Index: the current index of the draggable section, row, or column
+    // i: the current key index
+
     let keys = Object.entries(item.dataset);
     let indent, prefix, name, value, level = item.getAttribute("data-pb-template-level");
 
+    // iterate through each data-pb and grab the value
+    // the order matches the order in the markup
     keys.forEach((key, i) => {      
+
+      // YML format:
+      // name: value
       name = key[0], value = key[1];
 
+      // replace camelcase with dash format. Remove data-pb prefix so it matches our desirable YML
       name = camelToDash(name).replace("pb-", "");
         
         //console.log(index, i, name,": ", value);
-          if (i === 0) {
-            prefix = "- ";
-          } else {
-            prefix = "  ";
-          }
-
-          if (level === "section" ) {
-            indent = "  "
-          } else if (level === "row") {
-            indent = "    "            
-          } else if (level === "column") {
-            indent = "      "            
-          }
-          if (!level === "section" && (index === 0 && i === 0)) {
-            yml += `${indent}${level}s:\n`;
-          }
-      //let newkey = key[0].replace("pb", "").toLowerCase();
+        // For the first key index (i), use a dash in the prefix. We assume it's - template: for the first key index
+        if (i === 0) {
+          prefix = "- ";
+        } else {
+          prefix = "  ";
+        }
+        // For each draggable item, the YML indent will vary slightly. 
+        if (level === "section" ) {
+          indent = "  "
+        } else if (level === "row") {
+          indent = "    "            
+        } else if (level === "column") {
+          indent = "      "            
+        }
+        // In our YML, each nested loop is started like this: "level-name:". However, this is only added once per loop level, so we compare the item index with the data index (i).
+        if (level === "section") {
+          
+        } else if ((index === 0 && i === 0)) {
+          yml += `${indent}${level}s:\n`;
+        }
       yml += `${indent}${prefix}${name}: ${value}\n`;
       
-
     });
-    
+
     console.log(yml);
     return yml;
 
   }
 
+  // Loop through each draggable item within <main> tags, then get the data-attributes, then generate the YML.
   sections.forEach((section, index) => {
-
     textArea.value = ymlString(section, index);
 
     rows = section.querySelectorAll(dataRows);
-    
     rows.forEach((row, index) => {
       textArea.value = ymlString(row, index);
 
@@ -285,8 +331,36 @@ var exportYml = function  () {
           textArea.value = ymlString(column, index);
         });
     });
-
   });
+  textArea.value += `---\n`;
 }
 
 dialogueTrigger.addEventListener("click", exportYml, false);
+
+let savePage = page => {
+  console.log("save page")
+  db.setItem(savedData, _("main").innerHTML);
+}
+_("[pb-function='save']").addEventListener("click", savePage, false);
+
+let loadSave = page => {
+  console.log(db.getItem(savedData))
+  _("main").innerHTML = db.getItem(savedData);
+  //db.setItem(savedData, _("main").innerHTML);
+}
+_("[pb-function='load']").addEventListener("click", loadSave, false);
+
+
+let autoSave = page => {
+  db.setItem(autoSavedData, _("main").innerHTML);
+}
+let loadAutoSave = page => {
+  if (!db.getItem(autoSavedData) === null || !db.getItem(autoSavedData) === undefined) {
+    _("main").innerHTML = db.getItem(autoSavedData);
+  }
+}
+// Auto save
+setInterval(() => {
+  console.log("Auto saving...")
+  autoSave();
+}, 5000);

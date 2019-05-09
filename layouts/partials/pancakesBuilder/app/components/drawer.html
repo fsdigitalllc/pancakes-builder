@@ -1,3 +1,5 @@
+{{ $icons := "/images/icons.svg" }}
+<!--icons http://app.fontastic.me-->
 <button class="openDrawer toggleDrawer" aria-controls="drawer2">Open</button>
 <div class="drawer drawer--fixed-header js-drawer" id="drawer2">
   <div class="drawer__content" role="alertdialog" tabindex="-1" aria-labelledby="drawerTitle2">
@@ -10,7 +12,7 @@
     </header>
 
     <div class="drawer__body scrollbar js-drawer__body">
-        {{- partial "pancakesBuilder/app/generator/all.html" . | safeHTML -}}
+        
       <div class="changeContent">
         
         {{ partial "pancakesBuilder/app/components/elements/tabs.html" . }}
@@ -19,7 +21,12 @@
         
       </div>
     </div>
-    <button class="btn btn--primary" aria-controls="modal1" pb-function="exportYml">Export YML</button>
-    <button class="btn btn--primary" aria-controls="modal2">Edit Params</button>
+    <div class="drawer__header drawer__footer pb-btn-row flex">
+    <button class="btn btn--primary" aria-controls="modal1" pb-function="exportYml"><svg class="icon-code"><use xlink:href="{{ $icons }}#icon-code"></use></svg>
+    </button>
+    <button class="btn btn--primary" aria-controls="modal2"><svg class="icon-list-add"><use xlink:href="{{ $icons }}#icon-list-add"></use></svg></button>
+    <button class="btn btn--primary" pb-function="save"><svg class="icon-floppy"><use xlink:href="{{ $icons }}#icon-floppy"></use></svg></button>
+    <button class="btn btn--primary" pb-function="load"><svg class="icon-cw"><use xlink:href="{{ $icons }}#icon-cw"></use></svg></button>
+    </div>  
   </div>
 </div>

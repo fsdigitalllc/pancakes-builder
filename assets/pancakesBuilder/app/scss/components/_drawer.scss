@@ -110,6 +110,10 @@ Descr: A slide-in panel used to display critical content.
 .drawer--fixed-header .drawer__close-btn {
   position: static; 
 }
+.drawer__header.drawer__footer {
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
 
 // --modal
 .drawer--modal {

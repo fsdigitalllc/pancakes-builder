@@ -110,6 +110,13 @@
     -ms-user-select: none !important;
     user-select: none !important;
   }
-  
-  
+  .pb-btn-row {
+    background-color: var(--color-primary);
+  }
+  [class^="icon-"], [class*=" icon-"] {
+    height: 18px;
+    width: 18px;
+    display: inline-block; 
+    fill: currentColor; 
+  }
 }
