@@ -18,7 +18,7 @@
 
 
         {{ if $scratch.Get "gen_pagehtml" }}
-        <div id="{{ with .id }}{{ . }}{{ else }}{{ $index }}{{ end }}"{{ with .template }} data-pb-template-level="row" data-pb-template="{{ . }}"{{ end }} class="{{ .class }}">
+        <div id='{{ with .id }}{{ . }}{{ else }}{{ $index }}{{ end }}' class="{{ .class }}"{{ with .template }} data-pb-template="{{ . }}"{{ end }}{{ with .id }} data-pb-id="{{ . }}"{{ end }}{{ with .class }} data-pb-class="{{ . }}"{{ end }} data-pb-template-level="row">
 
             {{ partial "pancakesBuilder/app/generator/column.html" (dict "page" . "global" $) }}
 

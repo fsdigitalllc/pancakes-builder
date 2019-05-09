@@ -2,10 +2,12 @@
 // _(".element");
 // _All(".elements");
 
-// TEST MODE 
+// TEST MODE //
 _("html").classList.add("editing--mode");
 _(".drawer").classList.add("drawer--fixed-header", "drawer--is-visible");
+///////////////
 
+// Draggable elements will always use data-pb-template-level
 let dataSections = "main [data-pb-template-level='section']";
 let dataRows = "main [data-pb-template-level='row']"
 let dataColumns = "main [data-pb-template-level='column']";
@@ -54,7 +56,7 @@ promise1.then(function() {
 });
 
 function hoverState() {
-  _All("main [data-pb-template-level='section'], main [data-pb-template-level='row'], main [data-pb-template-level='column']").forEach((item, index) => {
+  _All(`${dataSections}, ${dataRows}, ${dataColumns}`).forEach((item, index) => {
   
     var inactiveHover = function () {
       item.classList.remove("edit-hover");
@@ -206,7 +208,7 @@ let dialogueTrigger = document.querySelector('[pb-function="exportYml"]');
 
 var exportYml = function  () {
   console.log("export YML starting...");
-  let sections = _All("main [data-pb-template-level='section']");
+  let sections = _All(dataSections);
   let rows, columns, indent;
   let textArea = dialogue.querySelector('textarea');
   let yml = `---\n`;
@@ -227,36 +229,64 @@ var exportYml = function  () {
 
   yml += "stacks:\n";
 
-  
-  sections.forEach((section, index) => {
-    let keys = Object.entries(section.dataset);
+  const camelToDash = str => str
+  .replace(/(^[A-Z])/, ([first]) => first.toLowerCase())
+  .replace(/([A-Z])/g, ([letter]) => `-${letter.toLowerCase()}`)
 
-    keys.forEach((key, i) => {
-      if (i ===0) {
-        prefix = "- ";
-      } else {
-        prefix = "";
-      }
-      
-      
-      const camelToDash = str => str
-      .replace(/(^[A-Z])/, ([first]) => first.toLowerCase())
-      .replace(/([A-Z])/g, ([letter]) => `-${letter.toLowerCase()}`)
+  const ymlString = (item, index) => {
+    console.log(item.getAttribute("data-pb-template-level"));
+    let keys = Object.entries(item.dataset);
+    let indent, prefix, name, value, level = item.getAttribute("data-pb-template-level");
 
-      let newkey = camelToDash(key[0]).replace("pb-", "");
+    keys.forEach((key, i) => {      
+      name = key[0], value = key[1];
+
+      name = camelToDash(name).replace("pb-", "");
+        
+        //console.log(index, i, name,": ", value);
+          if (i === 0) {
+            prefix = "- ";
+          } else {
+            prefix = "  ";
+          }
+
+          if (level === "section" ) {
+            indent = "  "
+          } else if (level === "row") {
+            indent = "    "            
+          } else if (level === "column") {
+            indent = "      "            
+          }
+          if (!level === "section" && (index === 0 && i === 0)) {
+            yml += `${indent}${level}s:\n`;
+          }
       //let newkey = key[0].replace("pb", "").toLowerCase();
+      yml += `${indent}${prefix}${name}: ${value}\n`;
+      
 
-      yml += `${indent}${prefix}${newkey}: ${key[1]}\n`; 
-      
-      
     });
+    
+    console.log(yml);
+    return yml;
+
+  }
+
+  sections.forEach((section, index) => {
+
+    textArea.value = ymlString(section, index);
+
     rows = section.querySelectorAll(dataRows);
+    
     rows.forEach((row, index) => {
-      console.log(row);
+      textArea.value = ymlString(row, index);
+
+      columns = row.querySelectorAll(dataColumns);
+        columns.forEach((column, index) => {
+          textArea.value = ymlString(column, index);
+        });
     });
 
   });
-  textArea.value = yml;
 }
 
 dialogueTrigger.addEventListener("click", exportYml, false);
