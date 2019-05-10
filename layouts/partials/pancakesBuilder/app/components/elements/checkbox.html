@@ -4,12 +4,13 @@
 
 {{ $value := "value" }}
 
-
+{{ $i := false }}
+{{ with .index }}
+  {{ $i = . }}
+{{ end }}
 <form>
     <div class="margin-bottom--md">
       <fieldset>
-        
-        <legend class="form-legend">Custom {{ $type }} Buttons</legend>
   
         <ul class="{{ $type }}-list {{ $type }}-list--custom">
           
@@ -26,8 +27,8 @@
           {{ if .value }}
             {{ $value = .value }}
           <li>
-            <input type="{{ $type }}" name="radioButton" id="{{ $type }}{{ $index }}">
-            <label for="{{ $type }}{{ $index }}">{{ $label }}</label>
+            <input type="{{ $type }}"{{ if eq $type "radio" }} name='radioButton'{{ end }} value="{{ $value }}" id="{{ $type }}-{{ $i }}-{{ $index }}">
+            <label for="{{ $type }}-{{ $i }}-{{ $index }}">{{ $label }}</label>
           </li>
           {{ end }}
 

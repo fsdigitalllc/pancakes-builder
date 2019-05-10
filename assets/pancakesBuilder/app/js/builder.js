@@ -104,12 +104,16 @@ function hoverState() {
   });
 }
 
+const camelToDash = str => str
+  .replace(/(^[A-Z])/, ([first]) => first.toLowerCase())
+  .replace(/([A-Z])/g, ([letter]) => `-${letter.toLowerCase()}`)
+
 // On click, allow user to toggle the selected items classes using the options in the sidebar
 let editItem = editBtn => {
   console.log(editBtn.target.parentNode.parentNode)
 
-  // Get the item (section, row, column, element)
-  //let item = editBtn.target.parentNode.parentNode;
+  // Get the item (section, row, column)
+  let item = editBtn.target.parentNode.parentNode;
 
   let tabSections = _All(".drawer .tabs__panels section");
   let tabs = _All(".drawer .tabs .tab-title");
@@ -131,6 +135,31 @@ let editItem = editBtn => {
   });
 
   _('.drawer .tabs__panels [pb-function="edit-item" ]').classList.add("tabs__panel--selected");
+
+  let allOptions = _All(".drawer input"), value, v, name;
+  let keys = Object.entries(item.dataset);
+  allOptions.forEach( input => {
+    value = input.value;
+
+    keys.forEach((key, i) => {      
+
+      if (key[0] === "pbClass") {
+        
+        v = key[1];
+        console.log("find this:", v, "in this:", value);
+        if (v.includes(value)) {
+          console.log(value)
+          input.checked = true;
+        } else {
+          input.checked = false;
+        }
+      }
+      
+
+      //console.log("true", keys);
+
+    });
+  })
 }
 
 function dragDrop() {
@@ -267,10 +296,6 @@ var exportYml = function  () {
   });
 
   yml += "stacks:\n";
-
-  const camelToDash = str => str
-  .replace(/(^[A-Z])/, ([first]) => first.toLowerCase())
-  .replace(/([A-Z])/g, ([letter]) => `-${letter.toLowerCase()}`)
 
   const ymlString = (item, index) => {
 

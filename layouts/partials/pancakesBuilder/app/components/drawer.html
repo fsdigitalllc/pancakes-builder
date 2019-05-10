@@ -18,21 +18,16 @@
 {{ $sample := $.Site.Data.pb_classes }}
 {{ range $index, $value := $.Site.Data.pb_classes.desktop }}
 
-<ul>
-----Top Iteration---
 
 {{ if reflect.IsSlice $value }}
-<ul>
 <label><strong>{{ $index }}</strong></label>
 
 {{ $range := slice $value }}
 
-{{ partial "pancakesBuilder/app/components/elements/checkbox.html" (dict "loop" $range ) }}
+{{ partial "pancakesBuilder/app/components/elements/checkbox.html" (dict "loop" $range "index" $index ) }}
 
-</ul>
 {{ end }}
 
-</ul>
 {{ end }}
         {{ partial "pancakesBuilder/app/components/elements/tabs.html" . }}
         
