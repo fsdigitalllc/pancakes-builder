@@ -106,7 +106,10 @@ function hoverState() {
 
 // On click, allow user to toggle the selected items classes using the options in the sidebar
 let editItem = editBtn => {
-  console.log(editBtn.target)
+  console.log(editBtn.target.parentNode.parentNode)
+
+  // Get the item (section, row, column, element)
+  //let item = editBtn.target.parentNode.parentNode;
 
   let tabSections = _All(".drawer .tabs__panels section");
   let tabs = _All(".drawer .tabs .tab-title");

@@ -1,3 +1,4 @@
+{{ $data := $.Site.Data.pb_classes }}
 <ul data-animation="on" data-multi-items="off" class="accordion js-accordion">
     <li class="accordion__item accordion__item--is-open js-accordion__item">
       <button class="accordion__header" type="button">
@@ -7,10 +8,38 @@
   
       <div class="accordion__panel js-accordion__panel">
         <div class="accordion__panel-content">
-          <div class="text-component margin-bottom--md">
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum a ab quae quas optio ut officia quia? Modi at impedit dolorem est voluptatem facilis, beatae atque tenetur, soluta dolorum inventore sapiente laborum. Alias esse soluta porro distinctio aperiam, qui suscipit.</p>
+          
+          
+          {{ range $index, $values := $data.global }}
+            {{ with .spacing }}
+            <div class="select">
+            <select class="form-control" name="selectThis" id="selectThis">
+            {{ range . }}
+
+            
+            {{ with .top }}
+            <optgroup label="Top">
+            {{ range . }}
+            {{ partial "pancakesBuilder/app/components/elements/select/option" (dict "value" .value "label" .label) }}
+            {{ end }}
+            </optgroup>
+            {{ end }}
+            {{ with .bottom }}
+            <optgroup label="Bottom">
+            {{ range . }}
+            {{ partial "pancakesBuilder/app/components/elements/select/option" (dict "value" .value "label" .label) }}
+            {{ end }}
+            </optgroup>
+            {{ end }}
+
+            {{ end }}
+            </select>
+            {{ end }}
+            <svg class="icon" aria-hidden="true" viewBox="0 0 16 16"><g stroke-width="1" stroke="currentColor"><polyline fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" points="15.5,4.5 8,12 0.5,4.5 "></polyline></g></svg>
           </div>
         </div>
+          {{ end }}
+        
       </div>
     </li>
   
@@ -61,3 +90,4 @@
       </div>
     </li>
   </ul>
+  <button class="btn btn--primary" aria-controls="modal2">Save</button>
