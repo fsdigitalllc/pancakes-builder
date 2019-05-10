@@ -1,5 +1,4 @@
 {{ $icons := "/images/icons.svg" }}
-
 <!--icons http://app.fontastic.me-->
 <button class="openDrawer toggleDrawer" aria-controls="drawer2">Open</button>
 <div class="drawer drawer--fixed-header js-drawer" id="drawer2">
@@ -15,28 +14,26 @@
     <div class="drawer__body scrollbar js-drawer__body">
         
       <div class="changeContent">
-
+        
 {{ $sample := $.Site.Data.pb_classes }}
-{{ range $index, $value := $.Site.Data.pb_classes }}
+{{ range $index, $value := $.Site.Data.pb_classes.desktop }}
 
 <ul>
 ----Top Iteration---
 
 {{ if reflect.IsSlice $value }}
 <ul>
-<li><strong>Slice: {{ $index }}</strong></li>
+<label><strong>{{ $index }}</strong></label>
 
-{{ range $value }}
-<li>{{ . }}</li>
-{{ end }}
-</ul>
-{{ end }}
-{{ $index }}
+{{ $range := slice $value }}
+
+{{ partial "pancakesBuilder/app/components/elements/checkbox.html" (dict "loop" $range ) }}
 
 </ul>
 {{ end }}
-        
 
+</ul>
+{{ end }}
         {{ partial "pancakesBuilder/app/components/elements/tabs.html" . }}
         
 

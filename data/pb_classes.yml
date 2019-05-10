@@ -1,37 +1,42 @@
-test:
-  - name: "seven"
-    value: "eight"
-  - name: "ten"
-    value: "eleven"
-global:
-- spacing:
-  - top: 
-    - label: "XXL"
-      value: padding-xxl--top
-    - label: "XL"
-      value: padding-xl--top
-    - label: "L"
-      value: padding-l--top
-    - label: "M"
-      value: padding-m--top
-    - label: "S"
-      value: padding-s--top
-    - label: "XS"
-      value: padding-xs--top
-    - label: "XXS"
-      value: padding-xxs--top
-  - bottom:
-    - label: "XXL"
-      value: padding-xxl--bottom
-    - label: "XL"
-      value: padding-xl--bottom
-    - label: "L"
-      value: padding-l--bottom
-    - label: "M"
-      value: padding-m--bottom
-    - label: "S"
-      value: padding-s--bottom
-    - label: "XS"
-      value: padding-xs--bottom
-    - label: "XXS"
-      value: padding-xxs--bottom
+desktop:
+  spacing_top:
+  - type: "radio"
+  - label: "XXL"
+    value: padding-xxl--top
+  - label: "XL"
+    value: padding-xl--top
+  - label: "L"
+    value: padding-l--top
+  - label: "M"
+    value: padding-m--top
+  - label: "S"
+    value: padding-s--top
+  - label: "XS"
+    value: padding-xs--top
+  - label: "XXS"
+    value: padding-xxs--top
+  spacing_bottom:
+  - type: "checkbox"
+  - label: "XXL"
+    value: padding-xxl--bottom
+  - label: "XL"
+    value: padding-xl--bottom
+  - label: "L"
+    value: padding-l--bottom
+  - label: "M"
+    value: padding-m--bottom
+  - label: "S"
+    value: padding-s--bottom
+  - label: "XS"
+    value: padding-xs--bottom
+  - label: "XXS"
+    value: padding-xxs--bottom
+  align_children:
+  - label: "flex"
+    value: "Flex"
+  - label: "Space Between"
+    value: "flex--space-between"
+  - label: "Space around"
+    value: "flex--space-around"
+  - label: "Space Evenly"
+    value: "flex--space-evenly"

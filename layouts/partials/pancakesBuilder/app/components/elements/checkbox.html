@@ -1,5 +1,9 @@
 {{ $type := "radio"}}
+
 {{ $label := "Label"}}
+
+{{ $value := "value" }}
+
 
 <form>
     <div class="margin-bottom--md">
@@ -8,36 +12,28 @@
         <legend class="form-legend">Custom {{ $type }} Buttons</legend>
   
         <ul class="{{ $type }}-list {{ $type }}-list--custom">
-  
-          <li>
-            <input type="{{ $type }}" name="radioButton" id="radio2">
-            <label for="radio2">{{ $label }}</label>
-          </li>
+          
+          {{ range .loop }}
+          {{ range $index, $item := . }}
 
+          {{ with .type }}
+            {{ $type = . }}
+          {{ end }}
+          
+          {{ with .label }}
+            {{ $label = . }}
+          {{ end }}
+          {{ if .value }}
+            {{ $value = .value }}
+          <li>
+            <input type="{{ $type }}" name="radioButton" id="{{ $type }}{{ $index }}">
+            <label for="{{ $type }}{{ $index }}">{{ $label }}</label>
+          </li>
+          {{ end }}
+
+          {{ end }}
+          {{ end }}
         </ul>
-      </fieldset>
-    </div>
-  
-    <div class="margin-bottom--md">
-      <fieldset>
-        <legend class="form-legend">Custom Checkboxes</legend>
-  
-        <div class="checkbox-list checkbox-list--custom">
-          <div>
-            <input type="checkbox" id="checkbox1" checked>
-            <label for="checkbox1">Option 1</label>
-          </div>
-  
-          <div>
-            <input type="checkbox" id="checkbox2">
-            <label for="checkbox2">Option 2</label>
-          </div>
-  
-          <div>
-            <input type="checkbox" id="checkbox3">
-            <label for="checkbox3">Option 3</label>
-          </div>
-        </div>
       </fieldset>
     </div>
   </form>
