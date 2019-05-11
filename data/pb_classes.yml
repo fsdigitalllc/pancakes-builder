@@ -33,7 +33,7 @@ desktop:
     value: padding-bottom--xxs
   align_children:
   - label: "flex"
-    value: "Flex"
+    value: "flex"
   - label: "Space Between"
     value: "flex--space-between"
   - label: "Space around"

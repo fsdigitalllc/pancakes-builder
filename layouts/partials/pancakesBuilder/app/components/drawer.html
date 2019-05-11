@@ -15,20 +15,7 @@
         
       <div class="changeContent">
         
-{{ $sample := $.Site.Data.pb_classes }}
-{{ range $index, $value := $.Site.Data.pb_classes.desktop }}
 
-
-{{ if reflect.IsSlice $value }}
-<label><strong>{{ $index }}</strong></label>
-
-{{ $range := slice $value }}
-
-{{ partial "pancakesBuilder/app/components/elements/checkbox.html" (dict "loop" $range "index" $index ) }}
-
-{{ end }}
-
-{{ end }}
         {{ partial "pancakesBuilder/app/components/elements/tabs.html" . }}
         
 

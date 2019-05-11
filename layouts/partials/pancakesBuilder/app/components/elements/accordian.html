@@ -10,36 +10,20 @@
       <div class="accordion__panel js-accordion__panel">
         <div class="accordion__panel-content">
           
-          
-          {{ range $index, $values := $data.global }}
-            {{ with .spacing }}
-            <div class="select">
-            <select class="form-control" name="selectThis" id="selectThis">
-            {{ range . }}
-
+            {{ $sample := $.Site.Data.pb_classes }}
+            {{ range $index, $value := $.Site.Data.pb_classes.desktop }}
             
-            {{ with .top }}
-            <optgroup label="Top">
-            {{ range . }}
-            {{ partial "pancakesBuilder/app/components/elements/select/option" (dict "value" .value "label" .label) }}
+            
+            {{ if reflect.IsSlice $value }}
+            <label><strong>{{ $index }}</strong></label>
+            
+            {{ $range := slice $value }}
+            
+            {{ partial "pancakesBuilder/app/components/elements/checkbox.html" (dict "loop" $range "index" $index ) }}
+            
             {{ end }}
-            </optgroup>
+            
             {{ end }}
-            {{ with .bottom }}
-            <optgroup label="Bottom">
-            {{ range . }}
-            {{ partial "pancakesBuilder/app/components/elements/select/option" (dict "value" .value "label" .label) }}
-            {{ end }}
-            </optgroup>
-            {{ end }}
-
-            {{ end }}
-            </select>
-            {{ end }}
-            <svg class="icon" aria-hidden="true" viewBox="0 0 16 16"><g stroke-width="1" stroke="currentColor"><polyline fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" points="15.5,4.5 8,12 0.5,4.5 "></polyline></g></svg>
-          </div>
-        </div>
-          {{ end }}
         
       </div>
     </li>

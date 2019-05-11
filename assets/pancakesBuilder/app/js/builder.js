@@ -141,25 +141,44 @@ let editItem = editBtn => {
   allOptions.forEach( input => {
     value = input.value;
 
-    keys.forEach((key, i) => {      
-
-      if (key[0] === "pbClass") {
-        
-        v = key[1];
-        console.log("find this:", v, "in this:", value);
-        if (v.includes(value)) {
-          console.log(value)
-          input.checked = true;
-        } else {
-          input.checked = false;
-        }
-      }
-      
-
-      //console.log("true", keys);
-
-    });
+    input.addEventListener("click", (e) => {
+      setClasses(input, item, allOptions);
+    }, false);
+  
+    v = getClasses(item);
+    
+    if (v.includes(value)) {
+      //console.log(value)
+      input.checked = true;
+    } else {
+      input.checked = false;
+    }
   })
+}
+
+// On edit click, get all classes in use on the current item
+let getClasses = item => {
+  
+  let keys = Object.entries(item.dataset);
+  let v;
+    keys.forEach((key, i) => {
+      if (key[0] === "pbClass") {
+        v = key[1];
+      }
+    })
+    return v;
+}
+
+// After selection an option in the drawer, modify the HTML with the newly selected classes
+let setClasses = (input, item, inputs) => {
+  //let currentClasses = getClasses(item);
+  let inputClasses = "";
+  inputs.forEach(i => {
+    if (i.checked) {
+      inputClasses += `${i.value} `;
+    }
+  });
+  item.classList = inputClasses;
 }
 
 function dragDrop() {
