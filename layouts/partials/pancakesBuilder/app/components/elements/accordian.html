@@ -14,6 +14,7 @@
 
             <div data-pb-support-mode="desktop">
               DESKTOP
+            {{ $mode := "desktop" }}
             {{ range $index, $value := $.Site.Data.pb_classes.desktop }}
             
             
@@ -22,7 +23,7 @@
             
             {{ $range := slice $value }}
             
-            {{ partial "pancakesBuilder/app/components/elements/checkbox.html" (dict "loop" $range "index" $index ) }}
+            {{ partial "pancakesBuilder/app/components/elements/checkbox.html" (dict "loop" $range "index" $index "mode" $mode ) }}
             
             {{ end }}
             
@@ -31,6 +32,7 @@
 
             <div data-pb-support-mode="tablet">
               TABLET
+            {{ $mode := "tablet" }}
             {{ range $index, $value := $.Site.Data.pb_classes.tablet }}
             
             
@@ -39,7 +41,7 @@
             
             {{ $range := slice $value }}
             
-            {{ partial "pancakesBuilder/app/components/elements/checkbox.html" (dict "loop" $range "index" $index ) }}
+            {{ partial "pancakesBuilder/app/components/elements/checkbox.html" (dict "loop" $range "index" $index "mode" $mode ) }}
             
             {{ end }}
             
@@ -47,6 +49,7 @@
             </div>
             <div data-pb-support-mode="mobile">
               MOBILE
+            {{ $mode := "mobile" }}
             {{ range $index, $value := $.Site.Data.pb_classes.mobile }}
             
             
@@ -55,7 +58,7 @@
             
             {{ $range := slice $value }}
             
-            {{ partial "pancakesBuilder/app/components/elements/checkbox.html" (dict "loop" $range "index" $index ) }}
+            {{ partial "pancakesBuilder/app/components/elements/checkbox.html" (dict "loop" $range "index" $index "mode" $mode ) }}
             
             {{ end }}
             

@@ -6,6 +6,28 @@ $section_bg: red;
 .editing--mode {
   width: var(--container-editor-width);
 }
+[data-pb-responsive-mode="desktop"] .pb-responsive-wrapper {
+  display: none;
+}
+.pb-responsive-wrapper {
+  position: fixed;
+  text-align: center;
+  width: var(--container-editor-width);
+  height: 100%;
+  background: #aaa;
+  top: 0;
+  z-index: 999;
+}
+.pb-responsive-wrapper {
+  .pbResponsiveFrame {
+    margin: 0 auto;
+  }
+}
+[data-pb-responsive-mode="tablet"], [data-pb-responsive-mode="mobile"] {
+  main, header, footer {
+    display: none;
+  }
+} 
 .editing--mode {
   main {
     min-height: 200px;

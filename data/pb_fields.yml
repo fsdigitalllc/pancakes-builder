@@ -6,7 +6,7 @@ params:
 stacks:
   - template: "section"
     id: "testID"
-    class: "padding-xxl--top padding-xxl--bottom"
+    class: "padding-xxl--top padding-xxl--bottom padding-top-t--xxl"
     rows:
     - template: "row"
       id:

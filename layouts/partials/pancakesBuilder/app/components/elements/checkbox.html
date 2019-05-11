@@ -6,6 +6,12 @@
 
 {{ $supports := "global" }}
 
+{{ $mode := "desktop" }}
+
+{{ with .mode }}
+  {{ $mode = . }}
+{{ end }}
+
 {{ $i := false }}
 {{ with .index }}
   {{ $i = . }}
@@ -36,11 +42,12 @@
           {{ with .label }}
             {{ $label = . }}
           {{ end }}
+          {{ $id := print $mode "-" $type "-" $i "-" $index }}
           {{ if .value }}
             {{ $value = .value }}
           <li>
-            <input type="{{ $type }}"{{ if eq $type "radio" }} name='radioButton'{{ end }} value="{{ $value }}" id="{{ $type }}-{{ $i }}-{{ $index }}">
-            <label for="{{ $type }}-{{ $i }}-{{ $index }}">{{ $label }}</label>
+            <input type="{{ $type }}"{{ if eq $type "radio" }} name='radioButton'{{ end }} value="{{ $value }}" id="{{ $id }}">
+            <label for="{{ $id }}">{{ $label }}</label>
           </li>
           {{ end }}
 
