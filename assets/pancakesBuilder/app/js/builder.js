@@ -4,6 +4,7 @@
 
 // TEST MODE //
 _("html").classList.add("editing--mode");
+
 _(".drawer").classList.add("drawer--fixed-header", "drawer--is-visible");
 ///////////////
 
@@ -12,12 +13,21 @@ let dataSections = "main [data-pb-template-level='section']";
 let dataRows = "main [data-pb-template-level='row']"
 let dataColumns = "main [data-pb-template-level='column']";
 const dataSelect = "fa-move";
+const moveHandle = "fa-move", editHandle = "fa-edit", hoverMenu = "hover-menu", editHover = "edit-hover", drawerTitle = "drawerTitle", responsiveMode = "data-pb-responsive-mode";
+
+_("html").setAttribute(responsiveMode, "desktop");
 
 //local storage
 const db = localStorage;
 const pageId = window.location;
 const savedData = `${pageId}.savedData`;
 const autoSavedData = `${savedData}.auto`;
+
+const responsiveAttribute = _("html").getAttribute(responsiveMode)
+// Modes
+if (!responsiveAttribute) {
+  _("html").setAttribute(responsiveMode, "desktop")
+};
 
 // move UI Outside of main
 function moveFromMain(){
@@ -67,36 +77,32 @@ function hoverState() {
   _All(`${dataSections}, ${dataRows}, ${dataColumns}`).forEach((item, index) => {
   
     var inactiveHover = function () {
-      item.classList.remove("edit-hover");
-      let faMove = item.querySelector(".fa-move");
-        if (faMove) {
-          faMove.parentNode.removeChild(faMove);
+      item.classList.remove(editHover);
+      let tempMenu = item.querySelector(`.${hoverMenu}`);
+        if (tempMenu) {
+          tempMenu.parentNode.removeChild(tempMenu);
         }
     }
 
     var activeHover = function (e) {
-      item.classList.add("edit-hover");
+      item.classList.add(editHover);
     }
     
     var createHandle = function (event) {
-      
       // If handle wasn't already created, create it
-      if (!item.querySelector(".fa-move")) {
-        
+      if (!item.querySelector(`.${hoverMenu}`)) {
         //console.log("item", e.currentTarget);
         var node = document.createElement("div");
-        node.classList.add("fa-move");
-        node.innerHTML = `<svg class="icon-arrows"><use xlink:href="/images/icons.svg#icon-arrows"></use></svg>Move Me <svg class="icon-pencil" pb-function="edit-item"><use xlink:href="/images/icons.svg#icon-pencil"></use></svg>`;
+        node.classList.add(`${hoverMenu}`);
+        node.innerHTML = `<svg class="icon-arrows ${moveHandle}"><use xlink:href="/images/icons.svg#icon-arrows"></use></svg><svg class="icon-pencil ${editHandle}" pb-function="edit-item"><use xlink:href="/images/icons.svg#icon-pencil"></use></svg>`;
         item.appendChild(node);
 
         item.querySelector(`[pb-function='edit-item']`).addEventListener("click", editItem, false);
       }
-
       if (event.target === item) {
         activeHover(event);
       }
     }
-    
     
     item.addEventListener("mouseover", createHandle, false);
     item.addEventListener("mouseleave", inactiveHover, false);
@@ -109,12 +115,82 @@ const camelToDash = str => str
   .replace(/([A-Z])/g, ([letter]) => `-${letter.toLowerCase()}`)
 
 // On click, allow user to toggle the selected items classes using the options in the sidebar
+let getType = item => {
+  let level = item.getAttribute("data-pb-template-level");
+  //console.log(level);
+  if (level) {
+    return level;
+  } else {
+    return "Que?";
+  }
+}
+
+// Get the nearest editable parent of the selected handle
+let getClosest = elem => {
+  let selector = "data-pb-template-level";
+  console.log(elem);
+	for ( ; elem && elem !== document; elem = elem.parentNode ) {
+		if ( elem.hasAttribute("data-pb-template-level") ) return elem;
+	}
+	return null;
+};
+
+let getResponsiveMode = () => {
+  return _("html").getAttribute(responsiveMode);
+}
+// Do this stuff after a responsive-related mode is triggered. IE, toggling responsive mode or editing a div.
+let setResponsiveMode = () => {
+
+  let currentMode = getResponsiveMode();
+  // Toggle stuff in sidebar
+  let allGroups = _All(".drawer [data-pb-support-mode]");
+  allGroups.forEach( group => {
+    //console.log(group.getAttribute("data-pb-support-mode"));
+    if (group.getAttribute("data-pb-support-mode") !== currentMode) {
+      group.style.display = "none";
+    } else {
+      group.style.display = "block";
+    }
+  })
+};
+
+let setSupportedClasses = level => {
+  console.log("supported classes", level);
+  let allGroups = _All(".drawer [pb-supports]");
+  allGroups.forEach( group => {
+    if (group.getAttribute("pb-supports") === level || group.getAttribute("pb-supports") === "global") {
+      group.style.display = "block";
+    } else {
+      group.style.display = "none";
+    }
+  });
+}
+let responsiveToggleButton = (e) => {
+  let currentMode = getResponsiveMode();
+  let btn = e.target;
+  //console.log("current mode: ", currentMode);
+  if (currentMode === "desktop") {
+    _("html").setAttribute(responsiveMode, "tablet");
+    btn.innerText = "T"
+  } else if (currentMode === "tablet") {
+    _("html").setAttribute(responsiveMode, "mobile");
+    btn.innerText = "M"
+  } else if (currentMode === "mobile") {
+    _("html").setAttribute(responsiveMode, "desktop");
+    btn.innerText = "D"
+  }
+  //console.log(btn.innerText);
+  setResponsiveMode();
+}
+_('[pb-function="responsive"]').addEventListener("click", responsiveToggleButton, false);
+
 let editItem = editBtn => {
-  console.log(editBtn.target.parentNode.parentNode)
-
   // Get the item (section, row, column)
-  let item = editBtn.target.parentNode.parentNode;
+  let item = getClosest(editBtn.currentTarget);
 
+  _(`.${drawerTitle}`).innerText = getType(item);
+
+  setSupportedClasses(getType(item));
   let tabSections = _All(".drawer .tabs__panels section");
   let tabs = _All(".drawer .tabs .tab-title");
 
@@ -137,6 +213,7 @@ let editItem = editBtn => {
   _('.drawer .tabs__panels [pb-function="edit-item" ]').classList.add("tabs__panel--selected");
 
   let allOptions = _All(".drawer input"), value, v, name;
+
   let keys = Object.entries(item.dataset);
   allOptions.forEach( input => {
     value = input.value;
@@ -232,7 +309,7 @@ function dragOrder() {
   //Reorder sections with drag and drop using a handle
   dragula([_("main")], {
     moves: function (el, container, handle) {
-      return handle.classList.contains('fa-move');
+      return handle.classList.contains(moveHandle);
   },
     invalid(el, handle) {
       return (el.getAttribute("data-pb-template-level") === "row" || el.getAttribute("data-pb-template-level") === "column" );
@@ -247,7 +324,7 @@ function dragOrder() {
   //Reorder rows with drag and drop using a handle
   dragula(containers, {
     moves: function (el, container, handle) {
-      return handle.classList.contains('fa-move');
+      return handle.classList.contains(moveHandle);
   },
     invalid(el, handle) {
       // If the selected element className is column, 
@@ -266,7 +343,7 @@ function dragOrder() {
   //Reorder rows with drag and drop using a handle
   dragula(containers, {
     moves: function (el, container, handle) {
-      return handle.classList.contains('fa-move');
+      return handle.classList.contains(moveHandle);
     },
     direction: 'horizontal',
     invalid(el, handle) {
@@ -304,14 +381,10 @@ var exportYml = function  () {
   let key, value, prefix;
   params.forEach((param, index) => {
       key = param.getAttribute("data-pb-key");
-      
       value = param.value;
       if ( (key != undefined && key != null) && (value != undefined || value != null) ) {
-        
         yml += `${key}: ${value}\n`;
       }
-    
-    
   });
 
   yml += "stacks:\n";
@@ -360,7 +433,7 @@ var exportYml = function  () {
       
     });
 
-    console.log(yml);
+    //console.log(yml);
     return yml;
 
   }

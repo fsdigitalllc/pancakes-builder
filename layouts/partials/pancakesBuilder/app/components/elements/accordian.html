@@ -11,6 +11,9 @@
         <div class="accordion__panel-content">
           
             {{ $sample := $.Site.Data.pb_classes }}
+
+            <div data-pb-support-mode="desktop">
+              DESKTOP
             {{ range $index, $value := $.Site.Data.pb_classes.desktop }}
             
             
@@ -24,7 +27,40 @@
             {{ end }}
             
             {{ end }}
-        
+            </div>
+
+            <div data-pb-support-mode="tablet">
+              TABLET
+            {{ range $index, $value := $.Site.Data.pb_classes.tablet }}
+            
+            
+            {{ if reflect.IsSlice $value }}
+            <label><strong>{{ $index }}</strong></label>
+            
+            {{ $range := slice $value }}
+            
+            {{ partial "pancakesBuilder/app/components/elements/checkbox.html" (dict "loop" $range "index" $index ) }}
+            
+            {{ end }}
+            
+            {{ end }}
+            </div>
+            <div data-pb-support-mode="mobile">
+              MOBILE
+            {{ range $index, $value := $.Site.Data.pb_classes.mobile }}
+            
+            
+            {{ if reflect.IsSlice $value }}
+            <label><strong>{{ $index }}</strong></label>
+            
+            {{ $range := slice $value }}
+            
+            {{ partial "pancakesBuilder/app/components/elements/checkbox.html" (dict "loop" $range "index" $index ) }}
+            
+            {{ end }}
+            
+            {{ end }}
+            </div>
       </div>
     </li>
   

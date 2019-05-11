@@ -4,11 +4,21 @@
 
 {{ $value := "value" }}
 
+{{ $supports := "global" }}
+
 {{ $i := false }}
 {{ with .index }}
   {{ $i = . }}
 {{ end }}
-<form>
+
+{{ range .loop }}
+{{ range $index, $item := . }}
+{{ with .supports }}
+  {{ $supports = . }}
+{{ end }}
+{{ end }}
+{{ end }}
+<form pb-supports="{{ $supports }}">
     <div class="margin-bottom--md">
       <fieldset>
   
@@ -20,6 +30,8 @@
           {{ with .type }}
             {{ $type = . }}
           {{ end }}
+
+          
           
           {{ with .label }}
             {{ $label = . }}

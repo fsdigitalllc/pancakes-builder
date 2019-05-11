@@ -1,4 +1,5 @@
 //$row: '[pb-template="row"]';
+$section_bg: red;
 .pb-template-contentWrapper {
   display: none;
 }
@@ -8,7 +9,6 @@
 .editing--mode {
   main {
     min-height: 200px;
-    background: #efefef;
   }
   main {
     [data-pb-template-level="section"],
@@ -21,6 +21,9 @@
       min-height: 150px;
       border: 1px dotted red;
     }
+    [data-pb-template-level="section"] .hover-menu svg {
+      background: red;
+    }
     [data-pb-template-level="section"]:hover {
       border: 1px solid red;
       z-index: 54;
@@ -28,6 +31,9 @@
     [data-pb-template-level="row"] {
       min-height: 150px;
       border: 1px dotted blue;
+    }
+    [data-pb-template-level="row"] .hover-menu svg {
+      background: blue;
     }
     [data-pb-template-level="row"]:hover {
       border: 1px solid blue;
@@ -37,24 +43,48 @@
       min-height: 150px;
       border: 1px dotted green;
     }
+    [data-pb-template-level="column"] .hover-menu svg {
+      background: green;
+    }
     [data-pb-template-level="column"]:hover {
       border: 1px solid green;
       z-index: 56;
     }
     
-    
   }
-  .fa-move {
-    height: 30px;
+  .hover-menu {
     position: absolute;
     top: -30px;
     left: 0px;
-    background: #fff;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+  }
+  [data-pb-template-level="row"] > .hover-menu {
+    top: 50%;
+    left: -30px;
+    transform: translate(0, -50%) rotate(-90deg);
+  }
+  .hover-menu svg {
+    margin-right: 2px;
+    margin-left: 2px;
+    opacity: 0.8;
+    width: 30px;
+    height: 30px;
     padding: 5px;
-    z-index: 9999;
+    color: #ffffff;
+    z-index: 111;
+  }
+  .hover-menu svg:hover {
+    opacity: 1;
+    background: #000000;
+    color: #ffffff;
   }
   .fa-move:hover {
     cursor: grab;
+  }
+  .fa-edit:hover {
+    cursor: pointer;
   }
   .gu-mirror {
     position: fixed !important;
@@ -64,7 +94,18 @@
     pointer-events: none;
     overflow: hidden;
   }
-  /* in-flight clone */
+  /* in-flight clone follows the mouse cursor */
+  [data-pb-template-level="section"].gu-mirror {
+    background: #000 !important;
+    opacity: 1;
+    width: 400px !important;
+    height: 100px !important;
+  }
+  .hover-menu.gu-mirror {
+    background: #000000 !important;
+    opacity: 1;
+  }
+  [data-pb-template-level="section"].gu-mirror 
   button.gu-mirror {
     opacity: 1;
     pointer-events: none;
