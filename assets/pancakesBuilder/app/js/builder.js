@@ -6,28 +6,29 @@
 _("html").classList.add("editing--mode");
 
 _(".drawer").classList.add("drawer--fixed-header", "drawer--is-visible");
-_("body").innerHTML += `<div class="pb-responsive-wrapper"><iframe class="pbResponsiveFrame" name="Framename" src="${window.location}" width="600" height="600" frameborder="0" scrolling="auto" class="frame-area">
-</iframe></div>`;
 
-let iFrame = _("iframe.pbResponsiveFrame")
+// _(".builderUIComponents").innerHTML += `<div class="pb-responsive-wrapper"><iframe class="pbResponsiveFrame" name="Framename" src="${window.location}" width="600" height="600" frameborder="0" scrolling="auto" class="frame-area">
+// </iframe></div>`;
 
-iFrame.onload = () => {
-  loadIframe();
-}
-let loadIframe = () => {
-  //console.log("loaded...", iFrame)
-  let iContent = iFrame.contentWindow.document;
-  let contents = iContent.querySelectorAll(".builderUIComponents, .modal, .pb-template-contentWrapper, iframe.pbResponsiveFrame");
+// let iFrame = _("iframe.pbResponsiveFrame")
 
-  let html = iContent.querySelector("html")
-  //html.classList.remove("editing--mode");
-  html.setAttribute("data-pb-responsive-mode", "desktop");
-  html.style.width = "100%";
-  contents.forEach( content => {
-    console.log("contents...", content)
-    content.style.display = "none";
-  })
-}
+// iFrame.onload = () => {
+//   loadIframe();
+// }
+// let loadIframe = () => {
+//   //console.log("loaded...", iFrame)
+//   let iContent = iFrame.contentWindow.document;
+//   let contents = iContent.querySelectorAll(".builderUIComponents, .modal, .pb-template-contentWrapper, iframe.pbResponsiveFrame");
+
+//   let html = iContent.querySelector("html")
+//   //html.classList.remove("editing--mode");
+//   html.setAttribute("data-pb-responsive-mode", "desktop");
+//   html.style.width = "100%";
+//   contents.forEach( content => {
+//     console.log("contents...", content)
+//     content.style.display = "none";
+//   })
+// }
 ///////////////
 
 // Draggable elements will always use data-pb-template-level

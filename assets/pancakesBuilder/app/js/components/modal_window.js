@@ -13,6 +13,7 @@
 		var self = this;
 		//open modal when clicking on trigger buttons
 		if ( this.triggers ) {
+			console.log("modal");
 			for(var i = 0; i < this.triggers.length; i++) {
 				this.triggers[i].addEventListener('click', function(event) {
 					event.preventDefault();
