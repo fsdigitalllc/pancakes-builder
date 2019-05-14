@@ -6,29 +6,6 @@
 _("html").classList.add("editing--mode");
 
 _(".drawer").classList.add("drawer--fixed-header", "drawer--is-visible");
-
-// _(".builderUIComponents").innerHTML += `<div class="pb-responsive-wrapper"><iframe class="pbResponsiveFrame" name="Framename" src="${window.location}" width="600" height="600" frameborder="0" scrolling="auto" class="frame-area">
-// </iframe></div>`;
-
-// let iFrame = _("iframe.pbResponsiveFrame")
-
-// iFrame.onload = () => {
-//   loadIframe();
-// }
-// let loadIframe = () => {
-//   //console.log("loaded...", iFrame)
-//   let iContent = iFrame.contentWindow.document;
-//   let contents = iContent.querySelectorAll(".builderUIComponents, .modal, .pb-template-contentWrapper, iframe.pbResponsiveFrame");
-
-//   let html = iContent.querySelector("html")
-//   //html.classList.remove("editing--mode");
-//   html.setAttribute("data-pb-responsive-mode", "desktop");
-//   html.style.width = "100%";
-//   contents.forEach( content => {
-//     console.log("contents...", content)
-//     content.style.display = "none";
-//   })
-// }
 ///////////////
 
 // Draggable elements will always use data-pb-template-level
@@ -167,14 +144,16 @@ let setResponsiveMode = () => {
   let currentMode = getResponsiveMode();
   // Toggle stuff in sidebar
   let allGroups = _All(".drawer [data-pb-support-mode]");
-  allGroups.forEach( group => {
-    //console.log(group.getAttribute("data-pb-support-mode"));
-    if (group.getAttribute("data-pb-support-mode") !== currentMode) {
-      group.style.display = "none";
-    } else {
-      group.style.display = "block";
-    }
-  })
+
+  // For now, toggling these values in responsive mode doesn't matter
+  // allGroups.forEach( group => {
+  //   //console.log(group.getAttribute("data-pb-support-mode"));
+  //   if (group.getAttribute("data-pb-support-mode") !== currentMode) {
+  //     group.style.display = "none";
+  //   } else {
+  //     group.style.display = "block";
+  //   }
+  // })
 };
 
 // Hide or display options based on the selected item level
@@ -195,23 +174,48 @@ let setSupportedClasses = level => {
 let responsiveToggleButton = (e) => {
   let currentMode = getResponsiveMode();
   let btn = e.target;
-  //console.log("current mode: ", currentMode);
-  if (currentMode === "desktop") {
-    _("html").setAttribute(responsiveMode, "tablet");
-    btn.innerText = "T"
+  console.log("current mode: ", currentMode);
+    
 
-    iFrame.setAttribute("width", 600)
-    iFrame.setAttribute("height", 780)
-  } else if (currentMode === "tablet") {
-    _("html").setAttribute(responsiveMode, "mobile");
-    btn.innerText = "M"
+  if ((".pbResponsiveFrame")) {
+    let iFrame = _("iframe.pbResponsiveFrame")
 
-    iFrame.setAttribute("width", 420)
-    iFrame.setAttribute("height", 650)
-  } else if (currentMode === "mobile") {
-    _("html").setAttribute(responsiveMode, "desktop");
-    btn.innerText = "D"
+    // iFrame.onload = () => {
+    //   loadIframe();
+    // }
+    // let loadIframe = () => {
+      //console.log("loaded...", iFrame)
+      let iContent = iFrame.contentWindow.document;
+      let contents = iContent.querySelectorAll(".builderUIComponents, .modal, .pb-template-contentWrapper, iframe.pbResponsiveFrame");
+
+      let html = iContent.querySelector("html")
+      //html.classList.remove("editing--mode");
+      html.setAttribute("data-pb-responsive-mode", "desktop");
+      html.style.width = "100%";
+      contents.forEach( content => {
+        console.log("contents...", content)
+        content.style.display = "none";
+      })
+    // }
+    if (currentMode === "desktop") {
+      //console.log("set tablet mode", iFrame)
+      _("html").setAttribute(responsiveMode, "tablet");
+      btn.innerText = "T"
+  
+      iFrame.setAttribute("width", 600)
+      iFrame.setAttribute("height", 780)
+    } else if (currentMode === "tablet") {
+      _("html").setAttribute(responsiveMode, "mobile");
+      btn.innerText = "M"
+  
+      iFrame.setAttribute("width", 420)
+      iFrame.setAttribute("height", 650)
+    } else if (currentMode === "mobile") {
+      _("html").setAttribute(responsiveMode, "desktop");
+      btn.innerText = "D"
+    }
   }
+
   //console.log(btn.innerText);
   setResponsiveMode();
 }
@@ -289,12 +293,6 @@ let setClasses = (input, item, inputs) => {
     }
   });
   item.classList = inputClasses;
-
-  console.log(getResponsiveMode())
-  if (getResponsiveMode() !== "desktop") {
-    console.log("reload")
-    iFrame.contentWindow.location.reload();
-  }
   
 }
 
