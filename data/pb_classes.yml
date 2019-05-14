@@ -2,14 +2,22 @@ desktop:
   row_size:
   - type: "radio"
   - supports: "row"
-  - label: "container"
-    value: "container"
-  - label: "container-large"
-    value: "container-large"
+  - label: "container--full-width"
+    value: "container container--full-width"
+  - label: "container--xs"
+    value: "container container--xs"
+  - label: "container--sm"
+    value: "container container--sm"
+  - label: "container--md"
+    value: "container container--md"
+  - label: "container--lg"
+    value: "container container--lg"
+  - label: "container--xl"
+    value: "container container--xl"
   col_size:
   - type: "radio"
   - supports: "column"
-  - class: "flex flex--wrap"
+  - classes: "flex flex--wrap"
   - label: "1"
     value: "col--1"
   - label: "2"
@@ -34,9 +42,11 @@ desktop:
     value: "col--11"
   - label: "12"
     value: "col--12"
+  - label: "auto"
+    value: "col"
   spacing_top:
   - type: "radio"
-  - class: "flex flex--wrap"
+  - classes: "flex flex--wrap"
   - label: "XXL"
     value: padding-top--xxl
   - label: "XL"
@@ -53,7 +63,7 @@ desktop:
     value: padding-top--xxs
   spacing_bottom:
   - type: "radio"
-  - class: "flex flex--wrap"
+  - classes: "flex flex--wrap"
   - label: "XXL"
     value: padding-bottom--xxl
   - label: "XL"
@@ -70,129 +80,54 @@ desktop:
     value: padding-bottom--xxs
   align_children:
   - type: "checkbox"
+  - supports: "row"
   - label: "flex"
     value: "flex"
+  - label: "flex wrap"
+    value: "flex--wrap"
+  - label: "flex column"
+    value: "flex--column"
+  - label: "flex end"
+    value: "flex--end"
+  - label: "flex center"
+    value: "flex--center"
+  - label: "flex center x"
+    value: "flex--center-x"
+  - label: "flex center y"
+    value: "flex--center-y"
   - label: "Space Between"
     value: "flex--space-between"
   - label: "Space around"
     value: "flex--space-around"
   - label: "Space Evenly"
     value: "flex--space-evenly"
+  maxwidth:
+  - type: "radio"
+  - supports: "column elements"
+  - classes: "flex flex--wrap"
+  - label: "XL"
+    value: "maxwidth-xl"
+  - label: "L"
+    value: "maxwidth-l"
+  - label: "M"
+    value: "maxwidth-m"
+  - label: "S"
+    value: "maxwidth-s"
+  - label: "XS"
+    value: "maxwidth-xs"
+  - label: "XXS"
+    value: "maxwidth-xxs"
+  - label: "XXXS"
+    value: "maxwidth-xxxs"
 tablet:
   spacing_top:
   - type: "radio"
-  - class: "flex flex--wrap"
+  - classes: "flex flex--wrap"
   - label: "T XXL"
     value: padding-top-t--xxl
-  - label: "T XL"
-    value: padding-top--xl
-  - label: "L"
-    value: padding-top--l
-  - label: "M"
-    value: padding-top--m
-  - label: "S"
-    value: padding-top--s
-  - label: "XS"
-    value: padding-top--xs
-  - label: "XXS"
-    value: padding-top--xxs
-  col_size:
-  - type: "radio"
-  - supports: "column"
-  - class: "flex flex--wrap"
-  - label: "1"
-    value: "col--1"
-  - label: "2"
-    value: "col--2"
-  - label: "3"
-    value: "col--3"
-  - label: "4"
-    value: "col--4"
-  - label: "5"
-    value: "col--5"
-  - label: "6"
-    value: "col--6"
-  - label: "7"
-    value: "col--7"
-  - label: "8"
-    value: "col--8"
-  - label: "9"
-    value: "col--9"
-  - label: "10"
-    value: "col--10"
-  - label: "11"
-    value: "col--11"
-  - label: "12"
-    value: "col--12"
-  spacing_bottom:
-  - type: "radio"
-  - class: "flex flex--wrap"
-  - label: "XXL"
-    value: padding-bottom--xxl
-  - label: "XL"
-    value: padding-bottom--xl
-  - label: "L"
-    value: padding-bottom--l
-  - label: "M"
-    value: padding-bottom--m
-  - label: "S"
-    value: padding-bottom--s
-  - label: "XS"
-    value: padding-bottom--xs
-  - label: "XXS"
-    value: padding-bottom--xxs
-  align_children:
-  - type: "checkbox"
-  - label: "flex"
-    value: "flex"
-  - label: "Space Between"
-    value: "flex--space-between"
-  - label: "Space around"
-    value: "flex--space-around"
-  - label: "Space Evenly"
-    value: "flex--space-evenly"
 mobile:
   spacing_top:
   - type: "radio"
-  - class: "flex flex--wrap"
+  - classes: "flex flex--wrap"
   - label: "XXL"
-    value: padding-top--xxl
-  - label: "XL"
-    value: padding-top--xl
-  - label: "L"
-    value: padding-top--l
-  - label: "M"
-    value: padding-top--m
-  - label: "S"
-    value: padding-top--s
-  - label: "XS"
-    value: padding-top--xs
-  - label: "XXS"
-    value: padding-top--xxs
-  spacing_bottom:
-  - type: "radio"
-  - class: "flex flex--wrap"
-  - label: "XXL"
-    value: padding-bottom--xxl
-  - label: "XL"
-    value: padding-bottom--xl
-  - label: "L"
-    value: padding-bottom--l
-  - label: "M"
-    value: padding-bottom--m
-  - label: "S"
-    value: padding-bottom--s
-  - label: "XS"
-    value: padding-bottom--xs
-  - label: "XXS"
-    value: padding-bottom--xxs
-  align_children:
-  - type: "checkbox"
-  - label: "flex"
-    value: "flex"
-  - label: "Space Between"
-    value: "flex--space-between"
-  - label: "Space around"
-    value: "flex--space-around"
-  - label: "Space Evenly"
-    value: "flex--space-evenly"
+    value: padding-m-top--xxl

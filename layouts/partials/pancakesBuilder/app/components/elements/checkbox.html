@@ -8,6 +8,8 @@
 
 {{ $mode := "desktop" }}
 
+{{ $classes := "" }}
+
 {{ with .mode }}
   {{ $mode = . }}
 {{ end }}
@@ -17,10 +19,14 @@
   {{ $i = . }}
 {{ end }}
 
+
 {{ range .loop }}
 {{ range $index, $item := . }}
 {{ with .supports }}
   {{ $supports = . }}
+{{ end }}
+{{ with .classes }}
+  {{ $classes = . }}
 {{ end }}
 {{ end }}
 {{ end }}
@@ -29,7 +35,7 @@
     <div class="margin-bottom--xs">
       <fieldset>
   
-        <ul class="{{ $type }}-list {{ $type }}-list--custom">
+        <ul class="{{ $type }}-list {{ $type }}-list--custom {{ $classes }}">
           
           {{ range .loop }}
           {{ range $index, $item := . }}

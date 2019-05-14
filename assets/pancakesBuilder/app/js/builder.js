@@ -13,7 +13,7 @@ let dataSections = "main [data-pb-template-level='section']";
 let dataRows = "main [data-pb-template-level='row']"
 let dataColumns = "main [data-pb-template-level='column']";
 const dataSelect = "fa-move";
-const moveHandle = "fa-move", editHandle = "fa-edit", hoverMenu = "hover-menu", editHover = "edit-hover", drawerTitle = "drawerTitle", responsiveMode = "data-pb-responsive-mode";
+const moveHandle = "fa-move", editHandle = "fa-edit", hoverMenu = "hover-menu", editHover = "edit-hover", editClick = "pb-editing", drawerTitle = "drawerTitle", responsiveMode = "data-pb-responsive-mode";
 
 _("html").setAttribute(responsiveMode, "desktop");
 
@@ -78,6 +78,7 @@ promise1.then(function() {
 function hoverState() {
   _All(`${dataSections}, ${dataRows}, ${dataColumns}`).forEach((item, index) => {
   
+    item.setAttribute(editClick, "0")
     var inactiveHover = function () {
       item.classList.remove(editHover);
       let tempMenu = item.querySelector(`.${hoverMenu}`);
@@ -225,8 +226,11 @@ _('[pb-function="responsive"]').addEventListener("click", responsiveToggleButton
 
 let editItem = editBtn => {
   // Get the item (section, row, column)
+  _All(`${dataSections}, ${dataRows}, ${dataColumns}`).forEach((level, index) => {
+    level.setAttribute(editClick, "0")
+  });
   let item = getClosest(editBtn.currentTarget);
-
+  item.setAttribute(editClick, "1")
   _(`.${drawerTitle}`).innerText = getType(item);
 
   setSupportedClasses(getType(item));
@@ -294,8 +298,9 @@ let setClasses = (input, item, inputs) => {
       inputClasses += `${i.value} `;
     }
   });
-  item.classList = inputClasses;
-  
+  if (item.getAttribute(editClick) === "1") {
+    item.classList = inputClasses;
+  }
 }
 
 function dragDrop() {
