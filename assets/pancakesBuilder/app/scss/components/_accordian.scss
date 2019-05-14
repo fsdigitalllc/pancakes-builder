@@ -23,7 +23,8 @@ Descr: Create stacked sections of content and allow the user to expand/collapse 
 
 .accordion__header {
   @include reset;
-  padding: var(--space-sm) var(--component-padding);
+  padding-top: var(--space-sm);
+  padding-bottom: var(--space-sm);
   width: 100%;
   display: flex;
   align-items: center;
@@ -43,7 +44,7 @@ Descr: Create stacked sections of content and allow the user to expand/collapse 
 .accordion__header-icon  {
   float: right; //flex fallback
   flex-shrink: 0;
-  margin-left: var(--space-sm);
+  margin-right: 5px;
   display: none;
 }
 
@@ -91,10 +92,6 @@ Descr: Create stacked sections of content and allow the user to expand/collapse 
   width: var(--accordion-icon-size);
   height: var(--accordion-icon-size);
   color: inherit;
-}
-
-.accordion__panel-content {
-  padding: var(--space-xxxs) var(--component-padding) var(--component-padding);
 }
 
 .js {

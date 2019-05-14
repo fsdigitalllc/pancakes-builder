@@ -1,0 +1,185 @@
+//$row: '[pb-template="row"]';
+$section_bg: red;
+.pb-template-contentWrapper {
+  display: none;
+}
+.editing--mode {
+  width: var(--container-editor-width);
+}
+[data-pb-responsive-mode="desktop"] .pb-responsive-wrapper {
+  display: none;
+}
+.pb-responsive-wrapper {
+  position: fixed;
+  text-align: center;
+  width: var(--container-editor-width);
+  height: 100%;
+  background: #aaa;
+  top: 0;
+  z-index: 999;
+}
+.pb-responsive-wrapper {
+  .pbResponsiveFrame {
+    margin: 0 auto;
+  }
+}
+[data-pb-responsive-mode="tablet"], [data-pb-responsive-mode="mobile"] {
+  main, header, footer {
+    display: none;
+  }
+} 
+.editing--mode {
+  main {
+    min-height: 200px;
+  }
+  main {
+    [data-pb-template-level="section"],
+    [data-pb-template-level="row"],
+    [data-pb-template-level="column"] {
+      position: relative;
+      overflow-Y: visible;
+    }
+    [data-pb-template-level="section"] {
+      min-height: 150px;
+      border: 1px dotted red;
+    }
+    [data-pb-template-level="section"] .hover-menu svg {
+      background: red;
+    }
+    [data-pb-template-level="section"]:hover {
+      border: 1px solid red;
+      z-index: 54;
+    }
+    [data-pb-template-level="row"] {
+      min-height: 150px;
+      border: 1px dotted blue;
+    }
+    [data-pb-template-level="row"] .hover-menu svg {
+      background: blue;
+    }
+    [data-pb-template-level="row"]:hover {
+      border: 1px solid blue;
+      z-index: 55;
+    }
+    [data-pb-template-level="column"] {
+      min-height: 150px;
+      border: 1px dotted green;
+    }
+    [data-pb-template-level="column"] .hover-menu svg {
+      background: green;
+    }
+    [data-pb-template-level="column"]:hover {
+      border: 1px solid green;
+      z-index: 56;
+    }
+    
+  }
+  .hover-menu {
+    position: absolute;
+    top: -30px;
+    left: 0px;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+  }
+  [data-pb-template-level="row"] > .hover-menu {
+    top: 50%;
+    left: -30px;
+    transform: translate(0, -50%) rotate(-90deg);
+  }
+  .hover-menu svg {
+    margin-right: 2px;
+    margin-left: 2px;
+    opacity: 0.8;
+    width: 30px;
+    height: 30px;
+    padding: 5px;
+    color: #ffffff;
+    z-index: 111;
+  }
+  .hover-menu svg:hover {
+    opacity: 1;
+    background: #000000;
+    color: #ffffff;
+  }
+  .fa-move:hover {
+    cursor: grab;
+  }
+  .fa-edit:hover {
+    cursor: pointer;
+  }
+  .gu-mirror {
+    position: fixed !important;
+    margin: 0 !important;
+    z-index: 9999 !important;
+    opacity: 1;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  /* in-flight clone follows the mouse cursor */
+  [data-pb-template-level="section"].gu-mirror {
+    background: #000 !important;
+    opacity: 1;
+    width: 400px !important;
+    height: 100px !important;
+  }
+  .hover-menu.gu-mirror {
+    background: #000000 !important;
+    opacity: 1;
+  }
+  [data-pb-template-level="section"].gu-mirror 
+  button.gu-mirror {
+    opacity: 1;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  /* added to the source element while its mirror is dragged */
+  button.gu-transit {
+    opacity: 1;
+    display: block;
+  }
+  button[data-pb-template-level="section"].gu-transit {
+    background: red;
+    height: 100px;
+    min-height: 100px;
+    width: 320px;
+    max-width: 100%;
+    margin: 0 auto;
+  }
+  button[data-pb-template-level="row"].gu-transit {
+    background: blue;
+    height: 100px;
+    min-height: 100px;
+    width: 320px;
+    max-width: 100%;
+    margin: 0 auto;
+  }
+  button[data-pb-template-level="column"].gu-transit {
+    background: green;
+    height: 100px;
+    min-height: 100px;
+    width: 120px;
+    max-width: 100%;
+  }
+  
+  /* high-performance display:none; helper */
+  .gu-hide {
+    left: -9999px !important;
+  }
+  /* added to mirrorContainer (default = body) while dragging */
+  .gu-unselectable {
+    -webkit-user-select: none !important;
+    -moz-user-select: none !important;
+    -ms-user-select: none !important;
+    user-select: none !important;
+  }
+  .pb-btn-row {
+    background-color: var(--color-primary);
+  }
+  [class^="icon-"], [class*=" icon-"] {
+    height: 18px;
+    width: 18px;
+    display: inline-block; 
+    fill: currentColor; 
+  }
+}

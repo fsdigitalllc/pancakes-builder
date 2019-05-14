@@ -92,6 +92,7 @@ Descr: Tabs are multiple content sections (panels), accessible one at a time usi
 
       li:first-child {
         margin-left: 0;
+        margin-right: 5px;
       }
 
       li:first-child a {
@@ -106,17 +107,17 @@ Descr: Tabs are multiple content sections (panels), accessible one at a time usi
         height: 100%;
         border: var(--tabs-border-width) solid transparent;
         border-bottom-width: 0;
-        border-radius: var(--tabs-control-radius) var(--tabs-control-radius) 0 0;
+        border-radius: var(--tabs-control-radius);
       }
 
       .tabs__control--selected {
-        background-color: var(--color-bg);
-        color: var(--color-primary);
+        background-color: var(--color-primary);
+        color: var(--color-bg);
         position: relative;
-        border-color: var(--color-contrast-low);
   
         &:hover {
-          background-color: inherit;
+          background-color: var(--color-primary);
+          color: #000;
         }
   
         &::after { // border bottom -> it covers the border of the panel element
@@ -133,13 +134,13 @@ Descr: Tabs are multiple content sections (panels), accessible one at a time usi
     }
 
     .tabs__panels {
-      border: var(--tabs-border-width) solid var(--color-contrast-low);
-      border-radius: 0 var(--tabs-radius) var(--tabs-radius) var(--tabs-radius);
+      // border: var(--tabs-border-width) solid var(--color-contrast-low);
+      // border-radius: 0 var(--tabs-radius) var(--tabs-radius) var(--tabs-radius);
       background-color: var(--color-bg);
     }
 
     .tabs__panel {
-      padding: var(--space-sm);
+      padding-top: var(--space-sm);
     }
   }
 }

@@ -3,3 +3,9 @@
 {{ with $appscss }}
 <link rel="stylesheet" href="{{ .Permalink }}" />
 {{ end }}
+
+{{ $style := resources.Get "pancakesBuilder/scss/style.scss" | toCSS | postCSS }}
+
+{{ with $style }}
+<link rel="stylesheet" href="{{ .Permalink }}" />
+{{ end }}

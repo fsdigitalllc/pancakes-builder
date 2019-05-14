@@ -19,11 +19,10 @@
             
             
             {{ if reflect.IsSlice $value }}
-            <label><strong>{{ $index }}</strong></label>
-            
+            {{ $title := $index }}
             {{ $range := slice $value }}
             
-            {{ partial "pancakesBuilder/app/components/elements/checkbox.html" (dict "loop" $range "index" $index "mode" $mode ) }}
+            {{ partial "pancakesBuilder/app/components/elements/checkbox.html" (dict "loop" $range "index" $index "mode" $mode "title" $title ) }}
             
             {{ end }}
             
@@ -47,11 +46,11 @@
             
             
             {{ if reflect.IsSlice $value }}
-            <label><strong>{{ $index }}</strong></label>
+            {{ $title := $index }}
             
             {{ $range := slice $value }}
             
-            {{ partial "pancakesBuilder/app/components/elements/checkbox.html" (dict "loop" $range "index" $index "mode" $mode ) }}
+            {{ partial "pancakesBuilder/app/components/elements/checkbox.html" (dict "loop" $range "index" $index "mode" $mode "title" $title ) }}
             
             {{ end }}
             
@@ -75,11 +74,11 @@
             
             
             {{ if reflect.IsSlice $value }}
-            <label><strong>{{ $index }}</strong></label>
+            {{ $title := $index }}
             
             {{ $range := slice $value }}
             
-            {{ partial "pancakesBuilder/app/components/elements/checkbox.html" (dict "loop" $range "index" $index "mode" $mode ) }}
+            {{ partial "pancakesBuilder/app/components/elements/checkbox.html" (dict "loop" $range "index" $index "mode" $mode "title" $title ) }}
             
             {{ end }}
             
@@ -90,4 +89,4 @@
     </li>
   
   </ul>
-  <button class="btn btn--primary" aria-controls="modal2">Save</button>
+  <!-- <button class="btn btn--primary" aria-controls="modal2">Save</button> -->

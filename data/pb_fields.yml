@@ -14,23 +14,8 @@ stacks:
       columns:
       - template: "column"
         id: "custom-id"
-        class: "col-6"
+        class: "col"
         elements:
         - template: "text"
           html: | 
             <p>Text</p>
-  - template: "section-2"
-    id: "testID"
-    class: "flex"
-    rows:
-    - template: "row"
-      id:
-      class: "container container--md"
-      columns:
-      - template: "column"
-        id: "custom-id"
-        class: "col-6"
-        elements:
-        - template: "text"
-          html: | 
-            <p>Text 2</p>

@@ -1,13 +1,42 @@
 desktop:
   row_size:
-  - type: "checkbox"
+  - type: "radio"
   - supports: "row"
   - label: "container"
     value: "container"
   - label: "container-large"
     value: "container-large"
+  col_size:
+  - type: "radio"
+  - supports: "column"
+  - class: "flex flex--wrap"
+  - label: "1"
+    value: "col--1"
+  - label: "2"
+    value: "col--2"
+  - label: "3"
+    value: "col--3"
+  - label: "4"
+    value: "col--4"
+  - label: "5"
+    value: "col--5"
+  - label: "6"
+    value: "col--6"
+  - label: "7"
+    value: "col--7"
+  - label: "8"
+    value: "col--8"
+  - label: "9"
+    value: "col--9"
+  - label: "10"
+    value: "col--10"
+  - label: "11"
+    value: "col--11"
+  - label: "12"
+    value: "col--12"
   spacing_top:
   - type: "radio"
+  - class: "flex flex--wrap"
   - label: "XXL"
     value: padding-top--xxl
   - label: "XL"
@@ -24,6 +53,7 @@ desktop:
     value: padding-top--xxs
   spacing_bottom:
   - type: "radio"
+  - class: "flex flex--wrap"
   - label: "XXL"
     value: padding-bottom--xxl
   - label: "XL"
@@ -51,6 +81,7 @@ desktop:
 tablet:
   spacing_top:
   - type: "radio"
+  - class: "flex flex--wrap"
   - label: "T XXL"
     value: padding-top-t--xxl
   - label: "T XL"
@@ -65,8 +96,37 @@ tablet:
     value: padding-top--xs
   - label: "XXS"
     value: padding-top--xxs
+  col_size:
+  - type: "radio"
+  - supports: "column"
+  - class: "flex flex--wrap"
+  - label: "1"
+    value: "col--1"
+  - label: "2"
+    value: "col--2"
+  - label: "3"
+    value: "col--3"
+  - label: "4"
+    value: "col--4"
+  - label: "5"
+    value: "col--5"
+  - label: "6"
+    value: "col--6"
+  - label: "7"
+    value: "col--7"
+  - label: "8"
+    value: "col--8"
+  - label: "9"
+    value: "col--9"
+  - label: "10"
+    value: "col--10"
+  - label: "11"
+    value: "col--11"
+  - label: "12"
+    value: "col--12"
   spacing_bottom:
   - type: "radio"
+  - class: "flex flex--wrap"
   - label: "XXL"
     value: padding-bottom--xxl
   - label: "XL"
@@ -94,6 +154,7 @@ tablet:
 mobile:
   spacing_top:
   - type: "radio"
+  - class: "flex flex--wrap"
   - label: "XXL"
     value: padding-top--xxl
   - label: "XL"
@@ -110,6 +171,7 @@ mobile:
     value: padding-top--xxs
   spacing_bottom:
   - type: "radio"
+  - class: "flex flex--wrap"
   - label: "XXL"
     value: padding-bottom--xxl
   - label: "XL"

@@ -49,6 +49,8 @@ function moveFromMain(){
   _All(".modal").forEach((element, index) => {
     _("body").appendChild(element);
   });
+  _("body").appendChild(_(".pb-responsive-wrapper"));
+  
 
   // Move out nested elements
   _All(`.pb-template-contentWrapper [data-pb-template-level^='row']`).forEach((element, index) => {

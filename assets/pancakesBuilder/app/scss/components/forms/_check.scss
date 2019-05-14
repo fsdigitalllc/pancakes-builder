@@ -7,14 +7,14 @@ Descr: Custom radio and checkbox buttons
 
 :root {
   /* radios and checkboxes */
-  --checkbox-radio-size: 1em;
-  --checkbox-radio-translate-y: 0.15em; // edit to align buttons with labels
+  --checkbox-radio-size: .75em;
+  --checkbox-radio-translate-y: 0.35em; // edit to align buttons with labels
 
   /* radio buttons */
-  --radio-marker-size: 8px;
+  --radio-marker-size: 6px;
 
   /* checkboxes */
-  --checkbox-marker-size: 12px;
+  --checkbox-marker-size: 10px;
   --checkbox-radius: 3px;
 }
 
