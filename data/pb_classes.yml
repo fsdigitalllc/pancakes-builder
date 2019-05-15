@@ -14,6 +14,11 @@ desktop:
     value: "container container--lg"
   - label: "container--xl"
     value: "container container--xl"
+  edit_text:
+  - type: "button"
+  - supports: "element"
+  - label: "Edit Text"
+    value: "text-edit"
   col_size:
   - type: "radio"
   - supports: "column"
@@ -80,7 +85,7 @@ desktop:
     value: padding-bottom--xxs
   align_children:
   - type: "checkbox"
-  - supports: "row"
+  - supports: "row column"
   - label: "flex"
     value: "flex"
   - label: "flex wrap"

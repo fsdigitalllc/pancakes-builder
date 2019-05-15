@@ -14,8 +14,10 @@ stacks:
       columns:
       - template: "column"
         id: "custom-id"
-        class: "col"
+        class: "col flex"
         elements:
-        - template: "text"
+        - template: "code"
+          class: "element-code"
           html: | 
             <p>Text</p>
+            <h2>More text</h2>

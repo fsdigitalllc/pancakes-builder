@@ -53,7 +53,7 @@
           {{ if .value }}
             {{ $value = .value }}
           <li>
-            <input type="{{ $type }}"{{ if eq $type "radio" }} name='radioButton'{{ end }} value="{{ $value }}" id="{{ $id }}">
+            <input type="{{ $type }}"{{ if eq $type "radio" }} name='radioButton'{{ end }} value="{{ $value }}" id="{{ $id }}"{{ if eq $type "button" }} aria-controls="modal1" pb-function="edit-code"{{ end }}>
             <label for="{{ $id }}">{{ $label }}</label>
           </li>
           {{ end }}

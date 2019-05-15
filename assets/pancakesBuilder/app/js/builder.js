@@ -11,7 +11,7 @@ _(".drawer").classList.add("drawer--fixed-header", "drawer--is-visible");
 // Draggable elements will always use data-pb-template-level
 let dataSections = "main [data-pb-template-level='section']";
 let dataRows = "main [data-pb-template-level='row']"
-let dataColumns = "main [data-pb-template-level='column']";
+let dataColumns = "main [data-pb-template-level='column']", dataElements = "main [data-pb-template-level='element']";
 const dataSelect = "fa-move";
 const moveHandle = "fa-move", editHandle = "fa-edit", hoverMenu = "hover-menu", editHover = "edit-hover", editClick = "pb-editing", drawerTitle = "drawerTitle", responsiveMode = "data-pb-responsive-mode";
 
@@ -76,7 +76,7 @@ promise1.then(function() {
 });
 
 function hoverState() {
-  _All(`${dataSections}, ${dataRows}, ${dataColumns}`).forEach((item, index) => {
+  _All(`${dataSections}, ${dataRows}, ${dataColumns}, ${dataElements}`).forEach((item, index) => {
   
     item.setAttribute(editClick, "0")
     var inactiveHover = function () {
@@ -224,9 +224,34 @@ let responsiveToggleButton = (e) => {
 }
 _('[pb-function="responsive"]').addEventListener("click", responsiveToggleButton, false);
 
+
+let editText = (item) => {
+  let dialogue = document.querySelector(".modal--dialogue");
+  
+  if (item.getAttribute(editClick) === "1") {
+
+  let textArea = dialogue.querySelector('textarea');
+  let hoverMenu = item.querySelector(".hover-menu");
+  hoverMenu.parentNode.removeChild(hoverMenu);
+  let itemHtml = item.innerHTML;
+  textArea.value = itemHtml;
+  console.log("edit text starting...", item, textArea.value);
+  let saveText = t => {
+    console.log("save text", item)
+    console.log("save text", textArea.value)
+    item.innerHTML = textArea.value;
+  }
+
+  document.querySelector('.modal--dialogue [pb-function="save"]').addEventListener("click", saveText, true);
+  
+  }
+}
+
+
+
 let editItem = editBtn => {
   // Get the item (section, row, column)
-  _All(`${dataSections}, ${dataRows}, ${dataColumns}`).forEach((level, index) => {
+  _All(`${dataSections}, ${dataRows}, ${dataColumns}, ${dataElements}`).forEach((level, index) => {
     level.setAttribute(editClick, "0")
   });
   let item = getClosest(editBtn.currentTarget);
@@ -234,6 +259,11 @@ let editItem = editBtn => {
   _(`.${drawerTitle}`).innerText = getType(item);
 
   setSupportedClasses(getType(item));
+  console.log(item)
+  if (item.getAttribute("data-pb-element-type") === "text") {
+    _(".drawer [pb-function='edit-code']").addEventListener("click", editText(item), false);
+  }
+
   let tabSections = _All(".drawer .tabs__panels section");
   let tabs = _All(".drawer .tabs .tab-title");
 
@@ -325,6 +355,8 @@ function dragDrop() {
       } else if (el.getAttribute("data-pb-template-level") === "row" && target.getAttribute("data-pb-template-level") === "section") {
         return true;
       } else if (el.getAttribute("data-pb-template-level") === "column" && target.getAttribute("data-pb-template-level") === "row") {
+        return true;
+      } else if (el.getAttribute("data-pb-template-level") === "element" && target.getAttribute("data-pb-template-level") === "column") {
         return true;
       }
     },
