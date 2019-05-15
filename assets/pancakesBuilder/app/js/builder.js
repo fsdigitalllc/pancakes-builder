@@ -287,7 +287,7 @@ let editItem = editBtn => {
 
   let allOptions = _All(".drawer input"), value, v, name;
 
-  let keys = Object.entries(item.dataset);
+  //let keys = Object.entries(item.dataset);
   allOptions.forEach( input => {
     value = input.value;
 
@@ -298,7 +298,7 @@ let editItem = editBtn => {
     v = getClasses(item);
     
     if (v.includes(value)) {
-      //console.log(value)
+      console.log(value)
       input.checked = true;
     } else {
       input.checked = false;
@@ -308,7 +308,7 @@ let editItem = editBtn => {
 
 // On edit click, get all classes in use on the current item
 let getClasses = item => {
-  
+  console.log("getClasses", item)
   let keys = Object.entries(item.dataset);
   let v;
     keys.forEach((key, i) => {
@@ -330,6 +330,7 @@ let setClasses = (input, item, inputs) => {
   });
   if (item.getAttribute(editClick) === "1") {
     item.classList = inputClasses;
+    item.setAttribute("data-pb-class", inputClasses)
   }
 }
 
@@ -389,7 +390,7 @@ function dragOrder() {
       return handle.classList.contains(moveHandle);
   },
     invalid(el, handle) {
-      return (el.getAttribute("data-pb-template-level") === "row" || el.getAttribute("data-pb-template-level") === "column" );
+      return (el.getAttribute("data-pb-template-level") === "row" || el.getAttribute("data-pb-template-level") === "column" || el.getAttribute("data-pb-template-level") === "element" );
     }
   }).on('out', function (el) {
     el.classList.remove("in-transit");
@@ -407,7 +408,7 @@ function dragOrder() {
       // If the selected element className is column, 
       //    dont allow the row to be dragged. This will allow 
       //    the column to be dragged separate from the row. 
-      return (el.getAttribute("data-pb-template-level") === "column" );
+      return (el.getAttribute("data-pb-template-level") === "column" || el.getAttribute("data-pb-template-level") === "element" );
     }
   }).on('drag', function (el) {
       el.classList.add("in-transit");
@@ -424,8 +425,23 @@ function dragOrder() {
     },
     direction: 'horizontal',
     invalid(el, handle) {
-      return (el.classList.contains("element") );
+      return (el.getAttribute("data-pb-template-level") === "element" );
     },
+    }).on('out', function (el) {
+      el.classList.remove("in-transit");
+    });
+
+  containers = [].slice.call(document.querySelectorAll("[data-pb-template-level='column']"));
+
+  //Reorder rows with drag and drop using a handle
+  dragula(containers, {
+    moves: function (el, container, handle) {
+      return handle.classList.contains(moveHandle);
+    },
+    direction: 'vertical',
+    // invalid(el, handle) {
+    //   return (el.classList.contains("element") );
+    // },
     }).on('out', function (el) {
       el.classList.remove("in-transit");
     });
@@ -541,9 +557,13 @@ let savePage = page => {
 _("[pb-function='save']").addEventListener("click", savePage, false);
 
 let loadSave = page => {
-  console.log(db.getItem(savedData))
+  //console.log(db.getItem(savedData))
   _("main").innerHTML = db.getItem(savedData);
   //db.setItem(savedData, _("main").innerHTML);
+  dragDrop();
+  hoverState();
+  dragOrder();
+
 }
 _("[pb-function='load']").addEventListener("click", loadSave, false);
 

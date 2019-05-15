@@ -48,7 +48,7 @@ desktop:
   - label: "12"
     value: "col--12"
   - label: "auto"
-    value: "col"
+    value: "col--auto"
   spacing_top:
   - type: "radio"
   - classes: "flex flex--wrap"

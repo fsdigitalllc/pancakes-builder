@@ -190,7 +190,7 @@ $grid-columns: 12;
   max-width: 100%;
 }
 
-.col { // auto-sized column
+.col--auto { // auto-sized column
   @include autoSizedColumn;
 }
 

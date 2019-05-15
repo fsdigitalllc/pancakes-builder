@@ -2,9 +2,9 @@
 .flex {
   display: flex;
 
-  > * {
-    display: inline-block; // fallback
-  }
+  // > * {
+  //   display: inline-block; // fallback
+  // }
 }
 
 .flex--wrap {
