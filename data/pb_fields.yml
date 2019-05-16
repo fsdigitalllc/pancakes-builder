@@ -21,3 +21,6 @@ stacks:
           html: | 
             <p>Text</p>
             <h2>More text</h2>
+        - template: "image"
+          class: "element-image"
+          image: "images/book.jpg"

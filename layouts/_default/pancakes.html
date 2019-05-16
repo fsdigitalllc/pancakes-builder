@@ -61,8 +61,16 @@
 
 {{ .Scratch.Set "generatorType" "gen_noncriticalcss" }}
 
+{{ $pagemedia := .Resources.Match "images/*" }}
+{{ with $pagemedia }}
+  {{ range . }}
 
-
-
+  {{ $thumbnail := .Resize "320x" }}
+  <li>Full Resolution: {{ .Permalink }}</li>
+  <img data-src="{{ .Permalink }}" />
+  <li>Thumb: {{ $thumbnail.Permalink }}</li>
+  <img data-src="{{ $thumbnail.Permalink }}" />
+  {{ end }}
+{{ end }}
 
 {{- end -}}
