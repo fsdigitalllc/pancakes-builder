@@ -236,10 +236,21 @@ let editText = (item) => {
   let itemHtml = item.innerHTML;
   textArea.value = itemHtml;
   console.log("edit text starting...", item, textArea.value);
+
+  let editor = CodeMirror(function(elt) {
+      textArea.parentNode.replaceChild(elt, textArea);
+    }, {
+      value: textArea.value,
+      mode: "htmlmixed"
+    });
+
   let saveText = t => {
     console.log("save text", item)
     console.log("save text", textArea.value)
-    item.innerHTML = textArea.value;
+    let cleanH = _(".CodeMirror-code").innerText.replace(/\s+/g,'');
+    //.replace(/[\u200B]/g, '')
+    //item.innerHTML = cleanH;
+    item.innerHTML = editor.getValue();
   }
 
   document.querySelector('.modal--dialogue [pb-function="save"]').addEventListener("click", saveText, true);
@@ -466,7 +477,7 @@ let dialogueTrigger = document.querySelector('[pb-function="exportYml"]');
 var exportYml = function  () {
   console.log("export YML starting...");
   let sections = _All(dataSections);
-  let rows, columns, indent;
+  let rows, columns, elements, indent;
   let textArea = dialogue.querySelector('textarea');
   let yml = `---\n`;
   let params = _All(".modal--full-screen label, .modal--full-screen input");
@@ -490,17 +501,24 @@ var exportYml = function  () {
     let keys = Object.entries(item.dataset);
     let indent, prefix, name, value, level = item.getAttribute("data-pb-template-level");
 
+    // if (item.getAttribute("data-pb-element-type") === "text") {
+    //   var htmlKey = {
+    //     "html": "seven"
+    //   }
+    //   Object.assign(keys, htmlKey);
+    //   console.log(keys)
+    // }
+
     // iterate through each data-pb and grab the value
     // the order matches the order in the markup
     keys.forEach((key, i) => {      
 
       // YML format:
       // name: value
-      name = key[0], value = key[1];
-
+      name = key[0], value = `${key[1]}\n`;
       // replace camelcase with dash format. Remove data-pb prefix so it matches our desirable YML
-      name = camelToDash(name).replace("pb-", "");
-        
+      name = `${camelToDash(name).replace("pb-", "")}:`;
+      
         //console.log(index, i, name,": ", value);
         // For the first key index (i), use a dash in the prefix. We assume it's - template: for the first key index
         if (i === 0) {
@@ -515,18 +533,29 @@ var exportYml = function  () {
           indent = "    "            
         } else if (level === "column") {
           indent = "      "            
+        } else if (level === "element") {
+          indent = "        "
         }
+        // if (item.getAttribute("data-pb-element-type") === "text") {
+        //   name = "html: |\n"
+        //   value = `${indent}${prefix}  ${item.innerHTML}`;
+        //   console.log("text node...")
+        // }
         // In our YML, each nested loop is started like this: "level-name:". However, this is only added once per loop level, so we compare the item index with the data index (i).
         if (level === "section") {
           
         } else if ((index === 0 && i === 0)) {
           yml += `${indent}${level}s:\n`;
+        } else if (item.getAttribute("data-pb-element-type") === "text") {
+          //yml += `${indent}${prefix}html: |\n`;
+          let cleanH = item.innerHTML.replace(/\s+/g,'');
+          yml += `${indent}${prefix}html: |\n${indent}${prefix}  ${cleanH}\n`;
         }
-      yml += `${indent}${prefix}${name}: ${value}\n`;
+      yml += `${indent}${prefix}${name} ${value}`;
       
     });
 
-    //console.log(yml);
+    console.log(yml);
     return yml;
 
   }
@@ -542,10 +571,18 @@ var exportYml = function  () {
       columns = row.querySelectorAll(dataColumns);
         columns.forEach((column, index) => {
           textArea.value = ymlString(column, index);
+
+          elements = column.querySelectorAll(dataElements);
+          elements.forEach((element, index) => {
+            textArea.value = ymlString(element, index);
+          });
         });
     });
   });
   textArea.value += `---\n`;
+  CodeMirror(function(elt) {
+    textArea.parentNode.replaceChild(elt, textArea);
+  }, {value: textArea.value});
 }
 
 dialogueTrigger.addEventListener("click", exportYml, false);
