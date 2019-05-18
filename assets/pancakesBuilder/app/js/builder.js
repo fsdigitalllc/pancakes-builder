@@ -13,7 +13,7 @@ let dataSections = "main [data-pb-template-level='section']";
 let dataRows = "main [data-pb-template-level='row']"
 let dataColumns = "main [data-pb-template-level='column']", dataElements = "main [data-pb-template-level='element']";
 const dataSelect = "fa-move";
-const moveHandle = "fa-move", editHandle = "fa-edit", hoverMenu = "hover-menu", editHover = "edit-hover", editClick = "pb-editing", modalSave = ".modal--dialogue.modal--is-visible [pb-function='save']", drawerTitle = "drawerTitle", responsiveMode = "data-pb-responsive-mode";
+const moveHandle = "fa-move", editHandle = "fa-edit", hoverMenu = "hover-menu", editHover = "edit-hover", editClick = "pb-editing", modalSave = ".modal--dialogue.modal--is-visible [pb-function='save']", drawerTitle = "drawerTitle", responsiveMode = "data-pb-responsive-mode", iFrame = _("iframe.pbResponsiveFrame");
 var modalSmall = document.querySelector('.modal--dialogue');
 _("html").setAttribute(responsiveMode, "desktop");
 
@@ -178,20 +178,13 @@ let responsiveToggleButton = (e) => {
   let currentMode = getResponsiveMode();
   let btn = e.target;
   console.log("current mode: ", currentMode);
-    
-
   if ((".pbResponsiveFrame")) {
-    let iFrame = _("iframe.pbResponsiveFrame")
-
-    // iFrame.onload = () => {
-    //   loadIframe();
-    // }
-    // let loadIframe = () => {
-      //console.log("loaded...", iFrame)
+    
       let iContent = iFrame.contentWindow.document;
       let contents = iContent.querySelectorAll(".builderUIComponents, .modal, .pb-template-contentWrapper, iframe.pbResponsiveFrame");
 
       let html = iContent.querySelector("html")
+      let main = document.querySelector("main").innerHTML;
       //html.classList.remove("editing--mode");
       html.setAttribute("data-pb-responsive-mode", "desktop");
       html.style.width = "100%";
@@ -217,9 +210,8 @@ let responsiveToggleButton = (e) => {
       _("html").setAttribute(responsiveMode, "desktop");
       btn.innerText = "D"
     }
+    iContent.querySelector("main").innerHTML = document.querySelector("main").innerHTML;
   }
-
-  //console.log(btn.innerText);
   setResponsiveMode();
 }
 _('[pb-function="responsive"]').addEventListener("click", responsiveToggleButton, false);
@@ -232,10 +224,8 @@ let saveText = (item, textArea, editor, CM) => {
   if (item.getAttribute(editClick) === "1") {
     //item.innerHTML = textArea.value;
     item.innerHTML = editor.getValue();
-    
-    console.log("CM: ", CM)
+    //console.log("CM: ", CM)
     CM.CodeMirror.toTextArea();
-    //_(modalSave).removeEventListener("click", saveText, false);
   }
 }
 let createTextarea = item => {
@@ -249,6 +239,10 @@ let createTextarea = item => {
 let createEditor = (item, textArea) => {
   console.log("createEditor, item: ", item, textArea.value)
   let editor = CodeMirror.fromTextArea(textArea, {
+    lineNumbers: true,
+    lineWrapping: true,
+    autofocus: true,
+    showCursorWhenSelecting: true,
     value: textArea.value,
     mode: "htmlmixed"
   });
