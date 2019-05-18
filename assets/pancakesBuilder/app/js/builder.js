@@ -13,8 +13,8 @@ let dataSections = "main [data-pb-template-level='section']";
 let dataRows = "main [data-pb-template-level='row']"
 let dataColumns = "main [data-pb-template-level='column']", dataElements = "main [data-pb-template-level='element']";
 const dataSelect = "fa-move";
-const moveHandle = "fa-move", editHandle = "fa-edit", hoverMenu = "hover-menu", editHover = "edit-hover", editClick = "pb-editing", drawerTitle = "drawerTitle", responsiveMode = "data-pb-responsive-mode";
-
+const moveHandle = "fa-move", editHandle = "fa-edit", hoverMenu = "hover-menu", editHover = "edit-hover", editClick = "pb-editing", modalSave = ".modal--dialogue.modal--is-visible [pb-function='save']", drawerTitle = "drawerTitle", responsiveMode = "data-pb-responsive-mode";
+var modalSmall = document.querySelector('.modal--dialogue');
 _("html").setAttribute(responsiveMode, "desktop");
 
 //local storage
@@ -224,41 +224,54 @@ let responsiveToggleButton = (e) => {
 }
 _('[pb-function="responsive"]').addEventListener("click", responsiveToggleButton, false);
 
-
-let editText = (item) => {
-  let dialogue = document.querySelector(".modal--dialogue");
-  
+let saveText = (item, textArea, editor, CM) => {
+  console.log("save text", item, textArea)
+  console.log("save text", editor.getValue())
+  // let cleanH = _(".CodeMirror-code").innerText.replace(/\s+/g,'');
+  // item.innerHTML = cleanH;
   if (item.getAttribute(editClick) === "1") {
-
-  let textArea = dialogue.querySelector('textarea');
-  let hoverMenu = item.querySelector(".hover-menu");
-  hoverMenu.parentNode.removeChild(hoverMenu);
-  let itemHtml = item.innerHTML;
-  textArea.value = itemHtml;
-  console.log("edit text starting...", item, textArea.value);
-
-  let editor = CodeMirror(function(elt) {
-      textArea.parentNode.replaceChild(elt, textArea);
-    }, {
-      value: textArea.value,
-      mode: "htmlmixed"
-    });
-
-  let saveText = t => {
-    console.log("save text", item)
-    console.log("save text", textArea.value)
-    let cleanH = _(".CodeMirror-code").innerText.replace(/\s+/g,'');
-    //.replace(/[\u200B]/g, '')
-    //item.innerHTML = cleanH;
+    //item.innerHTML = textArea.value;
     item.innerHTML = editor.getValue();
-  }
-
-  document.querySelector('.modal--dialogue [pb-function="save"]').addEventListener("click", saveText, true);
-  
+    
+    console.log("CM: ", CM)
+    CM.CodeMirror.toTextArea();
+    //_(modalSave).removeEventListener("click", saveText, false);
   }
 }
+let createTextarea = item => {
+  // For a selected item, create the text area content stripped of stuff we don't want.
+  let textContent = item.innerHTML;
+  if (item.querySelector(".hover-menu")) {
+    textContent = item.querySelector(".hover-menu").parentNode.removeChild(item.querySelector(".hover-menu"));
+  }
+  return textContent;
+}
+let createEditor = (item, textArea) => {
+  console.log("createEditor, item: ", item, textArea.value)
+  let editor = CodeMirror.fromTextArea(textArea, {
+    value: textArea.value,
+    mode: "htmlmixed"
+  });
+  let CM = document.querySelector('.cm-s-default');
+  modalSmall.addEventListener('modalIsClose', function(event){
+    // modal is close
+    saveText(item, textArea, editor, CM);
+  });
+  //_(modalSave).addEventListener("click", () => {  }, false);
+}
 
-
+let editText = (item) => {
+  if (item.getAttribute(editClick) === "1") {
+    //console.log("editText - ITEM: ", item)
+    let textArea = document.querySelector('.modal--dialogue textarea')
+    textArea.value = createTextarea(item);
+    console.log("textArea value", textArea.value)
+    if (!_(".cm-s-default")) {
+      createEditor(item, textArea);
+    }
+    
+  }
+}
 
 let editItem = editBtn => {
   // Get the item (section, row, column)
@@ -270,9 +283,10 @@ let editItem = editBtn => {
   _(`.${drawerTitle}`).innerText = getType(item);
 
   setSupportedClasses(getType(item));
-  console.log(item)
+  
   if (item.getAttribute("data-pb-element-type") === "text") {
-    _(".drawer [pb-function='edit-code']").addEventListener("click", editText(item), false);
+    
+    _(".drawer [pb-function='edit-code']").addEventListener("click", () => {editText(item)}, false);
   }
 
   let tabSections = _All(".drawer .tabs__panels section");
@@ -309,7 +323,7 @@ let editItem = editBtn => {
     v = getClasses(item);
     
     if (v.includes(value)) {
-      console.log(value)
+      //console.log(value)
       input.checked = true;
     } else {
       input.checked = false;
@@ -319,7 +333,7 @@ let editItem = editBtn => {
 
 // On edit click, get all classes in use on the current item
 let getClasses = item => {
-  console.log("getClasses", item)
+  //console.log("getClasses", item)
   let keys = Object.entries(item.dataset);
   let v;
     keys.forEach((key, i) => {
@@ -501,14 +515,6 @@ var exportYml = function  () {
     let keys = Object.entries(item.dataset);
     let indent, prefix, name, value, level = item.getAttribute("data-pb-template-level");
 
-    // if (item.getAttribute("data-pb-element-type") === "text") {
-    //   var htmlKey = {
-    //     "html": "seven"
-    //   }
-    //   Object.assign(keys, htmlKey);
-    //   console.log(keys)
-    // }
-
     // iterate through each data-pb and grab the value
     // the order matches the order in the markup
     keys.forEach((key, i) => {      
@@ -536,11 +542,6 @@ var exportYml = function  () {
         } else if (level === "element") {
           indent = "        "
         }
-        // if (item.getAttribute("data-pb-element-type") === "text") {
-        //   name = "html: |\n"
-        //   value = `${indent}${prefix}  ${item.innerHTML}`;
-        //   console.log("text node...")
-        // }
         // In our YML, each nested loop is started like this: "level-name:". However, this is only added once per loop level, so we compare the item index with the data index (i).
         if (level === "section") {
           
@@ -554,7 +555,6 @@ var exportYml = function  () {
       yml += `${indent}${prefix}${name} ${value}`;
       
     });
-
     console.log(yml);
     return yml;
 
@@ -615,6 +615,6 @@ let loadAutoSave = page => {
 }
 // Auto save
 setInterval(() => {
-  console.log("Auto saving...")
+  //console.log("Auto saving...")
   autoSave();
 }, 5000);

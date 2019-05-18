@@ -14,7 +14,7 @@ stacks:
       columns:
       - template: "column"
         id: "custom-id"
-        class: "col--auto flex"
+        class: "col--auto flex flex--column"
         elements:
         - template: "code"
           class: "element-code"

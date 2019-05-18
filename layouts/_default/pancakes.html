@@ -66,10 +66,13 @@
   {{ range . }}
 
   {{ $thumbnail := .Resize "320x" }}
+  {{ $medium := .Resize "520x" }}
   <li>Full Resolution: {{ .Permalink }}</li>
   <img data-src="{{ .Permalink }}" />
   <li>Thumb: {{ $thumbnail.Permalink }}</li>
   <img data-src="{{ $thumbnail.Permalink }}" />
+  <li>Medium: {{ $medium.Permalink }}</li>
+  <img data-src="{{ $medium.Permalink }}" />
   {{ end }}
 {{ end }}
 
