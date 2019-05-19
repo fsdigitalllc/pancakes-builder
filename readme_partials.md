@@ -77,6 +77,20 @@ For nested partials, pass the global and current level context with dict: `{{ pa
 
 * the pb- prefix is used for values in the div. These correspond with front matter fields. We have id="" and pb-id="" because the user might set the id="" using javascript. In this case, we would not want to add this to the front matter field `id`. in the `pb_fields` partial file, we can set some default values, such as class. This is inserted into the page using the drag-and-drop editor. We can then parse the pb-class selector to identify the default classes. These classes will not be overridden by the user defined editor values.
 
+### Modal functions
+
+```
+trigger.addEventListener("click", () => {
+  toggleModal(paramContainer.innerHTML, "params")
+}, false);
+
+toggleModal = (src, type) => {
+
+// src = the content to be changed
+// type = image, text, yml, params
+}
+```
+
 ### Constructors 
 
 ```

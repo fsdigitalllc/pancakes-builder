@@ -1,24 +1,3 @@
-<div class="modal modal--full-screen js-modal" id="modal2">
-  <div class="modal__content modal__content--sm" role="alertdialog" tabindex="-1" aria-labelledby="modalTitle1" aria-describedby="modalDescription1">
-    <header class="modal__header">
-      <h4 class="truncate" id="modalTitle1">Modal title</h4>
-
-      <button class="reset modal__close-btn js-modal__close">
-        <svg class="icon" viewBox="0 0 20 20"><title>Close modal window</title><polygon points="18.707 2.707 17.293 1.293 10 8.586 2.707 1.293 1.293 2.707 8.586 10 1.293 17.293 2.707 18.707 10 11.414 17.293 18.707 18.707 17.293 11.414 10 18.707 2.707"/></svg>
-      </button>
-    </header>
-
-    <div class="modal__body">
-      <div class="text-component">
-        {{ partial "pancakesBuilder/app/components/param_editor.html" . }}
-      </div>
-    </div>
-
-    <footer class="modal__footer">
-      <div class="flex flex--end flex--gap-xs">
-        <button class="btn btn--subtle js-modal__close">Close</button>
-        <button class="btn btn--primary">Save</button>
-      </div>
-    </footer>
-  </div>
+<div pb-content="params">
+  {{ partial "pancakesBuilder/app/components/param_editor.html" . }}
 </div>

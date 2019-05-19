@@ -13,10 +13,10 @@ let dataSections = "main [data-pb-template-level='section']";
 let dataRows = "main [data-pb-template-level='row']"
 let dataColumns = "main [data-pb-template-level='column']", dataElements = "main [data-pb-template-level='element']";
 const dataSelect = "fa-move";
-const moveHandle = "fa-move", editHandle = "fa-edit", hoverMenu = "hover-menu", editHover = "edit-hover", editClick = "pb-editing", modalSave = ".modal--dialogue.modal--is-visible [pb-function='save']", drawerTitle = "drawerTitle", responsiveMode = "data-pb-responsive-mode", iFrame = _("iframe.pbResponsiveFrame");
-var modalSmall = document.querySelector('.modal--dialogue');
+const moveHandle = "fa-move", editHandle = "fa-edit", hoverMenu = "hover-menu", editHover = "edit-hover", editClick = "pb-editing", dialogueTrigger = document.querySelector('[pb-function="exportYml"]'), modalSave = ".modal--dialogue.modal--is-visible [pb-function='save']", drawerTitle = "drawerTitle", responsiveMode = "data-pb-responsive-mode", iFrame = _("iframe.pbResponsiveFrame");
+var modal = document.querySelector('.modal');
 _("html").setAttribute(responsiveMode, "desktop");
-
+let paramContainer = document.querySelector('[pb-content="params"]');
 //local storage
 const db = localStorage;
 const pageId = window.location;
@@ -128,6 +128,8 @@ let getType = item => {
   }
 }
 
+// add some features for all modal windows
+
 // Get the nearest editable parent of the selected handle
 let getClosest = elem => {
   let selector = "data-pb-template-level";
@@ -216,28 +218,7 @@ let responsiveToggleButton = (e) => {
 }
 _('[pb-function="responsive"]').addEventListener("click", responsiveToggleButton, false);
 
-let saveText = (item, textArea, editor, CM) => {
-  console.log("save text", item, textArea)
-  console.log("save text", editor.getValue())
-  // let cleanH = _(".CodeMirror-code").innerText.replace(/\s+/g,'');
-  // item.innerHTML = cleanH;
-  if (item.getAttribute(editClick) === "1") {
-    //item.innerHTML = textArea.value;
-    item.innerHTML = editor.getValue();
-    //console.log("CM: ", CM)
-    CM.CodeMirror.toTextArea();
-  }
-}
-let createTextarea = item => {
-  // For a selected item, create the text area content stripped of stuff we don't want.
-  let textContent = item.innerHTML;
-  if (item.querySelector(".hover-menu")) {
-    textContent = item.querySelector(".hover-menu").parentNode.removeChild(item.querySelector(".hover-menu"));
-  }
-  return textContent;
-}
 let createEditor = (item, textArea) => {
-  console.log("createEditor, item: ", item, textArea.value)
   let editor = CodeMirror.fromTextArea(textArea, {
     lineNumbers: true,
     lineWrapping: true,
@@ -246,26 +227,65 @@ let createEditor = (item, textArea) => {
     value: textArea.value,
     mode: "htmlmixed"
   });
-  let CM = document.querySelector('.cm-s-default');
-  modalSmall.addEventListener('modalIsClose', function(event){
-    // modal is close
-    saveText(item, textArea, editor, CM);
-  });
-  //_(modalSave).addEventListener("click", () => {  }, false);
 }
 
-let editText = (item) => {
-  if (item.getAttribute(editClick) === "1") {
-    //console.log("editText - ITEM: ", item)
-    let textArea = document.querySelector('.modal--dialogue textarea')
-    textArea.value = createTextarea(item);
-    console.log("textArea value", textArea.value)
-    if (!_(".cm-s-default")) {
-      createEditor(item, textArea);
+let toggleModal = (src, type) => {
+
+  let modalContent = modal.querySelector(".modal__body");
+
+    // event.detail is the element that triggered the modal opening
+    console.log("MODAL OPEN---")
+    modal.classList.add("modal--full-screen")
+    let toggleFullscreen = button => {
+      modal.classList.toggle("modal--full-screen")
     }
+    modal.querySelector("[pb-function='fullscreen-modal']").addEventListener("click", toggleFullscreen, false);
+
+    // Stuff here
+    if (type === "text") {
+      //console.log("text Value: ", editText(src))
+    } else {
+      modalContent.innerHTML = src;
+    }
+
+    let saveModal = (src, content) => {
+      
+      console.log("src: ", src.innerHTML, "content: ", content.innerHTML)
+
+      if (type === "params") {
+        let newValues = content.querySelectorAll("input");
+        newValues.forEach((input, index) => {
+          input.setAttribute('value', input.value);
+        })
+        src.innerHTML = content.innerHTML;
+      } else if (type === "yml") {
+        console.log("save YML?")
+      }
+    }
+    let modalClose = (event) => {
+      if (event.target.getAttribute("pb-function") !== "save") {
+        console.log("do not save changes", event.target)
+      } else {
+        console.log("save the changes");
+        saveModal(paramContainer, modalContent);
+        //saveText(item, textArea, editor, CM);
+      }
+      //modalContent.innerHTML = "";
+    }
+    modal.querySelector("[pb-function='save']").addEventListener("click", modalClose, false);
     
-  }
 }
+
+// Param editor
+_(".drawer [pb-function='params']").addEventListener("click", () => {
+  toggleModal(paramContainer.innerHTML, "params")
+}, false);
+
+// YML trigger
+dialogueTrigger.addEventListener("click", () => {
+  console.log(exportYml());
+  toggleModal(exportYml(), "yml")
+}, false);
 
 let editItem = editBtn => {
   // Get the item (section, row, column)
@@ -279,8 +299,12 @@ let editItem = editBtn => {
   setSupportedClasses(getType(item));
   
   if (item.getAttribute("data-pb-element-type") === "text") {
-    
-    _(".drawer [pb-function='edit-code']").addEventListener("click", () => {editText(item)}, false);
+    _(".drawer [pb-function='edit-code']").addEventListener("click", () => {
+      toggleModal(item, "text")
+    }, false);
+    // _(".drawer [pb-function='edit-code']").addEventListener("click", () => {
+    //   toggleModal(item, type === "params")
+    // }, false);
   }
 
   let tabSections = _All(".drawer .tabs__panels section");
@@ -478,15 +502,66 @@ function dragCreate (el, drake, containers) {
   dragOrder();
 }
 
-let dialogue = document.querySelector(".modal--dialogue");
-let dialogueTrigger = document.querySelector('[pb-function="exportYml"]');
+//let dialogue = document.querySelector(".modal--dialogue");
 
+
+const ymlString = (item, index) => {
+
+  // Index: the current index of the draggable section, row, or column
+  // i: the current key index
+
+  let keys = Object.entries(item.dataset);
+  let yml = "";
+  let indent, prefix, name, value, level = item.getAttribute("data-pb-template-level");
+
+  // iterate through each data-pb and grab the value
+  // the order matches the order in the markup
+  keys.forEach((key, i) => {      
+
+    // YML format:
+    // name: value
+    name = key[0], value = `${key[1]}\n`;
+    // replace camelcase with dash format. Remove data-pb prefix so it matches our desirable YML
+    name = `${camelToDash(name).replace("pb-", "")}:`;
+    
+      //console.log(index, i, name,": ", value);
+      // For the first key index (i), use a dash in the prefix. We assume it's - template: for the first key index
+      if (i === 0) {
+        prefix = "- ";
+      } else {
+        prefix = "  ";
+      }
+      // For each draggable item, the YML indent will vary slightly. 
+      if (level === "section" ) {
+        indent = "  "
+      } else if (level === "row") {
+        indent = "    "            
+      } else if (level === "column") {
+        indent = "      "            
+      } else if (level === "element") {
+        indent = "        "
+      }
+      // In our YML, each nested loop is started like this: "level-name:". However, this is only added once per loop level, so we compare the item index with the data index (i).
+      if (level === "section") {
+        
+      } else if ((index === 0 && i === 0)) {
+        yml += `${indent}${level}s:\n`;
+      } else if (item.getAttribute("data-pb-element-type") === "text") {
+        //yml += `${indent}${prefix}html: |\n`;
+        let cleanH = item.innerHTML.replace(/\s+/g,'');
+        yml += `${indent}${prefix}html: |\n${indent}${prefix}  ${cleanH}\n`;
+      }
+    yml += `${indent}${prefix}${name} ${value}`;
+    
+  });
+  //console.log(yml);
+  return yml;
+}
 
 var exportYml = function  () {
   console.log("export YML starting...");
   let sections = _All(dataSections);
   let rows, columns, elements, indent;
-  let textArea = dialogue.querySelector('textarea');
   let yml = `---\n`;
   let params = _All(".modal--full-screen label, .modal--full-screen input");
 
@@ -501,85 +576,31 @@ var exportYml = function  () {
 
   yml += "stacks:\n";
 
-  const ymlString = (item, index) => {
-
-    // Index: the current index of the draggable section, row, or column
-    // i: the current key index
-
-    let keys = Object.entries(item.dataset);
-    let indent, prefix, name, value, level = item.getAttribute("data-pb-template-level");
-
-    // iterate through each data-pb and grab the value
-    // the order matches the order in the markup
-    keys.forEach((key, i) => {      
-
-      // YML format:
-      // name: value
-      name = key[0], value = `${key[1]}\n`;
-      // replace camelcase with dash format. Remove data-pb prefix so it matches our desirable YML
-      name = `${camelToDash(name).replace("pb-", "")}:`;
-      
-        //console.log(index, i, name,": ", value);
-        // For the first key index (i), use a dash in the prefix. We assume it's - template: for the first key index
-        if (i === 0) {
-          prefix = "- ";
-        } else {
-          prefix = "  ";
-        }
-        // For each draggable item, the YML indent will vary slightly. 
-        if (level === "section" ) {
-          indent = "  "
-        } else if (level === "row") {
-          indent = "    "            
-        } else if (level === "column") {
-          indent = "      "            
-        } else if (level === "element") {
-          indent = "        "
-        }
-        // In our YML, each nested loop is started like this: "level-name:". However, this is only added once per loop level, so we compare the item index with the data index (i).
-        if (level === "section") {
-          
-        } else if ((index === 0 && i === 0)) {
-          yml += `${indent}${level}s:\n`;
-        } else if (item.getAttribute("data-pb-element-type") === "text") {
-          //yml += `${indent}${prefix}html: |\n`;
-          let cleanH = item.innerHTML.replace(/\s+/g,'');
-          yml += `${indent}${prefix}html: |\n${indent}${prefix}  ${cleanH}\n`;
-        }
-      yml += `${indent}${prefix}${name} ${value}`;
-      
-    });
-    console.log(yml);
-    return yml;
-
-  }
-
   // Loop through each draggable item within <main> tags, then get the data-attributes, then generate the YML.
   sections.forEach((section, index) => {
-    textArea.value = ymlString(section, index);
+    yml += ymlString(section, index);
 
     rows = section.querySelectorAll(dataRows);
     rows.forEach((row, index) => {
-      textArea.value = ymlString(row, index);
+      yml += ymlString(row, index);
 
       columns = row.querySelectorAll(dataColumns);
         columns.forEach((column, index) => {
-          textArea.value = ymlString(column, index);
+          yml += ymlString(column, index);
 
           elements = column.querySelectorAll(dataElements);
           elements.forEach((element, index) => {
-            textArea.value = ymlString(element, index);
+            yml += ymlString(element, index);
           });
         });
     });
   });
-  textArea.value += `---\n`;
-  CodeMirror(function(elt) {
-    textArea.parentNode.replaceChild(elt, textArea);
-  }, {value: textArea.value});
+  yml += `---\n`;
+  // CodeMirror(function(elt) {
+  //   textArea.parentNode.replaceChild(elt, textArea);
+  // }, {value: textArea.value});
+  return yml;
 }
-
-dialogueTrigger.addEventListener("click", exportYml, false);
 
 let savePage = page => {
   console.log("save page")
