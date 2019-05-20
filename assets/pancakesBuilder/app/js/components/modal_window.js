@@ -83,6 +83,10 @@
 	};
 
 	Modal.prototype.initClick = function(event) {
+		if( event.target.closest('[pb-function="fullscreen-modal"]') ) {
+			this.element.classList.toggle("modal--full-screen");
+			return;
+		}
 		//close modal when clicking on close button or x
 		if( !event.target.closest('.js-modal__close') ) return;
 		event.preventDefault();

@@ -236,10 +236,7 @@ let toggleModal = (src, type) => {
     // event.detail is the element that triggered the modal opening
     console.log("MODAL OPEN---")
     modal.classList.add("modal--full-screen")
-    let toggleFullscreen = button => {
-      modal.classList.toggle("modal--full-screen")
-    }
-    modal.querySelector("[pb-function='fullscreen-modal']").addEventListener("click", toggleFullscreen, false);
+    
 
     // Stuff here
     if (type === "text") {
@@ -297,7 +294,20 @@ let editItem = editBtn => {
   _(`.${drawerTitle}`).innerText = getType(item);
 
   setSupportedClasses(getType(item));
-  
+
+  // On edit click, get all classes in use on the current item
+  let getClasses = item => {
+    //console.log("getClasses", item)
+    let keys = Object.entries(item.dataset);
+    let v;
+      keys.forEach((key, i) => {
+        if (key[0] === "pbClass") {
+          v = key[1];
+        }
+      })
+      return v;
+  }
+
   if (item.getAttribute("data-pb-element-type") === "text") {
     _(".drawer [pb-function='edit-code']").addEventListener("click", () => {
       toggleModal(item, "text")
@@ -349,18 +359,7 @@ let editItem = editBtn => {
   })
 }
 
-// On edit click, get all classes in use on the current item
-let getClasses = item => {
-  //console.log("getClasses", item)
-  let keys = Object.entries(item.dataset);
-  let v;
-    keys.forEach((key, i) => {
-      if (key[0] === "pbClass") {
-        v = key[1];
-      }
-    })
-    return v;
-}
+
 
 // After selection an option in the drawer, modify the HTML with the newly selected classes
 let setClasses = (input, item, inputs) => {
@@ -505,65 +504,14 @@ function dragCreate (el, drake, containers) {
 //let dialogue = document.querySelector(".modal--dialogue");
 
 
-const ymlString = (item, index) => {
 
-  // Index: the current index of the draggable section, row, or column
-  // i: the current key index
 
-  let keys = Object.entries(item.dataset);
-  let yml = "";
-  let indent, prefix, name, value, level = item.getAttribute("data-pb-template-level");
-
-  // iterate through each data-pb and grab the value
-  // the order matches the order in the markup
-  keys.forEach((key, i) => {      
-
-    // YML format:
-    // name: value
-    name = key[0], value = `${key[1]}\n`;
-    // replace camelcase with dash format. Remove data-pb prefix so it matches our desirable YML
-    name = `${camelToDash(name).replace("pb-", "")}:`;
-    
-      //console.log(index, i, name,": ", value);
-      // For the first key index (i), use a dash in the prefix. We assume it's - template: for the first key index
-      if (i === 0) {
-        prefix = "- ";
-      } else {
-        prefix = "  ";
-      }
-      // For each draggable item, the YML indent will vary slightly. 
-      if (level === "section" ) {
-        indent = "  "
-      } else if (level === "row") {
-        indent = "    "            
-      } else if (level === "column") {
-        indent = "      "            
-      } else if (level === "element") {
-        indent = "        "
-      }
-      // In our YML, each nested loop is started like this: "level-name:". However, this is only added once per loop level, so we compare the item index with the data index (i).
-      if (level === "section") {
-        
-      } else if ((index === 0 && i === 0)) {
-        yml += `${indent}${level}s:\n`;
-      } else if (item.getAttribute("data-pb-element-type") === "text") {
-        //yml += `${indent}${prefix}html: |\n`;
-        let cleanH = item.innerHTML.replace(/\s+/g,'');
-        yml += `${indent}${prefix}html: |\n${indent}${prefix}  ${cleanH}\n`;
-      }
-    yml += `${indent}${prefix}${name} ${value}`;
-    
-  });
-  //console.log(yml);
-  return yml;
-}
-
-var exportYml = function  () {
+let exportYml = () => {
   console.log("export YML starting...");
   let sections = _All(dataSections);
   let rows, columns, elements, indent;
   let yml = `---\n`;
-  let params = _All(".modal--full-screen label, .modal--full-screen input");
+  let params = _All("[pb-content='params'] label, [pb-content='params'] input");
 
   let key, value, prefix;
   params.forEach((param, index) => {
@@ -577,6 +525,58 @@ var exportYml = function  () {
   yml += "stacks:\n";
 
   // Loop through each draggable item within <main> tags, then get the data-attributes, then generate the YML.
+  const ymlString = (item, index) => {
+
+    // Index: the current index of the draggable section, row, or column
+    // i: the current key index
+  
+    let keys = Object.entries(item.dataset);
+    let yml = "";
+    let indent, prefix, name, value, level = item.getAttribute("data-pb-template-level");
+  
+    // iterate through each data-pb and grab the value
+    // the order matches the order in the markup
+    keys.forEach((key, i) => {      
+  
+      // YML format:
+      // name: value
+      name = key[0], value = `${key[1]}\n`;
+      // replace camelcase with dash format. Remove data-pb prefix so it matches our desirable YML
+      name = `${camelToDash(name).replace("pb-", "")}:`;
+      
+        //console.log(index, i, name,": ", value);
+        // For the first key index (i), use a dash in the prefix. We assume it's - template: for the first key index
+        if (i === 0) {
+          prefix = "- ";
+        } else {
+          prefix = "  ";
+        }
+        // For each draggable item, the YML indent will vary slightly. 
+        if (level === "section" ) {
+          indent = "  "
+        } else if (level === "row") {
+          indent = "    "            
+        } else if (level === "column") {
+          indent = "      "            
+        } else if (level === "element") {
+          indent = "        "
+        }
+        // In our YML, each nested loop is started like this: "level-name:". However, this is only added once per loop level, so we compare the item index with the data index (i).
+        if (level === "section") {
+          
+        } else if ((index === 0 && i === 0)) {
+          yml += `${indent}${level}s:\n`;
+        } else if (item.getAttribute("data-pb-element-type") === "text") {
+          //yml += `${indent}${prefix}html: |\n`;
+          let cleanH = item.innerHTML.replace(/\s+/g,'');
+          yml += `${indent}${prefix}html: |\n${indent}${prefix}  ${cleanH}\n`;
+        }
+      yml += `${indent}${prefix}${name} ${value}`;
+      
+    });
+    //console.log(yml);
+    return yml;
+  }
   sections.forEach((section, index) => {
     yml += ymlString(section, index);
 
