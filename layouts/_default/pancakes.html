@@ -34,8 +34,6 @@
   {{ $vars := $css | resources.FromString "scss/pb_noncritical.scss" | resources.ToCSS | resources.Minify }}
 {{ end }}
 
-{{/* <!-- Page Scripts --> */}}
-{{ partial "pancakesBuilder/scripts.html" . | safeHTML }}
 
 {{ if eq $env "staging" }}
 <div class="builderUIComponents">
@@ -53,7 +51,7 @@
   <div class="pb-template-contentWrapper">
   {{- partial "pancakesBuilder/app/generator/all.html" . | safeHTML -}}
   </div>
-  <div class="pb-responsive-wrapper"><iframe class="pbResponsiveFrame" name="Framename" src="{{ .Permalink }}" width="600" height="600" frameborder="0" scrolling="auto" class="frame-area"></iframe></div>
+  <div class="pb-responsive-wrapper"><iframe class="pbResponsiveFrame" name="Framename" src="" width="600" height="600" frameborder="0" scrolling="auto" class="frame-area"></iframe></div>
 </div>
 
 
@@ -61,19 +59,8 @@
 
 {{ .Scratch.Set "generatorType" "gen_noncriticalcss" }}
 
-{{ $pagemedia := .Resources.Match "images/*" }}
-{{ with $pagemedia }}
-  {{ range . }}
 
-  {{ $thumbnail := .Resize "320x" }}
-  {{ $medium := .Resize "520x" }}
-  <li>Full Resolution: {{ .Permalink }}</li>
-  <img data-src="{{ .Permalink }}" />
-  <li>Thumb: {{ $thumbnail.Permalink }}</li>
-  <img data-src="{{ $thumbnail.Permalink }}" />
-  <li>Medium: {{ $medium.Permalink }}</li>
-  <img data-src="{{ $medium.Permalink }}" />
-  {{ end }}
-{{ end }}
+{{/* <!-- Builder JS --> */}}
+{{ partial "pancakesBuilder/app/scripts.html" . | safeHTML }}
 
 {{- end -}}

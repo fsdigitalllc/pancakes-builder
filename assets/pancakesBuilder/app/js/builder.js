@@ -1,7 +1,11 @@
+window.addEventListener('DOMContentLoaded', (event) => {
+  console.log('DOM fully loaded and parsed');
+});
 // Query shorthand:
 // _(".element");
 // _All(".elements");
 
+console.log("loaded pancakesBuilder")
 // TEST MODE //
 _("html").classList.add("editing--mode");
 
@@ -61,19 +65,24 @@ function moveFromMain(){
   });
 }
 
-var promise1 = new Promise(function(resolve, reject) {
-  resolve(moveFromMain());
-});
 
-promise1.then(function() {
-  loadAutoSave();
-}).then(function() {
-  dragDrop();
-}).then(function() {
-  hoverState();
-}).then(function() {
-  dragOrder();
-});
+runPromises();
+function runPromises() {
+  var promise1 = new Promise(function(resolve, reject) {
+    resolve(moveFromMain());
+    console.log("main", _("main"))
+  });
+  promise1.then(function() {
+    loadAutoSave();
+  }).then(function() {
+    dragDrop();
+  }).then(function() {
+    //hoverState();
+  }).then(function() {
+    //dragOrder();
+  });
+}
+
 
 function hoverState() {
   _All(`${dataSections}, ${dataRows}, ${dataColumns}, ${dataElements}`).forEach((item, index) => {
@@ -218,45 +227,47 @@ let responsiveToggleButton = (e) => {
 }
 _('[pb-function="responsive"]').addEventListener("click", responsiveToggleButton, false);
 
-let createEditor = (item, textArea) => {
-  let editor = CodeMirror.fromTextArea(textArea, {
-    lineNumbers: true,
-    lineWrapping: true,
-    autofocus: true,
-    showCursorWhenSelecting: true,
-    value: textArea.value,
-    mode: "htmlmixed"
-  });
-}
-
 let toggleModal = (src, type) => {
 
-  let modalContent = modal.querySelector(".modal__body");
+  let createEditor = (item, textArea) => {
+    let editor = CodeMirror.fromTextArea(textArea, {
+      lineNumbers: true,
+      lineWrapping: true,
+      autofocus: true,
+      showCursorWhenSelecting: true,
+      value: textArea.value,
+      mode: "htmlmixed"
+    });
+  }
 
-    // event.detail is the element that triggered the modal opening
-    console.log("MODAL OPEN---")
-    modal.classList.add("modal--full-screen")
-    
-
+  let modalContent = modal.querySelector(".modal__body");   
     // Stuff here
     if (type === "text") {
       //console.log("text Value: ", editText(src))
+      modalContent.innerHTML = `<textarea>${src.innerHTML}</textarea>`
+    } else if (type === "yml") {
+      modalContent.innerHTML = `<textarea>${src}</textarea>`
+    } else if (type === "params") {
+      modalContent.innerHTML = `${src.innerHTML}`
     } else {
       modalContent.innerHTML = src;
     }
 
     let saveModal = (src, content) => {
-      
-      console.log("src: ", src.innerHTML, "content: ", content.innerHTML)
-
+      //console.log("src: ", src.innerHTML, "content: ", content.innerHTML)
       if (type === "params") {
+        console.log("save params src", src)
+        console.log("save params content", content)
         let newValues = content.querySelectorAll("input");
         newValues.forEach((input, index) => {
+          console.log("input: ", input.value)
           input.setAttribute('value', input.value);
         })
         src.innerHTML = content.innerHTML;
       } else if (type === "yml") {
         console.log("save YML?")
+      } else if (type === "text") {
+          src.innerHTML = content.querySelector("textarea").value;
       }
     }
     let modalClose = (event) => {
@@ -264,10 +275,9 @@ let toggleModal = (src, type) => {
         console.log("do not save changes", event.target)
       } else {
         console.log("save the changes");
-        saveModal(paramContainer, modalContent);
+        saveModal(src, modalContent);
         //saveText(item, textArea, editor, CM);
       }
-      //modalContent.innerHTML = "";
     }
     modal.querySelector("[pb-function='save']").addEventListener("click", modalClose, false);
     
@@ -275,12 +285,12 @@ let toggleModal = (src, type) => {
 
 // Param editor
 _(".drawer [pb-function='params']").addEventListener("click", () => {
-  toggleModal(paramContainer.innerHTML, "params")
+  toggleModal(paramContainer, "params")
 }, false);
 
 // YML trigger
 dialogueTrigger.addEventListener("click", () => {
-  console.log(exportYml());
+  //console.log(exportYml());
   toggleModal(exportYml(), "yml")
 }, false);
 
@@ -291,7 +301,7 @@ let editItem = editBtn => {
   });
   let item = getClosest(editBtn.currentTarget);
   item.setAttribute(editClick, "1")
-  _(`.${drawerTitle}`).innerText = getType(item);
+  _(`.${drawerTitle}`).innerText = `${getType(item)} | ${item.id}`;
 
   setSupportedClasses(getType(item));
 
@@ -379,11 +389,11 @@ let setClasses = (input, item, inputs) => {
 function dragDrop() {
   // Elements that are created on drag start in the drawer sidebar
   let dragMenu = document.querySelector('.drawer .drawer__body [pb-function="item-drawer"]');
-  let containers = Array.prototype.slice.call(_("main"));
-  //console.log(containers);
-  //[dragMenu, containers], 
-  
-  var createOnDrop = dragula([dragMenu, containers], {
+  //containers = [].slice.call(document.querySelectorAll("[data-pb-template-level='column']"));
+  let containers = _("main");
+  //[dragMenu, containers],     
+  let newContainers = Array.from(document.querySelectorAll("main, main [data-pb-template-level='section'], main [data-pb-template-level='row'], main [data-pb-template-level='column'], main [data-pb-template-level='element']")).concat(dragMenu);
+  let createOnDrop = dragula(newContainers, {
     isContainer: function (el) {
       return false; // only elements in drake.containers will be taken into account
     },
@@ -394,6 +404,7 @@ function dragDrop() {
     },
     accepts: function (el, target, source, sibling) {
       if (el.getAttribute("data-pb-template-level") === "section" && target.classList.contains("site-main")) {
+        //console.log("el true: ", el, target)
         return true;
       } else if (el.getAttribute("data-pb-template-level") === "row" && target.getAttribute("data-pb-template-level") === "section") {
         return true;
@@ -413,9 +424,14 @@ function dragDrop() {
     removeOnSpill: false,
     ignoreInputTextSelection: true     // allows users to select input text, see details below
   });
-  createOnDrop.containers.push(_("main"));
-  createOnDrop.on('drag', function (el) {
+  //createOnDrop.containers.push(_("main"));
+  console.log("containers,", createOnDrop.containers)
+  
+  createOnDrop.on('drag', function (el, containers) {
+    //containers.push(newContainers)
     el.classList.add("in-transit");
+    
+    console.log("dragging...", el, "containers....", createOnDrop.containers)
   }).on('out', function (el) {
     el.classList.remove("in-transit");
   }).on('drop', function (el, container, source) {
@@ -423,6 +439,15 @@ function dragDrop() {
      dragCreate(el, createOnDrop, containers); 
     }
   });
+  let loadSave = page => {
+    //console.log(db.getItem(savedData))
+    _("main").innerHTML = db.getItem(savedData);
+    //db.setItem(savedData, _("main").innerHTML);
+    createOnDrop.destroy();
+  
+    runPromises();
+  }
+  _("[pb-function='load']").addEventListener("click", loadSave, false);
 }
 
 function dragOrder() {
@@ -489,7 +514,7 @@ function dragOrder() {
     });
   }
 
-function dragCreate (el, drake, containers) {
+function dragCreate (el, drake) {
   let pbTemplateAdd = el.getAttribute("data-pb-template-add");
   let pbCreateContent = _(".pb-template-contentWrapper");
   let pbTemplate = pbCreateContent.querySelector(`[data-pb-template^='${pbTemplateAdd}']`);
@@ -608,16 +633,7 @@ let savePage = page => {
 }
 _("[pb-function='save']").addEventListener("click", savePage, false);
 
-let loadSave = page => {
-  //console.log(db.getItem(savedData))
-  _("main").innerHTML = db.getItem(savedData);
-  //db.setItem(savedData, _("main").innerHTML);
-  dragDrop();
-  hoverState();
-  dragOrder();
 
-}
-_("[pb-function='load']").addEventListener("click", loadSave, false);
 
 
 let autoSave = page => {
