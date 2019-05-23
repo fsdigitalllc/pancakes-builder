@@ -54,6 +54,18 @@
 			box.innerHTML = _('[pb-content="params"]').innerHTML;
 			box = this.element.querySelector('.modal__body');
 			item = _(".builderUIComponents [pb-content='params'] form")
+		} else if (mode === "media") {
+			item = item = _('[pb-editing="1"]');
+			box.innerHTML = _('.builderUIComponents [pb-content="media"]').innerHTML;
+			box = this.element.querySelector('.modal__body');
+			
+			let imgSrc = (e) => {
+				console.log("imagesrc", e.currentTarget.src)
+				//e.removeEventListener("click", imgSrc, false);
+			}
+			box.querySelectorAll("img").forEach((image) => {
+				image.addEventListener("click", imgSrc, false);
+			})
 		}
 		console.log("mode: ", mode)
 		console.log("box: ", box)
@@ -81,16 +93,15 @@
 		} 
 		
 		let context = this;
-
 		let closeSave = () => {
-			console.log("closeSave")
 			if (textArea.type === "textarea") {
 				content = editor.getValue();
 			} else if (textArea.querySelector("input")) {
 				content = textArea.querySelectorAll("input");
+			} else if (mode === "media") {
+
+				
 			}
-			//_("body").innerHTML = content;
-			//console.log("is node", isNodeList(content))
 			context.saveEditor(content, item);
 			this.element.removeEventListener('modalIsClose', closeSave, false);
 		}
@@ -98,7 +109,6 @@
 	};
 
 	Modal.prototype.saveEditor = function(editor, item) {
-		console.log("editor saved isnode", isNodeList(editor), "item", item)
 		if (isNodeList(editor)) {
 			editor.forEach((input) => {
 				input.defaultValue = input.value;

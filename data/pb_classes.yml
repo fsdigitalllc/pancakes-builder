@@ -16,9 +16,15 @@ desktop:
     value: "container container--xl"
   edit_text:
   - type: "button"
-  - supports: "element"
+  - supports: "element-text"
   - label: "Edit Text"
     value: "text-edit"
+  edit_image:
+  - type: "button"
+  - supports: "element-image"
+  - mode: "media"
+  - label: "Edit image"
+    value: "image-edit"
   col_size:
   - type: "radio"
   - supports: "column"

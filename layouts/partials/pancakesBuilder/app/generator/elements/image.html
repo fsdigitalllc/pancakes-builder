@@ -1,3 +1,5 @@
 {{/* <!--{{ .page }}--> */}}
 {{/* <!--{{ .scratch }}--> */}}
-<img{{ with .page.class }} class="{{ . }}"{{end }} src="{{ .page.image }}">
+<div class="code-block {{ .page.class }}"{{ with .page.template }} data-pb-template="{{ . }}"{{ end }}{{ with .page.id }} data-pb-id="{{ . }}"{{ end }}{{ with .page.class }} data-pb-class="{{ . }}"{{ end }} data-pb-template-level="element" data-pb-element-type="image">
+<img src="{{ .page.image }}">
+</div>

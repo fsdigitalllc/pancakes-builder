@@ -15,10 +15,6 @@
   {{ $deviceMode = . }}
 {{ end }}
 
-{{ with .mode }}
-  {{ $mode = . }}
-{{ end }}
-
 {{ $i := false }}
 {{ with .index }}
   {{ $i = . }}
@@ -49,7 +45,9 @@
             {{ $type = . }}
           {{ end }}
 
-          
+          {{ with .mode }}
+            {{ $mode = . }}
+          {{ end }}
           
           {{ with .label }}
             {{ $label = . }}

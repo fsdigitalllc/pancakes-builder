@@ -19,7 +19,7 @@ let dataSections = "main [data-pb-template-level='section']";
 let dataRows = "main [data-pb-template-level='row']"
 let dataColumns = "main [data-pb-template-level='column']", dataElements = "main [data-pb-template-level='element']";
 const dataSelect = "fa-move";
-const moveHandle = "fa-move", deleteHandle = '[pb-function="delete-item"]', editHandle = "fa-edit", hoverMenu = "hover-menu", editHover = "edit-hover", editClick = "pb-editing", dialogueTrigger = document.querySelector('[pb-function="exportYml"]'), modalSave = ".modal--dialogue.modal--is-visible [pb-function='save']", drawerTitle = "drawerTitle", responsiveMode = "data-pb-responsive-mode", iFrame = _("iframe.pbResponsiveFrame");
+const moveHandle = "pb-move", deleteHandle = '[pb-function="delete-item"]', editHandle = "fa-edit", hoverMenu = "hover-menu", editHover = "edit-hover", editClick = "pb-editing", dialogueTrigger = document.querySelector('[pb-function="exportYml"]'), modalSave = ".modal--dialogue.modal--is-visible [pb-function='save']", drawerTitle = "drawerTitle", responsiveMode = "data-pb-responsive-mode", iFrame = _("iframe.pbResponsiveFrame");
 var modal = document.querySelector('.modal');
 _("html").setAttribute(responsiveMode, "desktop");
 let paramContainer = document.querySelector('[pb-content="params"]');
@@ -109,7 +109,7 @@ function hoverState() {
         //console.log("item", e.currentTarget);
         var node = document.createElement("div");
         node.classList.add(`${hoverMenu}`);
-        node.innerHTML = `<svg class="icon-arrows ${moveHandle}"><use xlink:href="/images/icons.svg#icon-arrows"></use></svg><svg class="icon-pencil ${editHandle}" pb-function="edit-item"><use xlink:href="/images/icons.svg#icon-pencil"></use></svg><svg class="icon-trash ${editHandle}" pb-function="delete-item"><use xlink:href="/images/icons.svg#icon-trash"></use></svg>`;
+        node.innerHTML = `<svg class="icon-arrows fa-move ${moveHandle}" pb-move="true"><use xlink:href="/images/icons.svg#icon-arrows"></use></svg><svg class="icon-pencil ${editHandle}" pb-function="edit-item"><use xlink:href="/images/icons.svg#icon-pencil"></use></svg><svg class="icon-trash ${editHandle}" pb-function="delete-item"><use xlink:href="/images/icons.svg#icon-trash"></use></svg>`;
         item.appendChild(node);
 
         item.querySelector(`[pb-function='edit-item']`).addEventListener("click", editItem, false);
@@ -137,6 +137,9 @@ function hoverState() {
 // On click, allow user to toggle the selected items classes using the options in the sidebar
 let getType = item => {
   let level = item.getAttribute("data-pb-template-level");
+  if (item.getAttribute("data-pb-element-type")) {
+    level = `${level}-${item.getAttribute("data-pb-element-type")}`
+  }
   //console.log(level);
   if (level) {
     return level;
@@ -180,7 +183,7 @@ let setResponsiveMode = () => {
 
 // Hide or display options based on the selected item level
 let setSupportedClasses = level => {
-  //console.log("supported classes", level);
+  console.log("supported classes", level);
   let allGroups = _All(".drawer [pb-supports]");
   allGroups.forEach( group => {
     //v.includes(value))
@@ -387,7 +390,7 @@ function dragOrder() {
   //Reorder sections with drag and drop using a handle
   dragula([_("main")], {
     moves: function (el, container, handle) {
-      return handle.classList.contains(moveHandle);
+      return handle.getAttribute(moveHandle);
   },
     invalid(el, handle) {
       return (el.getAttribute("data-pb-template-level") === "row" || el.getAttribute("data-pb-template-level") === "column" || el.getAttribute("data-pb-template-level") === "element" );
@@ -402,7 +405,7 @@ function dragOrder() {
   //Reorder rows with drag and drop using a handle
   dragula(containers, {
     moves: function (el, container, handle) {
-      return handle.classList.contains(moveHandle);
+      return handle.getAttribute(moveHandle);
   },
     invalid(el, handle) {
       // If the selected element className is column, 
@@ -421,7 +424,7 @@ function dragOrder() {
   //Reorder rows with drag and drop using a handle
   dragula(containers, {
     moves: function (el, container, handle) {
-      return handle.classList.contains(moveHandle);
+      return handle.getAttribute(moveHandle);
     },
     direction: 'horizontal',
     invalid(el, handle) {
@@ -436,7 +439,7 @@ function dragOrder() {
   //Reorder rows with drag and drop using a handle
   dragula(containers, {
     moves: function (el, container, handle) {
-      return handle.classList.contains(moveHandle);
+      return handle.getAttribute(moveHandle);
     },
     direction: 'vertical',
     // invalid(el, handle) {
