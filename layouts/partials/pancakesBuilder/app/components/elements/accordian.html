@@ -14,7 +14,7 @@
           <div class="accordion__panel-content">
             <div data-pb-support-mode="desktop">
               
-            {{ $mode := "desktop" }}
+            {{ $deviceMode := "desktop" }}
             {{ range $index, $value := $.Site.Data.pb_classes.desktop }}
             
             
@@ -22,7 +22,7 @@
             {{ $title := $index }}
             {{ $range := slice $value }}
             
-            {{ partial "pancakesBuilder/app/components/elements/checkbox.html" (dict "loop" $range "index" $index "mode" $mode "title" $title ) }}
+            {{ partial "pancakesBuilder/app/components/elements/checkbox.html" (dict "loop" $range "index" $index "deviceMode" $deviceMode "title" $title ) }}
             
             {{ end }}
             
@@ -41,7 +41,7 @@
           <div class="accordion__panel-content">
             <div data-pb-support-mode="tablet">
               
-            {{ $mode := "tablet" }}
+            {{ $deviceMode := "tablet" }}
             {{ range $index, $value := $.Site.Data.pb_classes.tablet }}
             
             
@@ -50,7 +50,7 @@
             
             {{ $range := slice $value }}
             
-            {{ partial "pancakesBuilder/app/components/elements/checkbox.html" (dict "loop" $range "index" $index "mode" $mode "title" $title ) }}
+            {{ partial "pancakesBuilder/app/components/elements/checkbox.html" (dict "loop" $range "index" $index "deviceMode" $deviceMode "title" $title ) }}
             
             {{ end }}
             
@@ -69,7 +69,7 @@
           <div class="accordion__panel-content">
             <div data-pb-support-mode="mobile">
               
-            {{ $mode := "mobile" }}
+            {{ $deviceMode := "mobile" }}
             {{ range $index, $value := $.Site.Data.pb_classes.mobile }}
             
             
@@ -78,7 +78,7 @@
             
             {{ $range := slice $value }}
             
-            {{ partial "pancakesBuilder/app/components/elements/checkbox.html" (dict "loop" $range "index" $index "mode" $mode "title" $title ) }}
+            {{ partial "pancakesBuilder/app/components/elements/checkbox.html" (dict "loop" $range "index" $index "deviceMode" $deviceMode "title" $title ) }}
             
             {{ end }}
             

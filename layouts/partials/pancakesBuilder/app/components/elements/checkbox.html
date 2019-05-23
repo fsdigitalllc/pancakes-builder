@@ -6,9 +6,14 @@
 
 {{ $supports := "global" }}
 
-{{ $mode := "desktop" }}
+{{ $deviceMode := "desktop" }}
 
 {{ $classes := "" }}
+
+{{ $mode := "text" }}
+{{ with .deviceMode }}
+  {{ $deviceMode = . }}
+{{ end }}
 
 {{ with .mode }}
   {{ $mode = . }}
@@ -49,11 +54,11 @@
           {{ with .label }}
             {{ $label = . }}
           {{ end }}
-          {{ $id := print $mode "-" $type "-" $i "-" $index }}
+          {{ $id := print $deviceMode "-" $type "-" $i "-" $index }}
           {{ if .value }}
             {{ $value = .value }}
           <li>
-            <input type="{{ $type }}"{{ if eq $type "radio" }} name='radioButton'{{ end }} value="{{ $value }}" id="{{ $id }}"{{ if eq $type "button" }} aria-controls="modal1" pb-function="edit-code"{{ end }}>
+            <input type="{{ $type }}"{{ if eq $type "radio" }} name='radioButton'{{ end }} value="{{ $value }}" id="{{ $id }}"{{ if eq $type "button" }} aria-controls="modal1" pb-editor-mode="{{ $mode }}"{{ end }}>
             <label for="{{ $id }}">{{ $label }}</label>
           </li>
           {{ end }}

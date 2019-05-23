@@ -1,9 +1,11 @@
 window.addEventListener('DOMContentLoaded', (event) => {
-  console.log('DOM fully loaded and parsed');
+  pancakes();
 });
 // Query shorthand:
 // _(".element");
 // _All(".elements");
+
+let pancakes = () => {
 
 console.log("loaded pancakesBuilder")
 // TEST MODE //
@@ -17,7 +19,7 @@ let dataSections = "main [data-pb-template-level='section']";
 let dataRows = "main [data-pb-template-level='row']"
 let dataColumns = "main [data-pb-template-level='column']", dataElements = "main [data-pb-template-level='element']";
 const dataSelect = "fa-move";
-const moveHandle = "fa-move", editHandle = "fa-edit", hoverMenu = "hover-menu", editHover = "edit-hover", editClick = "pb-editing", dialogueTrigger = document.querySelector('[pb-function="exportYml"]'), modalSave = ".modal--dialogue.modal--is-visible [pb-function='save']", drawerTitle = "drawerTitle", responsiveMode = "data-pb-responsive-mode", iFrame = _("iframe.pbResponsiveFrame");
+const moveHandle = "fa-move", deleteHandle = '[pb-function="delete-item"]', editHandle = "fa-edit", hoverMenu = "hover-menu", editHover = "edit-hover", editClick = "pb-editing", dialogueTrigger = document.querySelector('[pb-function="exportYml"]'), modalSave = ".modal--dialogue.modal--is-visible [pb-function='save']", drawerTitle = "drawerTitle", responsiveMode = "data-pb-responsive-mode", iFrame = _("iframe.pbResponsiveFrame");
 var modal = document.querySelector('.modal');
 _("html").setAttribute(responsiveMode, "desktop");
 let paramContainer = document.querySelector('[pb-content="params"]');
@@ -46,6 +48,7 @@ function moveFromMain(){
 
   _All("main link").forEach((element, index) => {
     _("head").appendChild(element);
+    console.log(element)
   });
   _All("main style").forEach((element, index) => {
     _("head").appendChild(element);
@@ -77,9 +80,9 @@ function runPromises() {
   }).then(function() {
     dragDrop();
   }).then(function() {
-    //hoverState();
+    hoverState();
   }).then(function() {
-    //dragOrder();
+    dragOrder();
   });
 }
 
@@ -106,10 +109,17 @@ function hoverState() {
         //console.log("item", e.currentTarget);
         var node = document.createElement("div");
         node.classList.add(`${hoverMenu}`);
-        node.innerHTML = `<svg class="icon-arrows ${moveHandle}"><use xlink:href="/images/icons.svg#icon-arrows"></use></svg><svg class="icon-pencil ${editHandle}" pb-function="edit-item"><use xlink:href="/images/icons.svg#icon-pencil"></use></svg>`;
+        node.innerHTML = `<svg class="icon-arrows ${moveHandle}"><use xlink:href="/images/icons.svg#icon-arrows"></use></svg><svg class="icon-pencil ${editHandle}" pb-function="edit-item"><use xlink:href="/images/icons.svg#icon-pencil"></use></svg><svg class="icon-trash ${editHandle}" pb-function="delete-item"><use xlink:href="/images/icons.svg#icon-trash"></use></svg>`;
         item.appendChild(node);
 
         item.querySelector(`[pb-function='edit-item']`).addEventListener("click", editItem, false);
+
+        let deleteItem = btn => {
+          let thisItem = getClosest(btn.currentTarget);
+          thisItem.parentNode.removeChild(thisItem);
+        }
+        _(deleteHandle).addEventListener("click", deleteItem, false);
+        //item.addEventListener("click", editItem, false);
       }
       if (event.target === item) {
         activeHover(event);
@@ -122,9 +132,7 @@ function hoverState() {
   });
 }
 
-const camelToDash = str => str
-  .replace(/(^[A-Z])/, ([first]) => first.toLowerCase())
-  .replace(/([A-Z])/g, ([letter]) => `-${letter.toLowerCase()}`)
+
 
 // On click, allow user to toggle the selected items classes using the options in the sidebar
 let getType = item => {
@@ -225,74 +233,72 @@ let responsiveToggleButton = (e) => {
   }
   setResponsiveMode();
 }
+
 _('[pb-function="responsive"]').addEventListener("click", responsiveToggleButton, false);
 
-let toggleModal = (src, type) => {
-
-  let createEditor = (item, textArea) => {
-    let editor = CodeMirror.fromTextArea(textArea, {
-      lineNumbers: true,
-      lineWrapping: true,
-      autofocus: true,
-      showCursorWhenSelecting: true,
-      value: textArea.value,
-      mode: "htmlmixed"
-    });
-  }
-
-  let modalContent = modal.querySelector(".modal__body");   
-    // Stuff here
-    if (type === "text") {
-      //console.log("text Value: ", editText(src))
-      modalContent.innerHTML = `<textarea>${src.innerHTML}</textarea>`
-    } else if (type === "yml") {
-      modalContent.innerHTML = `<textarea>${src}</textarea>`
-    } else if (type === "params") {
-      modalContent.innerHTML = `${src.innerHTML}`
-    } else {
-      modalContent.innerHTML = src;
-    }
-
-    let saveModal = (src, content) => {
-      //console.log("src: ", src.innerHTML, "content: ", content.innerHTML)
-      if (type === "params") {
-        console.log("save params src", src)
-        console.log("save params content", content)
-        let newValues = content.querySelectorAll("input");
-        newValues.forEach((input, index) => {
-          console.log("input: ", input.value)
-          input.setAttribute('value', input.value);
-        })
-        src.innerHTML = content.innerHTML;
-      } else if (type === "yml") {
-        console.log("save YML?")
-      } else if (type === "text") {
-          src.innerHTML = content.querySelector("textarea").value;
-      }
-    }
-    let modalClose = (event) => {
-      if (event.target.getAttribute("pb-function") !== "save") {
-        console.log("do not save changes", event.target)
-      } else {
-        console.log("save the changes");
-        saveModal(src, modalContent);
-        //saveText(item, textArea, editor, CM);
-      }
-    }
-    modal.querySelector("[pb-function='save']").addEventListener("click", modalClose, false);
+// let toggleModal = (src, type) => {
+//   let modalContent = modal.querySelector(".modal__body");   
+//     // Stuff here
+//     let area;
+//     if (type === "text") {
+//       //console.log("text Value: ", editText(src))
+//       console.log("src start:", src)
+//       modalContent.innerHTML = `<textarea>${src.innerHTML}</textarea>`
+//       area = modalContent.querySelector("textarea");
+//       //console.log(area.value)
+//       console.log("editor:", createEditor(area).getValue())
+//     } else if (type === "yml") {
+//       modalContent.innerHTML = `<textarea>${src}</textarea>`
+//     } else if (type === "params") {
+//       modalContent.innerHTML = `${src.innerHTML}`
+//     } else {
+//       modalContent.innerHTML = src;
+//     }
+//     let saveModal = (src, content) => {
+//       if (src.getAttribute(editClick) === "1") {
+//         //console.log("src: ", src.innerHTML, "content: ", content.innerHTML)
+//         if (type === "params") {
+//           // console.log("save params src", src)
+//           // console.log("save params content", content)
+//           let newValues = content.querySelectorAll("input");
+//           newValues.forEach((input, index) => {
+//             // console.log("input: ", input.value)
+//             input.setAttribute('value', input.value);
+//           })
+//           src.innerHTML = content.innerHTML;
+//         } else if (type === "yml") {
+//           //console.log("save YML?")
+//         } else if (type === "text") {
+//           console.log("codemirorr:", createEditor())
+//             //src.innerHTML = content.querySelector("textarea").value;
+//             src.innerHTML = createEditor(area).getValue();
+//         }
+//       }
+//     }
+//     let modalClose = (event) => {
+//       if (event.target.getAttribute("pb-function") !== "save") {
+//         console.log("do not save changes", event.target)
+//       } else {
+//         console.log("save the changes");
+//         saveModal(src, modalContent);
+//         //saveText(item, textArea, editor, CM);
+//       }
+//     }
+//     modal.querySelector("[pb-function='save']").addEventListener("click", modalClose, false);
     
-}
+// }
 
 // Param editor
-_(".drawer [pb-function='params']").addEventListener("click", () => {
-  toggleModal(paramContainer, "params")
-}, false);
+// _(".drawer [pb-function='params']").addEventListener("click", () => {
+//   toggleModal(paramContainer, "params")
+// }, false);
 
 // YML trigger
-dialogueTrigger.addEventListener("click", () => {
-  //console.log(exportYml());
-  toggleModal(exportYml(), "yml")
-}, false);
+// dialogueTrigger.addEventListener("click", () => {
+//   //console.log(exportYml());
+//   toggleModal(exportYml(), "yml")
+// }, false);
+
 
 let editItem = editBtn => {
   // Get the item (section, row, column)
@@ -318,14 +324,14 @@ let editItem = editBtn => {
       return v;
   }
 
-  if (item.getAttribute("data-pb-element-type") === "text") {
-    _(".drawer [pb-function='edit-code']").addEventListener("click", () => {
-      toggleModal(item, "text")
-    }, false);
-    // _(".drawer [pb-function='edit-code']").addEventListener("click", () => {
-    //   toggleModal(item, type === "params")
-    // }, false);
-  }
+  // if (item.getAttribute("data-pb-element-type") === "text") {
+  //   _(".drawer [pb-function='edit-code']").addEventListener("click", () => {
+  //     toggleModal(item, "text")
+  //   }, false);
+  //   // _(".drawer [pb-function='edit-code']").addEventListener("click", () => {
+  //   //   toggleModal(item, type === "params")
+  //   // }, false);
+  // }
 
   let tabSections = _All(".drawer .tabs__panels section");
   let tabs = _All(".drawer .tabs .tab-title");
@@ -531,101 +537,7 @@ function dragCreate (el, drake) {
 
 
 
-let exportYml = () => {
-  console.log("export YML starting...");
-  let sections = _All(dataSections);
-  let rows, columns, elements, indent;
-  let yml = `---\n`;
-  let params = _All("[pb-content='params'] label, [pb-content='params'] input");
 
-  let key, value, prefix;
-  params.forEach((param, index) => {
-      key = param.getAttribute("data-pb-key");
-      value = param.value;
-      if ( (key != undefined && key != null) && (value != undefined || value != null) ) {
-        yml += `${key}: ${value}\n`;
-      }
-  });
-
-  yml += "stacks:\n";
-
-  // Loop through each draggable item within <main> tags, then get the data-attributes, then generate the YML.
-  const ymlString = (item, index) => {
-
-    // Index: the current index of the draggable section, row, or column
-    // i: the current key index
-  
-    let keys = Object.entries(item.dataset);
-    let yml = "";
-    let indent, prefix, name, value, level = item.getAttribute("data-pb-template-level");
-  
-    // iterate through each data-pb and grab the value
-    // the order matches the order in the markup
-    keys.forEach((key, i) => {      
-  
-      // YML format:
-      // name: value
-      name = key[0], value = `${key[1]}\n`;
-      // replace camelcase with dash format. Remove data-pb prefix so it matches our desirable YML
-      name = `${camelToDash(name).replace("pb-", "")}:`;
-      
-        //console.log(index, i, name,": ", value);
-        // For the first key index (i), use a dash in the prefix. We assume it's - template: for the first key index
-        if (i === 0) {
-          prefix = "- ";
-        } else {
-          prefix = "  ";
-        }
-        // For each draggable item, the YML indent will vary slightly. 
-        if (level === "section" ) {
-          indent = "  "
-        } else if (level === "row") {
-          indent = "    "            
-        } else if (level === "column") {
-          indent = "      "            
-        } else if (level === "element") {
-          indent = "        "
-        }
-        // In our YML, each nested loop is started like this: "level-name:". However, this is only added once per loop level, so we compare the item index with the data index (i).
-        if (level === "section") {
-          
-        } else if ((index === 0 && i === 0)) {
-          yml += `${indent}${level}s:\n`;
-        } else if (item.getAttribute("data-pb-element-type") === "text") {
-          //yml += `${indent}${prefix}html: |\n`;
-          let cleanH = item.innerHTML.replace(/\s+/g,'');
-          yml += `${indent}${prefix}html: |\n${indent}${prefix}  ${cleanH}\n`;
-        }
-      yml += `${indent}${prefix}${name} ${value}`;
-      
-    });
-    //console.log(yml);
-    return yml;
-  }
-  sections.forEach((section, index) => {
-    yml += ymlString(section, index);
-
-    rows = section.querySelectorAll(dataRows);
-    rows.forEach((row, index) => {
-      yml += ymlString(row, index);
-
-      columns = row.querySelectorAll(dataColumns);
-        columns.forEach((column, index) => {
-          yml += ymlString(column, index);
-
-          elements = column.querySelectorAll(dataElements);
-          elements.forEach((element, index) => {
-            yml += ymlString(element, index);
-          });
-        });
-    });
-  });
-  yml += `---\n`;
-  // CodeMirror(function(elt) {
-  //   textArea.parentNode.replaceChild(elt, textArea);
-  // }, {value: textArea.value});
-  return yml;
-}
 
 let savePage = page => {
   console.log("save page")
@@ -649,3 +561,5 @@ setInterval(() => {
   //console.log("Auto saving...")
   autoSave();
 }, 5000);
+
+}
