@@ -44,38 +44,57 @@
 		if (mode === "text") {
 			mode = "htmlmixed", item = _('[pb-editing="1"]');
 			box.innerHTML = `<textarea>${item.innerHTML}</textarea>`;
+			box = box.querySelector("textarea");
 		} else if (mode === "yml") {
-			mode = "yaml frontmatter";
+			mode = "yaml";
 			box.innerHTML = `<textarea>${exportYml()}</textarea>`;
+			box = box.querySelector("textarea");
+		} else if (mode === "params") {
+			box.innerHTML = _('[pb-content="params"]').innerHTML;
+			box = box.querySelector('form');
 		}
 		console.log("mode: ", mode)
-		let textArea = this.element.querySelector("textarea");
+		console.log("box: ", box)
+
 		//console.log("modal", item);
 		Util.addClass(this.element, this.showClass);
 		this.getFocusableElements();
 		this.firstFocusable.focus();
-		this.createEditor(textArea, mode, item);
+		this.createEditor(box, mode, item);
 		this.emitModalEvents('modalIsOpen');
 	};
 
 	Modal.prototype.createEditor = function(textArea, mode, item) {
-		let editor = CodeMirror.fromTextArea(textArea, {
-			lineNumbers: true,
-			lineWrapping: true,
-			autofocus: true,
-			showCursorWhenSelecting: true,
-			value: textArea.value,
-			mode: mode
-		});
+		let content, editor;
+		if (textArea.type === "textarea") {
+			editor = CodeMirror.fromTextArea(textArea, {
+				lineNumbers: true,
+				lineWrapping: true,
+				autofocus: true,
+				showCursorWhenSelecting: true,
+				value: textArea.value,
+				mode: mode
+			});
+		} 
+		
 		let context = this;		
 		this.element.addEventListener('modalIsClose', function(event){
-			context.saveEditor(editor.getValue(), item);
+			if (textArea.type === "textarea") {
+				content = editor.getValue();
+			} else if (textArea.querySelector("input")) {
+				content = textArea.querySelectorAll("input")
+			}
+			//_("body").innerHTML = content;
+			//console.log("is node", isNodeList(content))
+			context.saveEditor(content, item);
 		});
 	};
 
 	Modal.prototype.saveEditor = function(editor, item) {
-		console.log("editor saved", editor)
-		if (item) {
+		console.log("editor saved", editor.length)
+		if (isNodeList(editor)) {
+			console.log("is array")
+		} else {
 			item.innerHTML = editor;
 		}
 		

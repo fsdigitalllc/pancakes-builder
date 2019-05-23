@@ -236,70 +236,6 @@ let responsiveToggleButton = (e) => {
 
 _('[pb-function="responsive"]').addEventListener("click", responsiveToggleButton, false);
 
-// let toggleModal = (src, type) => {
-//   let modalContent = modal.querySelector(".modal__body");   
-//     // Stuff here
-//     let area;
-//     if (type === "text") {
-//       //console.log("text Value: ", editText(src))
-//       console.log("src start:", src)
-//       modalContent.innerHTML = `<textarea>${src.innerHTML}</textarea>`
-//       area = modalContent.querySelector("textarea");
-//       //console.log(area.value)
-//       console.log("editor:", createEditor(area).getValue())
-//     } else if (type === "yml") {
-//       modalContent.innerHTML = `<textarea>${src}</textarea>`
-//     } else if (type === "params") {
-//       modalContent.innerHTML = `${src.innerHTML}`
-//     } else {
-//       modalContent.innerHTML = src;
-//     }
-//     let saveModal = (src, content) => {
-//       if (src.getAttribute(editClick) === "1") {
-//         //console.log("src: ", src.innerHTML, "content: ", content.innerHTML)
-//         if (type === "params") {
-//           // console.log("save params src", src)
-//           // console.log("save params content", content)
-//           let newValues = content.querySelectorAll("input");
-//           newValues.forEach((input, index) => {
-//             // console.log("input: ", input.value)
-//             input.setAttribute('value', input.value);
-//           })
-//           src.innerHTML = content.innerHTML;
-//         } else if (type === "yml") {
-//           //console.log("save YML?")
-//         } else if (type === "text") {
-//           console.log("codemirorr:", createEditor())
-//             //src.innerHTML = content.querySelector("textarea").value;
-//             src.innerHTML = createEditor(area).getValue();
-//         }
-//       }
-//     }
-//     let modalClose = (event) => {
-//       if (event.target.getAttribute("pb-function") !== "save") {
-//         console.log("do not save changes", event.target)
-//       } else {
-//         console.log("save the changes");
-//         saveModal(src, modalContent);
-//         //saveText(item, textArea, editor, CM);
-//       }
-//     }
-//     modal.querySelector("[pb-function='save']").addEventListener("click", modalClose, false);
-    
-// }
-
-// Param editor
-// _(".drawer [pb-function='params']").addEventListener("click", () => {
-//   toggleModal(paramContainer, "params")
-// }, false);
-
-// YML trigger
-// dialogueTrigger.addEventListener("click", () => {
-//   //console.log(exportYml());
-//   toggleModal(exportYml(), "yml")
-// }, false);
-
-
 let editItem = editBtn => {
   // Get the item (section, row, column)
   _All(`${dataSections}, ${dataRows}, ${dataColumns}, ${dataElements}`).forEach((level, index) => {
@@ -323,15 +259,6 @@ let editItem = editBtn => {
       })
       return v;
   }
-
-  // if (item.getAttribute("data-pb-element-type") === "text") {
-  //   _(".drawer [pb-function='edit-code']").addEventListener("click", () => {
-  //     toggleModal(item, "text")
-  //   }, false);
-  //   // _(".drawer [pb-function='edit-code']").addEventListener("click", () => {
-  //   //   toggleModal(item, type === "params")
-  //   // }, false);
-  // }
 
   let tabSections = _All(".drawer .tabs__panels section");
   let tabs = _All(".drawer .tabs .tab-title");
@@ -535,18 +462,11 @@ function dragCreate (el, drake) {
 //let dialogue = document.querySelector(".modal--dialogue");
 
 
-
-
-
-
 let savePage = page => {
   console.log("save page")
   db.setItem(savedData, _("main").innerHTML);
 }
 _("[pb-function='save']").addEventListener("click", savePage, false);
-
-
-
 
 let autoSave = page => {
   db.setItem(autoSavedData, _("main").innerHTML);

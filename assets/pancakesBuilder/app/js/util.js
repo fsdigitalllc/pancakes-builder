@@ -236,3 +236,12 @@ const _ = (el) => {
 const _All = (el) => {
   return document.querySelectorAll(el);
 };
+
+function isNodeList(nodes) {
+  var stringRepr = Object.prototype.toString.call(nodes);
+
+  return typeof nodes === 'object' ||
+    /^\[object (HTMLCollection|NodeList|Object)\]$/.test(stringRepr) &&
+    nodes.hasOwnProperty('length') &&
+    (nodes.length === 0 || (typeof nodes[0] === "object" && nodes[0].nodeType > 0));
+}
