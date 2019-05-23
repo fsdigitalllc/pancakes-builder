@@ -49,9 +49,11 @@
 			mode = "yaml";
 			box.innerHTML = `<textarea>${exportYml()}</textarea>`;
 			box = box.querySelector("textarea");
+			item = false;
 		} else if (mode === "params") {
 			box.innerHTML = _('[pb-content="params"]').innerHTML;
-			box = box.querySelector('form');
+			box = this.element.querySelector('.modal__body');
+			item = _(".builderUIComponents [pb-content='params'] form")
 		}
 		console.log("mode: ", mode)
 		console.log("box: ", box)
@@ -66,6 +68,7 @@
 
 	Modal.prototype.createEditor = function(textArea, mode, item) {
 		let content, editor;
+		console.log("texArea: ", textArea)
 		if (textArea.type === "textarea") {
 			editor = CodeMirror.fromTextArea(textArea, {
 				lineNumbers: true,
@@ -77,27 +80,37 @@
 			});
 		} 
 		
-		let context = this;		
-		this.element.addEventListener('modalIsClose', function(event){
+		let context = this;
+
+		let closeSave = () => {
+			console.log("closeSave")
 			if (textArea.type === "textarea") {
 				content = editor.getValue();
 			} else if (textArea.querySelector("input")) {
-				content = textArea.querySelectorAll("input")
+				content = textArea.querySelectorAll("input");
 			}
 			//_("body").innerHTML = content;
 			//console.log("is node", isNodeList(content))
 			context.saveEditor(content, item);
-		});
+			this.element.removeEventListener('modalIsClose', closeSave, false);
+		}
+		this.element.addEventListener('modalIsClose', closeSave, false);
 	};
 
 	Modal.prototype.saveEditor = function(editor, item) {
-		console.log("editor saved", editor.length)
+		console.log("editor saved isnode", isNodeList(editor), "item", item)
 		if (isNodeList(editor)) {
-			console.log("is array")
+			editor.forEach((input) => {
+				input.defaultValue = input.value;
+			});
+			if (item) {
+				item.innerHTML = _(".modal__body").innerHTML;
+			}
+		} else if (!item) {
+			// Do nothing because it's probably YAML
 		} else {
 			item.innerHTML = editor;
 		}
-		
 	}
 
 	Modal.prototype.destroyEditor = function() {
@@ -106,6 +119,7 @@
 	}
 
 	Modal.prototype.closeModal = function() {
+		console.log("close MODAL")
 		//this.saveEditor();
 		Util.removeClass(this.element, this.showClass);
 		this.firstFocusable = null;
