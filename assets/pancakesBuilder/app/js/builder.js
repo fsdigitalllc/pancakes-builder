@@ -323,14 +323,14 @@ let editItem = editBtn => {
 }
 // After selection an option in the drawer, modify the HTML with the newly selected classes
 let setAttribute = (input, attrTarget, item) => {
-  console.log("set attr", input.value, attrTarget, item)
-
+  //console.log("set attr", input.value, attrTarget, item)
+  if (item.getAttribute(editClick) === "1") {
   if (item.getAttribute("data-pb-template", "image") && attrTarget === "data-pb-size") {
     item.setAttribute(attrTarget, input.value)
     let image = item.querySelector("img");
     image.src = image.getAttribute(`${input.value}`);
   }
-  
+  }
 }
 let setClasses = (input, item, inputs) => {
   //let currentClasses = getClasses(item);

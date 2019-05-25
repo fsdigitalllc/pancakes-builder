@@ -19,6 +19,15 @@ desktop:
   - supports: "element-text"
   - label: "Edit Text"
     value: "text-edit"
+  edit_text:
+  - type: "radio"
+  - supports: "element-text"
+  - label: "Center"
+    value: "text--center"
+  - label: "left"
+    value: "text--left"
+  - label: "right"
+    value: "text--right"
   edit_image:
   - type: "button"
   - supports: "element-image"
