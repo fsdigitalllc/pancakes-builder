@@ -284,16 +284,27 @@ let editItem = editBtn => {
 
   _('.drawer .tabs__panels [pb-function="edit-item" ]').classList.add("tabs__panel--selected");
 
-  let allOptions = _All(".drawer input"), value, v, name;
+  let allOptions = _All(".drawer input, .drawer select"), value, v, name;
 
   //let keys = Object.entries(item.dataset);
   allOptions.forEach( input => {
     value = input.value;
 
+    if (input.tagName === "INPUT") {
     input.addEventListener("click", (e) => {
+      console.log("click", input.tagName, item)
       setClasses(input, item, allOptions);
     }, false);
-  
+    } else if (input.tagName === "SELECT") {
+      input.addEventListener("change", (e) => {
+        console.log("changed, select", input)
+        if (input.getAttribute("pb-set-attribute")) {
+          setAttribute(input, input.getAttribute("pb-set-attribute"), item);
+        }
+        
+      }, false);
+    }
+
     v = getClasses(item);
     
     if (v.includes(value)) {
@@ -303,11 +314,24 @@ let editItem = editBtn => {
       input.checked = false;
     }
   })
+  // if (isObject(editor)) {
+  //   console.log("is object", editor)
+  //   Object.entries(editor).forEach((key, i) => {
+  //     console.log("key: ", key[0], "value: ", key[1])
+  //   });
+  // }
 }
-
-
-
 // After selection an option in the drawer, modify the HTML with the newly selected classes
+let setAttribute = (input, attrTarget, item) => {
+  console.log("set attr", input.value, attrTarget, item)
+
+  if (item.getAttribute("data-pb-template", "image") && attrTarget === "data-pb-size") {
+    item.setAttribute(attrTarget, input.value)
+    let image = item.querySelector("img");
+    image.src = image.getAttribute(`${input.value}`);
+  }
+  
+}
 let setClasses = (input, item, inputs) => {
   //let currentClasses = getClasses(item);
   let inputClasses = "";

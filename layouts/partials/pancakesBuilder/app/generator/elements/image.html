@@ -1,5 +1,6 @@
 {{/* <!--{{ .page }}--> */}}
 {{/* <!--{{ .scratch }}--> */}}
-<div class="code-block {{ .page.class }}"{{ with .page.template }} data-pb-template="{{ . }}"{{ end }}{{ with .page.id }} data-pb-id="{{ . }}"{{ end }}{{ with .page.class }} data-pb-class="{{ . }}"{{ end }} data-pb-template-level="element" data-pb-element-type="image">
-<img src="{{ .page.image }}">
+{{ $image := .page.image }}
+<div class="code-block {{ .page.class }}"{{ with .page.template }} data-pb-template="{{ . }}"{{ end }}{{ with .page.id }} data-pb-id="{{ . }}"{{ end }}{{ with .page.class }} data-pb-class="{{ . }}"{{ end }} data-pb-template-level="element" data-pb-element-type="image" data-pb-image="{{ $image }}" data-pb-size='{{ .size | default "full" }}'>
+<img src="{{ $image }}">
 </div>

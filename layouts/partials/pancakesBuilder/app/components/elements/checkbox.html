@@ -8,6 +8,7 @@
 
 {{ $deviceMode := "desktop" }}
 
+{{ $setAttribute := false }}
 {{ $classes := "" }}
 
 {{ $mode := "text" }}
@@ -29,11 +30,19 @@
 {{ with .classes }}
   {{ $classes = . }}
 {{ end }}
+{{ with .type }}
+  {{ $type = . }}
+{{ end }}
+{{ with .set_attribute }}
+  {{ $setAttribute = . }}
 {{ end }}
 {{ end }}
+{{ end }}
+
 <form pb-supports="{{ $supports }}">
     <label><strong>{{ .title }}</strong></label>
     <div class="margin-bottom--xs">
+      {{ if or (ne $type "select") }}
       <fieldset>
   
         <ul class="{{ $type }}-list {{ $type }}-list--custom {{ $classes }}">
@@ -55,15 +64,38 @@
           {{ $id := print $deviceMode "-" $type "-" $i "-" $index }}
           {{ if .value }}
             {{ $value = .value }}
+
           <li>
             <input type="{{ $type }}"{{ if eq $type "radio" }} name='radioButton'{{ end }} value="{{ $value }}" id="{{ $id }}"{{ if eq $type "button" }} aria-controls="modal1" pb-editor-mode="{{ $mode }}"{{ end }}>
             <label for="{{ $id }}">{{ $label }}</label>
           </li>
+          
           {{ end }}
 
           {{ end }}
           {{ end }}
         </ul>
       </fieldset>
+      {{ end }}
+      {{ if eq $type "select" }}
+      {{ $id := print $deviceMode "-" $type "-" $i }}
+      <select{{ with $setAttribute }} pb-set-attribute='{{ . }}'{{ end }}class="{{ $type }}-list {{ $type }}-list--custom {{ $classes }} form-control" name="selectThis" id="{{ $id }}">
+        {{ range .loop }}
+        {{ range $index, $item := . }}
+        {{ with .value }}
+          {{ $value = . }}
+        {{ end }}
+        {{ with .label }}
+          {{ $label = . }}
+        {{ end }}
+        
+        {{ if .value }}
+          <option value="{{ $value }}">{{ $label }}</option>
+        {{ end }}
+
+        {{ end }}
+        {{ end }}
+      </select>
+      {{ end }}
     </div>
   </form>

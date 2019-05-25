@@ -55,20 +55,12 @@
 			box = this.element.querySelector('.modal__body');
 			item = _(".builderUIComponents [pb-content='params'] form")
 		} else if (mode === "media") {
-			item = item = _('[pb-editing="1"]');
+			item = item = _('[pb-editing="1"] > img');
 			box.innerHTML = _('.builderUIComponents [pb-content="media"]').innerHTML;
-			box = this.element.querySelector('.modal__body');
-			
-			let imgSrc = (e) => {
-				console.log("imagesrc", e.currentTarget.src)
-				//e.removeEventListener("click", imgSrc, false);
-			}
-			box.querySelectorAll("img").forEach((image) => {
-				image.addEventListener("click", imgSrc, false);
-			})
+			//box = this.element.querySelector('.modal__body');
 		}
-		console.log("mode: ", mode)
-		console.log("box: ", box)
+		//console.log("mode: ", mode)
+		//console.log("box: ", box)
 
 		//console.log("modal", item);
 		Util.addClass(this.element, this.showClass);
@@ -80,7 +72,7 @@
 
 	Modal.prototype.createEditor = function(textArea, mode, item) {
 		let content, editor;
-		console.log("texArea: ", textArea)
+		//console.log("texArea: ", textArea)
 		if (textArea.type === "textarea") {
 			editor = CodeMirror.fromTextArea(textArea, {
 				lineNumbers: true,
@@ -90,7 +82,15 @@
 				value: textArea.value,
 				mode: mode
 			});
-		} 
+		} else if (mode === "media") {
+			let imgSrc = (e) => {
+				content = e.currentTarget;
+				console.log("src-full", content)
+			}
+			this.element.querySelectorAll('.modal__body img').forEach((image) => {
+				image.addEventListener("click", imgSrc, false);
+			})
+		}
 		
 		let context = this;
 		let closeSave = () => {
@@ -98,9 +98,6 @@
 				content = editor.getValue();
 			} else if (textArea.querySelector("input")) {
 				content = textArea.querySelectorAll("input");
-			} else if (mode === "media") {
-
-				
 			}
 			context.saveEditor(content, item);
 			this.element.removeEventListener('modalIsClose', closeSave, false);
@@ -109,16 +106,30 @@
 	};
 
 	Modal.prototype.saveEditor = function(editor, item) {
-		if (isNodeList(editor)) {
-			editor.forEach((input) => {
-				input.defaultValue = input.value;
+		console.log("editor", editor, "item", item)
+		if (isObject(editor)) {
+			console.log("is object", editor)
+			Object.entries(editor).forEach((key, i) => {
+				console.log("key: ", key[0], "value: ", key[1])
 			});
-			if (item) {
-				item.innerHTML = _(".modal__body").innerHTML;
-			}
+		} else if (item.tagName === "IMG") {
+			item.parentNode.replaceChild(editor, item);
+			
+			//item.parentNode.setAttribute("data-pb-image", editor)
+		} else if (isNodeList(editor)) {
+			// HTML nodelist
+			console.log("isNodeList", editor)
+			editor.forEach((input) => {
+				if (input.tagName === "input") {
+					input.defaultValue = input.value;
+				} else {
+					console.log("unknown nodeList")
+				}
+			});
 		} else if (!item) {
 			// Do nothing because it's probably YAML
 		} else {
+			console.log("else", item)
 			item.innerHTML = editor;
 		}
 	}
@@ -245,10 +256,6 @@
 		let rows, columns, elements, indent;
 		let yml = `---\n`;
 		let params = _All("[pb-content='params'] label, [pb-content='params'] input");
-
-		const camelToDash = str => str
-		.replace(/(^[A-Z])/, ([first]) => first.toLowerCase())
-		.replace(/([A-Z])/g, ([letter]) => `-${letter.toLowerCase()}`)
 
 		let key, value, prefix;
 		params.forEach((param, index) => {

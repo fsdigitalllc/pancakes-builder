@@ -2,10 +2,12 @@
 {{ $pagemedia := .Resources.Match "images/*" }}
 {{ with $pagemedia }}
   {{ range . }}
-
   {{ $thumbnail := .Resize "320x" }}
+  {{ $small := .Resize "420x" }}
   {{ $medium := .Resize "520x" }}
-  <img src="{{ $thumbnail.Permalink }}" data-pb-src-thumbnail="{{ $thumbnail.Permalink }}" data-pb-src-medium="{{ $medium.Permalink }}" data-pb-src-full="{{ .Permalink }}" />
+  {{ $large := .Resize "620x" }}
+  <img src="{{ $thumbnail.Permalink }}" src-full="{{ .Permalink }}" src-large="{{ $large.Permalink }}" src-medium="{{ $medium.Permalink }}" src-small="{{ $small.Permalink }}" src-thumbnail="{{ $thumbnail.Permalink }}"/>
+
   {{ end }}
 {{ end }}
 </div>

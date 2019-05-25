@@ -237,6 +237,7 @@ const _All = (el) => {
   return document.querySelectorAll(el);
 };
 
+// Confirm if node list
 function isNodeList(nodes) {
   var stringRepr = Object.prototype.toString.call(nodes);
 
@@ -244,4 +245,11 @@ function isNodeList(nodes) {
     /^\[object (HTMLCollection|NodeList|Object)\]$/.test(stringRepr) &&
     nodes.hasOwnProperty('length') &&
     (nodes.length === 0 || (typeof nodes[0] === "object" && nodes[0].nodeType > 0));
+}
+
+// This is for data-attributes that are normally returned like this: pbSrcThumbnail
+const camelToDash = str => str.replace(/(^[A-Z])/, ([first]) => first.toLowerCase()).replace(/([A-Z])/g, ([letter]) => `-${letter.toLowerCase()}`);
+
+function isObject (value) {
+  return value && typeof value === 'object' && value.constructor === Object;
 }
