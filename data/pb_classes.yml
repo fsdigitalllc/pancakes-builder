@@ -14,7 +14,7 @@ desktop:
     value: "container container--lg"
   - label: "container--xl"
     value: "container container--xl"
-  edit_text:
+  code_editor:
   - type: "button"
   - supports: "element-text"
   - label: "Edit Text"
@@ -39,6 +39,8 @@ desktop:
   - supports: "element-image"
   - mode: "media"
   - set_attribute: "data-pb-size"
+  - label: "thumbnail"
+    value: "src-thumbnail"
   - label: "Full"
     value: "src-full"
   - label: "Large"
@@ -47,8 +49,6 @@ desktop:
     value: "src-medium"
   - label: "small"
     value: "src-small"
-  - label: "thumbnail"
-    value: "src-thumbnail"
   col_size:
   - type: "radio"
   - supports: "column"

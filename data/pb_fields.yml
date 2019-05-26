@@ -24,3 +24,4 @@ stacks:
         - template: "image"
           class: "element-image"
           image: "images/book.jpg"
+          size: ""

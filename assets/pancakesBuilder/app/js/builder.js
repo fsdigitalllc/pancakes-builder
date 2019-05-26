@@ -60,10 +60,7 @@ function moveFromMain(){
   
 
   // Move out nested elements
-  _All(`.pb-template-contentWrapper [data-pb-template-level^='row']`).forEach((element, index) => {
-    _(".pb-template-contentWrapper").appendChild(element);
-  });
-  _All(`.pb-template-contentWrapper [data-pb-template-level^='column']`).forEach((element, index) => {
+  _All(`.pb-template-contentWrapper [data-pb-template-level^='row'], .pb-template-contentWrapper [data-pb-template-level^='column'], .pb-template-contentWrapper [data-pb-template-level^='element']`).forEach((element, index) => {
     _(".pb-template-contentWrapper").appendChild(element);
   });
 }
@@ -314,23 +311,24 @@ let editItem = editBtn => {
       input.checked = false;
     }
   })
-  // if (isObject(editor)) {
-  //   console.log("is object", editor)
-  //   Object.entries(editor).forEach((key, i) => {
-  //     console.log("key: ", key[0], "value: ", key[1])
-  //   });
-  // }
+}
+let updateIframe = () => {
+  let iContent = iFrame.contentWindow.document;
+  let html = iContent.querySelector("html")
+  let main = document.querySelector("main").innerHTML;
+
+  iContent.querySelector("main").innerHTML = document.querySelector("main").innerHTML;
 }
 // After selection an option in the drawer, modify the HTML with the newly selected classes
 let setAttribute = (input, attrTarget, item) => {
-  //console.log("set attr", input.value, attrTarget, item)
-  if (item.getAttribute(editClick) === "1") {
+  console.log("set attr", input.value, attrTarget, item)
+
   if (item.getAttribute("data-pb-template", "image") && attrTarget === "data-pb-size") {
     item.setAttribute(attrTarget, input.value)
     let image = item.querySelector("img");
-    image.src = image.getAttribute(`${input.value}`);
+    image.src = image.getAttribute(`src-${input.value}`);
   }
-  }
+  updateIframe();
 }
 let setClasses = (input, item, inputs) => {
   //let currentClasses = getClasses(item);
@@ -344,6 +342,7 @@ let setClasses = (input, item, inputs) => {
     item.classList = inputClasses;
     item.setAttribute("data-pb-class", inputClasses)
   }
+  updateIframe();
 }
 
 function dragDrop() {

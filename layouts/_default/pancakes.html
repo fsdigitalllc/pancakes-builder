@@ -1,5 +1,5 @@
 {{- define "main" -}}
-
+{{ .Content }}
 {{ $env := getenv "HUGO_ENV" }}
 {{/* <!-- "staging" "production." Staging is hugo server or user defined env --> */}}
 
@@ -41,10 +41,12 @@
   {{ .Scratch.Set "generatorType" "gen_menu_buttons" }}
 
   {{ partial "pancakesBuilder/app/components/drawer.html" . | safeHTML }}
+
+  <div class="builderModalContent">
   {{ partial "pancakesBuilder/app/components/modal.html" . | safeHTML }}
   {{ partial "pancakesBuilder/app/components/modal_full.html" . | safeHTML }}
   {{ partial "pancakesBuilder/app/components/media.html" . | safeHTML }}
-
+  </div>
   
 
   {{/* <!-- Builder draggable HTML --> */}}
@@ -52,7 +54,7 @@
   <div class="pb-template-contentWrapper">
   {{- partial "pancakesBuilder/app/generator/all.html" . | safeHTML -}}
   </div>
-  <div class="pb-responsive-wrapper"><iframe class="pbResponsiveFrame" name="Framename" src="" width="600" height="600" frameborder="0" scrolling="auto" class="frame-area"></iframe></div>
+  <div class="pb-responsive-wrapper"><iframe class="pbResponsiveFrame" name="Framename" src="{{ .Permalink }}" width="600" height="600" frameborder="0" scrolling="auto" class="frame-area"></iframe></div>
 </div>
 
 
