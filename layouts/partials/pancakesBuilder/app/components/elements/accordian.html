@@ -89,4 +89,17 @@
     </li>
   
   </ul>
+  {{ range $index, $value := $.Site.Data.pb_classes.global }}
+            
+            
+  {{ if reflect.IsSlice $value }}
+  {{ $title := $index }}
+  
+  {{ $range := slice $value }}
+  
+  {{ partial "pancakesBuilder/app/components/elements/checkbox.html" (dict "loop" $range "index" $index "deviceMode" $deviceMode "title" $title ) }}
+  
+  {{ end }}
+  
+  {{ end }}
   <!-- <button class="btn btn--primary" aria-controls="modal2">Save</button> -->

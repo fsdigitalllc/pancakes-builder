@@ -1,8 +1,9 @@
 params:
   title: "Page Title"
   date: ""
-  rows: "theRow"
-  customParam: "Custom Value"
+  layout: "pancakes"
+  meta:
+    - twitter: "twitter"
 stacks:
   - template: "section"
     id: "testID"
@@ -10,7 +11,7 @@ stacks:
     rows:
     - template: "row"
       id:
-      class: "flex container container--md padding-top--md padding-bottom--md"
+      class: "flex flex--wrap container container--md padding-top--md padding-bottom--md"
       columns:
       - template: "column"
         id: "custom-id"

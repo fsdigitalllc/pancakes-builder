@@ -166,3 +166,10 @@ mobile:
   - classes: "flex flex--wrap"
   - label: "XXL"
     value: padding-m-top--xxl
+global:
+  page_css:
+  - type: "button"
+  - mode: "css"
+  - supports: "global"
+  - label: "Edit CSS"
+    value: "css-edit"

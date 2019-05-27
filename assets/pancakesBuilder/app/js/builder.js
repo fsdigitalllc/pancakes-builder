@@ -1,4 +1,4 @@
-window.addEventListener('DOMContentLoaded', (event) => {
+window.addEventListener('DOMContentLoaded', () => {
   pancakes();
 });
 // Query shorthand:
@@ -6,71 +6,48 @@ window.addEventListener('DOMContentLoaded', (event) => {
 // _All(".elements");
 
 let pancakes = () => {
-
 console.log("loaded pancakesBuilder")
+
 // TEST MODE //
 _("html").classList.add("editing--mode");
-
 _(".drawer").classList.add("drawer--fixed-header", "drawer--is-visible");
 ///////////////
 
 // Draggable elements will always use data-pb-template-level
-let dataSections = "main [data-pb-template-level='section']";
-let dataRows = "main [data-pb-template-level='row']"
-let dataColumns = "main [data-pb-template-level='column']", dataElements = "main [data-pb-template-level='element']";
-const dataSelect = "fa-move";
-const moveHandle = "pb-move", deleteHandle = '[pb-function="delete-item"]', editHandle = "fa-edit", hoverMenu = "hover-menu", editHover = "edit-hover", editClick = "pb-editing", dialogueTrigger = document.querySelector('[pb-function="exportYml"]'), modalSave = ".modal--dialogue.modal--is-visible [pb-function='save']", drawerTitle = "drawerTitle", responsiveMode = "data-pb-responsive-mode", iFrame = _("iframe.pbResponsiveFrame");
-var modal = document.querySelector('.modal');
-_("html").setAttribute(responsiveMode, "desktop");
-let paramContainer = document.querySelector('[pb-content="params"]');
-//local storage
-const db = localStorage;
-const pageId = window.location;
-const savedData = `${pageId}.savedData`;
-const autoSavedData = `${savedData}.auto`;
+let dataSections = "main [data-pb-template-level='section']", dataRows = "main [data-pb-template-level='row']", dataColumns = "main [data-pb-template-level='column']", dataElements = "main [data-pb-template-level='element']";
+const dataSelect = "fa-move", moveHandle = "pb-move", deleteHandle = '[pb-function="delete-item"]', editHandle = "fa-edit", hoverMenu = "hover-menu", editHover = "edit-hover", editClick = "pb-editing", dialogueTrigger = document.querySelector('[pb-function="exportYml"]'), modalSave = ".modal--dialogue.modal--is-visible [pb-function='save']", drawerTitle = "drawerTitle", responsiveMode = "data-pb-responsive-mode", iFrame = _("iframe.pbResponsiveFrame");
+let modal = document.querySelector('.modal');
+_("html").setAttribute(responsiveMode, "desktop"), paramContainer = document.querySelector('[pb-content="params"]');
 
-const responsiveAttribute = _("html").getAttribute(responsiveMode)
+//local storage
+const db = localStorage, pageId = window.location, savedData = `${pageId}.savedData`, autoSavedData = `${savedData}.auto`, responsiveAttribute = _("html").getAttribute(responsiveMode)
 // Modes
 if (!responsiveAttribute) {
   _("html").setAttribute(responsiveMode, "desktop")
 };
 
-// move UI Outside of main
-function moveFromMain(){
-  //console.log(_(".pb-template-contentWrapper"));
+
+let cleanMain = () => {
+  console.log("clean main")
   _("body").appendChild(_(".builderUIComponents"));
-  _("body").appendChild(_(".pb-template-contentWrapper"));
-  
-  // move scripts to footer
+  _("body").appendChild(_(".builderUIComponents, .pb-template-contentWrapper, .pb-responsive-wrapper"));
   _All("main script").forEach((element, index) => {
     _("main").parentNode.appendChild(element);
   });
-
-  _All("main link").forEach((element, index) => {
+  _All("main link, main style").forEach((element, index) => {
     _("head").appendChild(element);
-    console.log(element)
-  });
-  _All("main style").forEach((element, index) => {
-    _("head").appendChild(element);
+    //console.log(element)
   });
   _All(".modal").forEach((element, index) => {
     _("body").appendChild(element);
-  });
-  _("body").appendChild(_(".pb-responsive-wrapper"));
-  
-
-  // Move out nested elements
+  });  
   _All(`.pb-template-contentWrapper [data-pb-template-level^='row'], .pb-template-contentWrapper [data-pb-template-level^='column'], .pb-template-contentWrapper [data-pb-template-level^='element']`).forEach((element, index) => {
     _(".pb-template-contentWrapper").appendChild(element);
   });
 }
-
-
-runPromises();
-function runPromises() {
+(function runPromises() {
   var promise1 = new Promise(function(resolve, reject) {
-    resolve(moveFromMain());
-    console.log("main", _("main"))
+    resolve(cleanMain());
   });
   promise1.then(function() {
     loadAutoSave();
@@ -81,8 +58,7 @@ function runPromises() {
   }).then(function() {
     dragOrder();
   });
-}
-
+})();
 
 function hoverState() {
   _All(`${dataSections}, ${dataRows}, ${dataColumns}, ${dataElements}`).forEach((item, index) => {
@@ -318,6 +294,9 @@ let updateIframe = () => {
   let main = document.querySelector("main").innerHTML;
 
   iContent.querySelector("main").innerHTML = document.querySelector("main").innerHTML;
+  
+  iContent.querySelector(".pageCss").innerHTML = document.querySelector("style.pageCss").innerHTML;
+  console.log("doc", document.querySelector(".pageCss"), "iframe", iFrame.querySelector(".pageCss"))
 }
 // After selection an option in the drawer, modify the HTML with the newly selected classes
 let setAttribute = (input, attrTarget, item) => {
@@ -326,7 +305,7 @@ let setAttribute = (input, attrTarget, item) => {
   if (item.getAttribute("data-pb-template", "image") && attrTarget === "data-pb-size") {
     item.setAttribute(attrTarget, input.value)
     let image = item.querySelector("img");
-    image.src = image.getAttribute(`src-${input.value}`);
+    image.src = image.getAttribute(`${input.value}`);
   }
   updateIframe();
 }
@@ -405,6 +384,7 @@ function dragDrop() {
     createOnDrop.destroy();
   
     runPromises();
+    _("[pb-function='load']").removeEventListener("click", loadSave, false);
   }
   _("[pb-function='load']").addEventListener("click", loadSave, false);
 }
@@ -488,6 +468,7 @@ function dragCreate (el, drake) {
 //let dialogue = document.querySelector(".modal--dialogue");
 
 
+
 let savePage = page => {
   console.log("save page")
   db.setItem(savedData, _("main").innerHTML);
@@ -495,10 +476,10 @@ let savePage = page => {
 _("[pb-function='save']").addEventListener("click", savePage, false);
 
 let autoSave = page => {
-  db.setItem(autoSavedData, _("main").innerHTML);
+  //db.setItem(autoSavedData, _("main").innerHTML);
 }
 let loadAutoSave = page => {
-  if (!db.getItem(autoSavedData) === null || !db.getItem(autoSavedData) === undefined) {
+  if (db.getItem(autoSavedData) !== null && db.getItem(autoSavedData) !== undefined) {
     _("main").innerHTML = db.getItem(autoSavedData);
   }
 }

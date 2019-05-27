@@ -6,7 +6,7 @@
     grid-row-gap: 1%;
   }
   .modal__body {
-    img:active {
+    img:active, img:focus, img:target, img.img-selected {
       outline: 2px solid blue;
     }
   }

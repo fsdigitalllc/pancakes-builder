@@ -45,6 +45,10 @@
 			mode = "htmlmixed", item = _('[pb-editing="1"]');
 			box.innerHTML = `<textarea>${item.innerHTML}</textarea>`;
 			box = box.querySelector("textarea");
+		} else if (mode === "css") {
+			mode = "css", item = _('style.pageCss');
+			box.innerHTML = `<textarea>${item.innerHTML}</textarea>`;
+			box = box.querySelector("textarea");
 		} else if (mode === "yml") {
 			mode = "yaml";
 			box.innerHTML = `<textarea>${exportYml()}</textarea>`;
@@ -84,13 +88,25 @@
 			});
 		} else if (mode === "media") {
 			let imgSrc = (e) => {
+				_All(`.modal__body img`).forEach((image) => {
+					if (image === e.currentTarget) {
+						console.log("this", image)
+						image.classList.add("img-selected");
+					} else {
+						console.log("else", image)
+						image.classList.remove("img-selected")
+					}
+				})
 				content = e.currentTarget;
-				console.log("src-full", content)
+				//console.log("src-full", content)
+				
 			}
 			this.element.querySelectorAll('.modal__body img').forEach((image) => {
 				image.addEventListener("click", imgSrc, false);
 			})
 		}
+
+		this.element.setAttribute("pb-mode", mode);
 		
 		let context = this;
 		let closeSave = () => {
@@ -120,18 +136,24 @@
 			// HTML nodelist
 			console.log("isNodeList", editor)
 			editor.forEach((input) => {
-				if (input.tagName === "input") {
+				if (input.tagName === "INPUT") {
 					input.defaultValue = input.value;
+					console.log("input valiue", input.value)
 				} else {
 					console.log("unknown nodeList")
 				}
+				
+				//item.parentNode.replaceChild(_(".modal__body form"), item);
 			});
+			item.parentNode.replaceChild(_(".modal__body form"), item);
+			//console.log("item, ", item, "editor", _(".modal__body form"))
 		} else if (!item) {
 			// Do nothing because it's probably YAML
 		} else {
 			console.log("else", item)
 			item.innerHTML = editor;
 		}
+		updateIframe();
 	}
 
 	Modal.prototype.destroyEditor = function() {
@@ -255,12 +277,19 @@
 		let sections = _All("main [data-pb-template-level='section']");
 		let rows, columns, elements, indent;
 		let yml = `---\n`;
-		let params = _All("[pb-content='params'] label, [pb-content='params'] input");
+		let params = _All("[pb-content='params'] label, [pb-content='params'] input, .pageCss");
 
 		let key, value, prefix;
 		params.forEach((param, index) => {
+			
 				key = param.getAttribute("data-pb-key");
 				value = param.value;
+				if (key === "page_css") {
+					//let cleanH = param.innerHTML.replace(/\s+/g,'');
+					let cleanH = param.innerHTML;
+					value = `|\n  ${cleanH}`;
+				}
+				console.log("key", key, value)
 				if ( (key != undefined && key != null) && (value != undefined || value != null) ) {
 					yml += `${key}: ${value}\n`;
 				}

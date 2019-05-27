@@ -6,13 +6,14 @@
 {{ $c_4 := resources.Get "pancakesBuilder/app/js/components/tabs.js" }}
 {{ $c_5 := resources.Get "pancakesBuilder/app/js/plugins/codemirror/lib/codemirror.js" }}
 {{ $c_6 := resources.Get "pancakesBuilder/app/js/plugins/codemirror/mode/yaml/yaml.js" }}
-{{ $c_7 := resources.Get "pancakesBuilder/app/js/plugins/codemirror/mode/htmlmixed/htmlmixed.js" }}
-{{ $c_8 := resources.Get "pancakesBuilder/app/js/plugins/codemirror/mode/javascript/javascript.js" }}
-{{ $c_9 := resources.Get "pancakesBuilder/app/js/plugins/codemirror/mode/css/css.js" }}
-{{ $c_10 := resources.Get "pancakesBuilder/app/js/plugins/codemirror/mode/xml/xml.js" }}
-{{ $c_11 := resources.Get "pancakesBuilder/app/js/builder.js" }}
+{{ $c_6_1 := resources.Get "pancakesBuilder/app/js/plugins/codemirror/mode/htmlmixed/htmlmixed.js" }}
+{{ $c_6_2 := resources.Get "pancakesBuilder/app/js/plugins/codemirror/mode/css/css.js" }}
+{{ $c_7 := resources.Get "pancakesBuilder/app/js/plugins/codemirror/mode/javascript/javascript.js" }}
+{{ $c_8 := resources.Get "pancakesBuilder/app/js/plugins/codemirror/mode/css/css.js" }}
+{{ $c_9 := resources.Get "pancakesBuilder/app/js/plugins/codemirror/mode/xml/xml.js" }}
+{{ $c_10 := resources.Get "pancakesBuilder/app/js/builder.js" }}
 
-{{ $appjs := slice $r_1 $p_1 $c_1 $c_2 $c_3 $c_4 $c_5 $c_6 $c_7 $c_8 $c_9 $c_10 $c_11 | resources.Concat "pancakesBuilder.js" }}
+{{ $appjs := slice $r_1 $p_1 $c_1 $c_2 $c_3 $c_4 $c_5 $c_6 $c_6_1 $c_6_2 $c_7 $c_8 $c_9 $c_10 | resources.Concat "pancakesBuilder.js" }}
 {{ with $appjs }}
 <script src="{{ .Permalink }}"></script>
 {{ end }}

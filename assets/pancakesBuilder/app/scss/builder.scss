@@ -17,7 +17,7 @@
 @import 'global/accessibility';
 
 // Not Used on every page
-@import 'components/forms/newsletter';
+//@import 'components/forms/newsletter';
 @import 'components/forms/select';
 @import 'components/forms/toggle';
 @import 'components/forms/check';
@@ -31,3 +31,5 @@
 @import 'components/btn_group';
 @import 'components/accordian';
 @import 'components/tabs';
+
+@import 'components/modal_views/media';
