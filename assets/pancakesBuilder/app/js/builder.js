@@ -110,14 +110,21 @@ function hoverState() {
 
 
 // On click, allow user to toggle the selected items classes using the options in the sidebar
-let getType = item => {
+let getLevel = item => {
   let level = item.getAttribute("data-pb-template-level");
-  if (item.getAttribute("data-pb-element-type")) {
-    level = `${level}-${item.getAttribute("data-pb-element-type")}`
-  }
   //console.log(level);
   if (level) {
     return level;
+  } else {
+    return "Que?";
+  }
+}
+
+let getType = item => {
+  let type = `element-${item.getAttribute("data-pb-element-type")}`;
+  //console.log(level);
+  if (type) {
+    return type;
   } else {
     return "Que?";
   }
@@ -172,12 +179,13 @@ let setResponsiveMode = () => {
 };
 
 // Hide or display options based on the selected item level
-let setSupportedClasses = level => {
-  console.log("supported classes", level);
+let setSupportedClasses = (level, type) => {
+  console.log("supported classes", level, type);
   let allGroups = _All(".pb--drawer [pb-supports]");
   allGroups.forEach( group => {
     //v.includes(value))
-    if (group.getAttribute("pb-supports").includes(level) || group.getAttribute("pb-supports") === "global") {
+    console.log("supported classes", level, type);
+    if (group.getAttribute("pb-supports").includes(level) || group.getAttribute("pb-supports").includes(type) || group.getAttribute("pb-supports") === "global") {
       group.style.display = "block";
     } else {
       group.style.display = "none";
@@ -236,9 +244,9 @@ let editItem = editBtn => {
   });
   let item = getClosest(editBtn.currentTarget);
   item.setAttribute(editClick, "1")
-  _(`.${drawerTitle}`).innerText = `${getType(item)} | ${item.id}`;
+  _(`.${drawerTitle}`).innerText = `${getLevel(item)} | ${item.id}`;
 
-  setSupportedClasses(getType(item));
+  setSupportedClasses(getLevel(item), getType(item));
 
   // On edit click, get all classes in use on the current item
   let getClasses = item => {
@@ -364,7 +372,7 @@ function dragDrop() {
   }
   // Elements that are created on drag start in the drawer sidebar
   let dragMenu = document.querySelector('.pb--drawer .pb--drawer__body [pb-function="item-drawer"]');   
-  let containers = [dragMenu];
+  let containers = [];
   let hLevel, elementLevel;
 
   let all = _All("[data-pb-template-level]");
@@ -372,11 +380,11 @@ function dragDrop() {
 
   all.forEach((item) => {
     let handler = (e) => {
-      console.log("e", e, e.target, e.currentTarget)
-        console.log("e", e.target.getAttribute("data-pb-template-level"))
+      //console.log("e", e, e.target, e.currentTarget)
+        //console.log("e", e.target.getAttribute("data-pb-template-level"))
         hLevel = (valueToNumber(e.target, "data-pb-template-level") - 1)
     }
-    item.addEventListener("click", handler, false)
+    item.addEventListener("mousedown", handler, false)
   })
   let options = {
     moves: function (el, target, handle) {
@@ -401,11 +409,6 @@ function dragDrop() {
       // Dynamically set containers based on the handle closest level - 1
         return parseFloat(el.getAttribute("data-pb-template-level")) === hLevel || el === dragMenu;
     },
-    invalid(el, handle) {
-      // let handleValue = valueToNumber(handle, "data-pb-template-level");
-      // let elValue = valueToNumber(el, "data-pb-template-level");
-      //return elValue !== handleValue;
-    },
     copySortSource: function (el, source) {
       return source !== dragMenu;
     },
@@ -425,8 +428,9 @@ function dragDrop() {
     el.classList.add("in-transit");
   }).on('drop', function (el, target, source) {
     el.classList.remove("in-transit");
-    console.log("source", source)
-    if (source === dragMenu) {
+    if (target === null) {
+      return false;
+    } else if (source === dragMenu) {
       console.log("source", source)
       dragCreate(el)
     }

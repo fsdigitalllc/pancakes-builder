@@ -16,12 +16,12 @@ desktop:
     value: "container container--xl"
   code_editor:
   - type: "button"
-  - supports: "4 element-text"
+  - supports: "element-text"
   - label: "Edit Text"
     value: "text-edit"
   edit_text:
   - type: "radio"
-  - supports: "4 element-text"
+  - supports: "element-text"
   - label: "Center"
     value: "text--center"
   - label: "left"
@@ -30,13 +30,13 @@ desktop:
     value: "text--right"
   edit_image:
   - type: "button"
-  - supports: "4 element-image"
+  - supports: "element-image"
   - mode: "media"
   - label: "Edit image"
     value: "image-edit"
   image_sizes:
   - type: "select"
-  - supports: "4 element-image"
+  - supports: "element-image"
   - mode: "media"
   - set_attribute: "data-pb-size"
   - label: "thumbnail"
