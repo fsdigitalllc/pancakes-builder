@@ -339,13 +339,17 @@ let setClasses = (input, item, inputs) => {
   }
   //updateIframe();
 }
-let dragCreate = (el, drake) => {
+let dragCreate = (el) => {
   let pbTemplateAdd = el.getAttribute("data-pb-template-add");
   let pbCreateContent = _(".pb-template-contentWrapper");
   let pbTemplate = pbCreateContent.querySelector(`[data-pb-template^='${pbTemplateAdd}']`);
-  let pbReplace = pbTemplate.cloneNode(true);
+  let pbReplace = pbTemplate.cloneNode(false);
+  if (parseFloat(el.getAttribute("data-pb-template-level")) >= 4) {
+    pbReplace = pbTemplate.cloneNode(true);
+  }
+  console.log("after", pbReplace, el.parentNode)
   el.parentNode.replaceChild(pbReplace, el);
-  drake.containers.push(pbReplace);
+  //drake.containers.push(pbReplace);
   //console.log(drake.containers);
   hoverState();
   //dragOrder();
@@ -360,42 +364,46 @@ function dragDrop() {
   }
   // Elements that are created on drag start in the drawer sidebar
   let dragMenu = document.querySelector('.pb--drawer .pb--drawer__body [pb-function="item-drawer"]');   
-  let containers = [];
-  
+  let containers = [dragMenu];
+  let hLevel, elementLevel;
+
+  let all = _All("[data-pb-template-level]");
+  //console.log("all", all)
+
+  all.forEach((item) => {
+    let handler = (e) => {
+      console.log("e", e, e.target, e.currentTarget)
+        console.log("e", e.target.getAttribute("data-pb-template-level"))
+        hLevel = (valueToNumber(e.target, "data-pb-template-level") - 1)
+    }
+    item.addEventListener("click", handler, false)
+  })
   let options = {
-    isContainer: function (el, handle) {
-      //console.log("iscontainer", el, handle)
-        return el.classList.contains("section");
-    },
     moves: function (el, target, handle) {
       console.log("MOVING....container", el, target, handle)
-      let hLevel = valueToNumber(handle, "data-pb-template-level");
       let cLevel = valueToNumber(target, "data-pb-template-level");
-
-      console.log("hLevel", hLevel, "cLevel", cLevel)
       //return getClosestValue(handle, "data-pb-template-level") !== "1";
       if ((handle.closest("[pb-move='true']", true))) {
         drake.options.copy = false;
-        
         return true;
-        // if (valueToNumber(handle, "data-pb-template-level") === 2) {
-        //   return true;
-        // } 
-        
-        // if ( (hLevel - 1) === cLevel ) {
-        //   console.log("true,", handle, target)
-        //   return true;
-        // }
       } else if (handle.classList.contains("pb--fa-edit")) {
         drake.options.copy = true;
+        drake.options.copySortSource = true;
+        return true;
+      } else if (handle.tagName === "BUTTON") {
+        console.log("source drag menu")
+        drake.options.copy = true;
+        drake.options.copySortSource = false;
         return true;
       }
-      //return getClosestValue(handle, "data-pb-template-level") !== "2"
-        // elements are always draggable by default
+    },
+    isContainer: function (el) {
+      // Dynamically set containers based on the handle closest level - 1
+        return parseFloat(el.getAttribute("data-pb-template-level")) === hLevel || el === dragMenu;
     },
     invalid(el, handle) {
-      let handleValue = valueToNumber(handle, "data-pb-template-level");
-      let elValue = valueToNumber(el, "data-pb-template-level");
+      // let handleValue = valueToNumber(handle, "data-pb-template-level");
+      // let elValue = valueToNumber(el, "data-pb-template-level");
       //return elValue !== handleValue;
     },
     copySortSource: function (el, source) {
@@ -413,10 +421,15 @@ function dragDrop() {
   console.log("drake,", drake)
 
   drake.on('drag', function (el, source) {
-    drake.containers = [].slice.apply(document.querySelectorAll("main [data-pb-template-level='1']")).concat(dragMenu);
+    //drake.containers = [].slice.apply(document.querySelectorAll("main [data-pb-template-level='1']")).concat(dragMenu);
     el.classList.add("in-transit");
-  }).on('out', function (el) {
+  }).on('drop', function (el, target, source) {
     el.classList.remove("in-transit");
+    console.log("source", source)
+    if (source === dragMenu) {
+      console.log("source", source)
+      dragCreate(el)
+    }
     // Regenerate the node tree for hver boxes
     hoverState();
   });

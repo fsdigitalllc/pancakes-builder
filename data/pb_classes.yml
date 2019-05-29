@@ -1,7 +1,7 @@
 desktop:
   row_size:
   - type: "radio"
-  - supports: "row"
+  - supports: "2"
   - label: "container--full-width"
     value: "container container--full-width"
   - label: "container--xs"
@@ -16,12 +16,12 @@ desktop:
     value: "container container--xl"
   code_editor:
   - type: "button"
-  - supports: "element-text"
+  - supports: "4 element-text"
   - label: "Edit Text"
     value: "text-edit"
   edit_text:
   - type: "radio"
-  - supports: "element-text"
+  - supports: "4 element-text"
   - label: "Center"
     value: "text--center"
   - label: "left"
@@ -30,13 +30,13 @@ desktop:
     value: "text--right"
   edit_image:
   - type: "button"
-  - supports: "element-image"
+  - supports: "4 element-image"
   - mode: "media"
   - label: "Edit image"
     value: "image-edit"
   image_sizes:
   - type: "select"
-  - supports: "element-image"
+  - supports: "4 element-image"
   - mode: "media"
   - set_attribute: "data-pb-size"
   - label: "thumbnail"
@@ -51,7 +51,7 @@ desktop:
     value: "src-small"
   col_size:
   - type: "radio"
-  - supports: "column"
+  - supports: "3"
   - classes: "flex flex--wrap"
   - label: "1"
     value: "col--1"
@@ -115,7 +115,7 @@ desktop:
     value: padding-bottom--xxs
   align_children:
   - type: "checkbox"
-  - supports: "row column"
+  - supports: "2 3"
   - label: "flex"
     value: "flex"
   - label: "flex wrap"
@@ -138,7 +138,7 @@ desktop:
     value: "flex--space-evenly"
   maxwidth:
   - type: "radio"
-  - supports: "column elements"
+  - supports: "3 4"
   - classes: "flex flex--wrap"
   - label: "XL"
     value: "maxwidth-xl"
