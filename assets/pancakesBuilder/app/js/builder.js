@@ -1,6 +1,7 @@
 window.addEventListener('DOMContentLoaded', () => {
   pancakes();
 });
+
 // Query shorthand:
 // _(".element");
 // _All(".elements");
@@ -9,14 +10,14 @@ let pancakes = () => {
 console.log("loaded pancakesBuilder")
 
 // TEST MODE //
-_("html").classList.add("editing--mode");
-_(".drawer").classList.add("drawer--fixed-header", "drawer--is-visible");
+//_("html").classList.add("editing--mode");
+//_(".pb--drawer").classList.add("pb--drawer--fixed-header", "pb--drawer--is-visible");
 ///////////////
 
 // Draggable elements will always use data-pb-template-level
-let dataSections = "main [data-pb-template-level='section']", dataRows = "main [data-pb-template-level='row']", dataColumns = "main [data-pb-template-level='column']", dataElements = "main [data-pb-template-level='element']";
-const dataSelect = "fa-move", moveHandle = "pb-move", deleteHandle = '[pb-function="delete-item"]', editHandle = "fa-edit", hoverMenu = "hover-menu", editHover = "edit-hover", editClick = "pb-editing", dialogueTrigger = document.querySelector('[pb-function="exportYml"]'), modalSave = ".modal--dialogue.modal--is-visible [pb-function='save']", drawerTitle = "drawerTitle", responsiveMode = "data-pb-responsive-mode", iFrame = _("iframe.pbResponsiveFrame");
-let modal = document.querySelector('.modal');
+let dataSections = "main [data-pb-template-level='1']", dataRows = "main [data-pb-template-level='2']", dataColumns = "main [data-pb-template-level='3']", dataElements = "main [data-pb-template-level='4']";
+const dataSelect = "pb--fa-move", moveHandle = "pb-move", deleteHandle = '[pb-function="delete-item"]', editHandle = "pb--fa-edit", hoverMenu = "pb--hover-menu", editHover = "pb--edit-hover", editClick = "pb-editing", dialogueTrigger = document.querySelector('[pb-function="exportYml"]'), modalSave = ".pb--modal--dialogue.pb--modal--is-visible [pb-function='save']", drawerTitle = "pb--drawerTitle", responsiveMode = "data-pb-responsive-mode", iFrame = _("iframe.pbResponsiveFrame");
+let modal = document.querySelector('.pb--modal');
 _("html").setAttribute(responsiveMode, "desktop"), paramContainer = document.querySelector('[pb-content="params"]');
 
 //local storage
@@ -38,12 +39,13 @@ let cleanMain = () => {
     _("head").appendChild(element);
     //console.log(element)
   });
-  _All(".modal").forEach((element, index) => {
+  _All(".pb--modal").forEach((element, index) => {
     _("body").appendChild(element);
   });  
   _All(`.pb-template-contentWrapper [data-pb-template-level^='row'], .pb-template-contentWrapper [data-pb-template-level^='column'], .pb-template-contentWrapper [data-pb-template-level^='element']`).forEach((element, index) => {
     _(".pb-template-contentWrapper").appendChild(element);
   });
+  _("main").setAttribute("data-pb-template-level", "0");
 }
 (function runPromises() {
   var promise1 = new Promise(function(resolve, reject) {
@@ -56,7 +58,7 @@ let cleanMain = () => {
   }).then(function() {
     hoverState();
   }).then(function() {
-    dragOrder();
+    //dragOrder();
   });
 })();
 
@@ -82,7 +84,7 @@ function hoverState() {
         //console.log("item", e.currentTarget);
         var node = document.createElement("div");
         node.classList.add(`${hoverMenu}`);
-        node.innerHTML = `<svg class="icon-arrows fa-move ${moveHandle}" pb-move="true"><use xlink:href="/images/icons.svg#icon-arrows"></use></svg><svg class="icon-pencil ${editHandle}" pb-function="edit-item"><use xlink:href="/images/icons.svg#icon-pencil"></use></svg><svg class="icon-trash ${editHandle}" pb-function="delete-item"><use xlink:href="/images/icons.svg#icon-trash"></use></svg>`;
+        node.innerHTML = `<svg class="icon-arrows pb--fa-move ${moveHandle}" pb-move="true"><use xlink:href="/images/icons.svg#icon-arrows"></use></svg><svg class="icon-pencil ${editHandle}" pb-function="edit-item"><use xlink:href="/images/icons.svg#icon-pencil"></use></svg><svg class="icon-trash ${editHandle}" pb-function="delete-item"><use xlink:href="/images/icons.svg#icon-trash"></use></svg>`;
         item.appendChild(node);
 
         item.querySelector(`[pb-function='edit-item']`).addEventListener("click", editItem, false);
@@ -124,11 +126,26 @@ let getType = item => {
 // add some features for all modal windows
 
 // Get the nearest editable parent of the selected handle
-let getClosest = elem => {
+let getClosest = (elem, attribute) => {
   let selector = "data-pb-template-level";
-  console.log(elem);
+  if (attribute) {
+    selector = attribute;
+  }
+  //console.log(elem);
 	for ( ; elem && elem !== document; elem = elem.parentNode ) {
-		if ( elem.hasAttribute("data-pb-template-level") ) return elem;
+		if ( elem.hasAttribute(selector) ) return elem;
+	}
+	return null;
+};
+
+let getClosestValue = (elem, attribute) => {
+  let selector = "data-pb-template-level";
+  if (attribute) {
+    selector = attribute;
+  }
+  //console.log(elem);
+	for ( ; elem && elem !== document; elem = elem.parentNode ) {
+		if ( elem.hasAttribute(selector) ) return elem.getAttribute(selector);
 	}
 	return null;
 };
@@ -141,7 +158,7 @@ let setResponsiveMode = () => {
 
   let currentMode = getResponsiveMode();
   // Toggle stuff in sidebar
-  let allGroups = _All(".drawer [data-pb-support-mode]");
+  let allGroups = _All(".pb--drawer [data-pb-support-mode]");
 
   // For now, toggling these values in responsive mode doesn't matter
   // allGroups.forEach( group => {
@@ -157,7 +174,7 @@ let setResponsiveMode = () => {
 // Hide or display options based on the selected item level
 let setSupportedClasses = level => {
   console.log("supported classes", level);
-  let allGroups = _All(".drawer [pb-supports]");
+  let allGroups = _All(".pb--drawer [pb-supports]");
   allGroups.forEach( group => {
     //v.includes(value))
     if (group.getAttribute("pb-supports").includes(level) || group.getAttribute("pb-supports") === "global") {
@@ -176,7 +193,7 @@ let responsiveToggleButton = (e) => {
   if ((".pbResponsiveFrame")) {
     
       let iContent = iFrame.contentWindow.document;
-      let contents = iContent.querySelectorAll(".builderUIComponents, .modal, .pb-template-contentWrapper, iframe.pbResponsiveFrame");
+      let contents = iContent.querySelectorAll(".builderUIComponents, .pb--modal, .pb-template-contentWrapper, iframe.pbResponsiveFrame");
 
       let html = iContent.querySelector("html")
       let main = document.querySelector("main").innerHTML;
@@ -236,28 +253,28 @@ let editItem = editBtn => {
       return v;
   }
 
-  let tabSections = _All(".drawer .tabs__panels section");
-  let tabs = _All(".drawer .tabs .tab-title");
+  let tabSections = _All(".pb--drawer .pb--tabs__panels section");
+  let tabs = _All(".pb--drawer .pb--tabs .pb--tab-title");
 
   tabSections.forEach(tabSection => {
-    tabSection.classList.remove("tabs__panel--selected");
-    if (!tabSection.classList.contains("tab__panel--is-hidden") ) {
-      tabSection.classList.add("tab__panel--is-hidden");
+    tabSection.classList.remove("pb--tabs__panel--selected");
+    if (!tabSection.classList.contains("pb--tab__panel--is-hidden") ) {
+      tabSection.classList.add("pb--tab__panel--is-hidden");
     }
   })
 
   // Need to fix tab active state
   // Set aria-selected to true/false and selected class
   tabs.forEach(tab => {
-    tab.classList.remove("tabs__control--selected");
-    if (!tab.classList.contains("tab__panel--is-hidden") ) {
-      tab.classList.add("tab__panel--is-hidden");
+    tab.classList.remove("pb--tabs__control--selected");
+    if (!tab.classList.contains("pb--tab__panel--is-hidden") ) {
+      tab.classList.add("pb--tab__panel--is-hidden");
     }
   });
 
-  _('.drawer .tabs__panels [pb-function="edit-item" ]').classList.add("tabs__panel--selected");
+  _('.pb--drawer .pb--tabs__panels [pb-function="edit-item" ]').classList.add("pb--tabs__panel--selected");
 
-  let allOptions = _All(".drawer input, .drawer select"), value, v, name;
+  let allOptions = _All(".pb--drawer input, .pb--drawer select"), value, v, name;
 
   //let keys = Object.entries(item.dataset);
   allOptions.forEach( input => {
@@ -265,12 +282,12 @@ let editItem = editBtn => {
 
     if (input.tagName === "INPUT") {
     input.addEventListener("click", (e) => {
-      console.log("click", input.tagName, item)
+      //console.log("click", input.tagName, item)
       setClasses(input, item, allOptions);
     }, false);
     } else if (input.tagName === "SELECT") {
       input.addEventListener("change", (e) => {
-        console.log("changed, select", input)
+        //console.log("changed, select", input)
         if (input.getAttribute("pb-set-attribute")) {
           setAttribute(input, input.getAttribute("pb-set-attribute"), item);
         }
@@ -300,14 +317,13 @@ let updateIframe = () => {
 }
 // After selection an option in the drawer, modify the HTML with the newly selected classes
 let setAttribute = (input, attrTarget, item) => {
-  console.log("set attr", input.value, attrTarget, item)
-
+  //console.log("set attr", input.value, attrTarget, item)
   if (item.getAttribute("data-pb-template", "image") && attrTarget === "data-pb-size") {
     item.setAttribute(attrTarget, input.value)
     let image = item.querySelector("img");
     image.src = image.getAttribute(`${input.value}`);
   }
-  updateIframe();
+  //updateIframe();
 }
 let setClasses = (input, item, inputs) => {
   //let currentClasses = getClasses(item);
@@ -321,139 +337,9 @@ let setClasses = (input, item, inputs) => {
     item.classList = inputClasses;
     item.setAttribute("data-pb-class", inputClasses)
   }
-  updateIframe();
+  //updateIframe();
 }
-
-function dragDrop() {
-  // Elements that are created on drag start in the drawer sidebar
-  let dragMenu = document.querySelector('.drawer .drawer__body [pb-function="item-drawer"]');
-  //containers = [].slice.call(document.querySelectorAll("[data-pb-template-level='column']"));
-  let containers = _("main");
-  //[dragMenu, containers],     
-  let newContainers = Array.from(document.querySelectorAll("main, main [data-pb-template-level='section'], main [data-pb-template-level='row'], main [data-pb-template-level='column'], main [data-pb-template-level='element']")).concat(dragMenu);
-  let createOnDrop = dragula(newContainers, {
-    isContainer: function (el) {
-      return false; // only elements in drake.containers will be taken into account
-    },
-    moves: function (el, source, handle, sibling) {
-      if (handle.getAttribute("data-pb-template-level") && source === dragMenu) {
-        return true; // elements are always draggable by default
-      }
-    },
-    accepts: function (el, target, source, sibling) {
-      if (el.getAttribute("data-pb-template-level") === "section" && target.classList.contains("site-main")) {
-        //console.log("el true: ", el, target)
-        return true;
-      } else if (el.getAttribute("data-pb-template-level") === "row" && target.getAttribute("data-pb-template-level") === "section") {
-        return true;
-      } else if (el.getAttribute("data-pb-template-level") === "column" && target.getAttribute("data-pb-template-level") === "row") {
-        return true;
-      } else if (el.getAttribute("data-pb-template-level") === "element" && target.getAttribute("data-pb-template-level") === "column") {
-        return true;
-      }
-    },
-    invalid: function (el, handle) {
-      return false;
-    },
-    direction: 'vertical',
-    copy: true,
-    copySortSource: false,
-    revertOnSpill: true,
-    removeOnSpill: false,
-    ignoreInputTextSelection: true     // allows users to select input text, see details below
-  });
-  //createOnDrop.containers.push(_("main"));
-  console.log("containers,", createOnDrop.containers)
-  
-  createOnDrop.on('drag', function (el, containers) {
-    //containers.push(newContainers)
-    el.classList.add("in-transit");
-    
-    console.log("dragging...", el, "containers....", createOnDrop.containers)
-  }).on('out', function (el) {
-    el.classList.remove("in-transit");
-  }).on('drop', function (el, container, source) {
-    if (source === dragMenu) {
-     dragCreate(el, createOnDrop, containers); 
-    }
-  });
-  let loadSave = page => {
-    //console.log(db.getItem(savedData))
-    _("main").innerHTML = db.getItem(savedData);
-    //db.setItem(savedData, _("main").innerHTML);
-    createOnDrop.destroy();
-  
-    runPromises();
-    _("[pb-function='load']").removeEventListener("click", loadSave, false);
-  }
-  _("[pb-function='load']").addEventListener("click", loadSave, false);
-}
-
-function dragOrder() {
-  //Reorder sections with drag and drop using a handle
-  dragula([_("main")], {
-    moves: function (el, container, handle) {
-      return handle.getAttribute(moveHandle);
-  },
-    invalid(el, handle) {
-      return (el.getAttribute("data-pb-template-level") === "row" || el.getAttribute("data-pb-template-level") === "column" || el.getAttribute("data-pb-template-level") === "element" );
-    }
-  }).on('out', function (el) {
-    el.classList.remove("in-transit");
-  });
-
-  // add existing sections as an array
-  let containers = [].slice.call(document.querySelectorAll("[data-pb-template-level='section']"));
-  
-  //Reorder rows with drag and drop using a handle
-  dragula(containers, {
-    moves: function (el, container, handle) {
-      return handle.getAttribute(moveHandle);
-  },
-    invalid(el, handle) {
-      // If the selected element className is column, 
-      //    dont allow the row to be dragged. This will allow 
-      //    the column to be dragged separate from the row. 
-      return (el.getAttribute("data-pb-template-level") === "column" || el.getAttribute("data-pb-template-level") === "element" );
-    }
-  }).on('drag', function (el) {
-      el.classList.add("in-transit");
-  }).on('out', function (el) {
-      el.classList.remove("in-transit");
-  });
-
-  containers = [].slice.call(document.querySelectorAll("[data-pb-template-level='row']"));
-
-  //Reorder rows with drag and drop using a handle
-  dragula(containers, {
-    moves: function (el, container, handle) {
-      return handle.getAttribute(moveHandle);
-    },
-    direction: 'horizontal',
-    invalid(el, handle) {
-      return (el.getAttribute("data-pb-template-level") === "element" );
-    },
-    }).on('out', function (el) {
-      el.classList.remove("in-transit");
-    });
-
-  containers = [].slice.call(document.querySelectorAll("[data-pb-template-level='column']"));
-
-  //Reorder rows with drag and drop using a handle
-  dragula(containers, {
-    moves: function (el, container, handle) {
-      return handle.getAttribute(moveHandle);
-    },
-    direction: 'vertical',
-    // invalid(el, handle) {
-    //   return (el.classList.contains("element") );
-    // },
-    }).on('out', function (el) {
-      el.classList.remove("in-transit");
-    });
-  }
-
-function dragCreate (el, drake) {
+let dragCreate = (el, drake) => {
   let pbTemplateAdd = el.getAttribute("data-pb-template-add");
   let pbCreateContent = _(".pb-template-contentWrapper");
   let pbTemplate = pbCreateContent.querySelector(`[data-pb-template^='${pbTemplateAdd}']`);
@@ -462,8 +348,157 @@ function dragCreate (el, drake) {
   drake.containers.push(pbReplace);
   //console.log(drake.containers);
   hoverState();
-  dragOrder();
+  //dragOrder();
 }
+
+function dragDrop() {
+  let valueToNumber = (element, attribute) => {
+    return parseFloat(getClosestValue(element, attribute));
+  }
+  let level = (e) => {
+    return e.getAttribute("data-pb-template-level");
+  }
+  // Elements that are created on drag start in the drawer sidebar
+  let dragMenu = document.querySelector('.pb--drawer .pb--drawer__body [pb-function="item-drawer"]');   
+  let containers = [];
+  
+  let options = {
+    isContainer: function (el, handle) {
+      //console.log("iscontainer", el, handle)
+        return el.classList.contains("section");
+    },
+    moves: function (el, target, handle) {
+      console.log("MOVING....container", el, target, handle)
+      let hLevel = valueToNumber(handle, "data-pb-template-level");
+      let cLevel = valueToNumber(target, "data-pb-template-level");
+
+      console.log("hLevel", hLevel, "cLevel", cLevel)
+      //return getClosestValue(handle, "data-pb-template-level") !== "1";
+      if ((handle.closest("[pb-move='true']", true))) {
+        drake.options.copy = false;
+        
+        return true;
+        // if (valueToNumber(handle, "data-pb-template-level") === 2) {
+        //   return true;
+        // } 
+        
+        // if ( (hLevel - 1) === cLevel ) {
+        //   console.log("true,", handle, target)
+        //   return true;
+        // }
+      } else if (handle.classList.contains("pb--fa-edit")) {
+        drake.options.copy = true;
+        return true;
+      }
+      //return getClosestValue(handle, "data-pb-template-level") !== "2"
+        // elements are always draggable by default
+    },
+    invalid(el, handle) {
+      let handleValue = valueToNumber(handle, "data-pb-template-level");
+      let elValue = valueToNumber(el, "data-pb-template-level");
+      //return elValue !== handleValue;
+    },
+    copySortSource: function (el, source) {
+      return source !== dragMenu;
+    },
+    copy: function (el, source) {
+      return source === dragMenu;
+    }
+  };
+  
+
+  let drake = dragula(containers, options);
+  //drake.containers.push(_("main"));
+  drake.options = options;
+  console.log("drake,", drake)
+
+  drake.on('drag', function (el, source) {
+    drake.containers = [].slice.apply(document.querySelectorAll("main [data-pb-template-level='1']")).concat(dragMenu);
+    el.classList.add("in-transit");
+  }).on('out', function (el) {
+    el.classList.remove("in-transit");
+    // Regenerate the node tree for hver boxes
+    hoverState();
+  });
+
+  let loadSave = page => {
+    //console.log(db.getItem(savedData))
+    _("main").innerHTML = db.getItem(savedData);
+    //db.setItem(savedData, _("main").innerHTML);
+    //drake.destroy();
+  
+    runPromises();
+    _("[pb-function='load']").removeEventListener("click", loadSave, false);
+  }
+  _("[pb-function='load']").addEventListener("click", loadSave, false);
+}
+
+// function dragOrder() {
+//   let containers = "";
+//   //Reorder sections with drag and drop using a handle
+//   dragula([_("main")], {
+//     moves: function (el, container, handle) {
+//       return handle.getAttribute(moveHandle);
+//   },
+//     invalid(el, handle) {
+//       return (el.getAttribute("data-pb-template-level") === "row" || el.getAttribute("data-pb-template-level") === "column" || el.getAttribute("data-pb-template-level") === "element" );
+//     }
+//   }).on('out', function (el) {
+//     el.classList.remove("in-transit");
+//   });
+
+//   // add existing sections as an array
+//   containers = [].slice.call(document.querySelectorAll("[data-pb-template-level='1']"));
+  
+//   //Reorder rows with drag and drop using a handle
+//   dragula(containers, {
+//     moves: function (el, container, handle) {
+//       return handle.getAttribute(moveHandle);
+//   },
+//     invalid(el, handle) {
+//       // If the selected element className is column, 
+//       //    dont allow the row to be dragged. This will allow 
+//       //    the column to be dragged separate from the row. 
+//       return (el.getAttribute("data-pb-template-level") === "column" || el.getAttribute("data-pb-template-level") === "element" );
+//     }
+//   }).on('drag', function (el) {
+//       console.log("elements: ", el)
+//       el.classList.add("in-transit");
+//   }).on('out', function (el) {
+//       el.classList.remove("in-transit");
+//   });
+
+//   containers = [].slice.call(document.querySelectorAll("[data-pb-template-level='2']"));
+
+//   //Reorder rows with drag and drop using a handle
+//   dragula(containers, {
+//     moves: function (el, container, handle) {
+//       return handle.getAttribute(moveHandle);
+//     },
+//     direction: 'horizontal',
+//     invalid(el, handle) {
+//       return (el.getAttribute("data-pb-template-level") === "element" );
+//     },
+//     }).on('out', function (el) {
+//       el.classList.remove("in-transit");
+//     });
+
+//   containers = [].slice.call(document.querySelectorAll("[data-pb-template-level='3']"));
+
+//   //Reorder rows with drag and drop using a handle
+//   dragula(containers, {
+//     moves: function (el, container, handle) {
+//       return handle.getAttribute(moveHandle);
+//     },
+//     direction: 'vertical',
+//     // invalid(el, handle) {
+//     //   return (el.classList.contains("element") );
+//     // },
+//     }).on('out', function (el) {
+//       el.classList.remove("in-transit");
+//     });
+//   }
+
 
 //let dialogue = document.querySelector(".modal--dialogue");
 

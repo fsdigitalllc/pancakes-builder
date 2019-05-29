@@ -5,21 +5,21 @@ Descr: Tabs are multiple content sections (panels), accessible one at a time usi
 
 -------------------------------- */
 
-:root {
+.editing--mode:root {
   --tabs-border-width: 2px;
   --tabs-radius: 0.25em;
   --tabs-control-gap: 0;
   --tabs-control-radius: 0;
 }
 
-.tabs {
+.pb--tabs {
   border: var(--tabs-border-width) solid var(--color-contrast-low);
   padding: var(--component-padding);
   border-radius: var(--tabs-radius);
   background-color: var(--color-bg);
 }
 
-.tabs__controls {
+.pb--tabs__controls {
   display: flex;
   flex-wrap: wrap;
   margin-bottom: var(--space-xs);
@@ -43,17 +43,17 @@ Descr: Tabs are multiple content sections (panels), accessible one at a time usi
   }
 }
 
-.tabs__panel {
+.pb--tabs__panel {
   margin-bottom: var(--space-md);
 }
 
-.js {
-  .tabs__controls {
+.pb--js {
+  .pb--tabs__controls {
     a {
       text-decoration: none;
     }
 
-    .tabs__control--selected {
+    .pb--tabs__control--selected {
       background-color: var(--color-primary);
       color: var(--color-white);
       @include fontSmooth;
@@ -64,23 +64,23 @@ Descr: Tabs are multiple content sections (panels), accessible one at a time usi
     }
   }
 
-  .tabs__panel {
+  .pb--tabs__panel {
     margin-bottom: 0;
     display: none;
   }
   
-  .tabs__panel--selected {
+  .pb--tabs__panel--selected {
     display: block;
   }
 
   @include breakpoint(md) {
-    .tabs {
+    .pb--tabs {
       padding: 0;
       border: none;
       background-color: transparent;
     }
 
-    .tabs__controls {
+    .pb--tabs__controls {
       margin-bottom: 0;
 
       li {
@@ -110,7 +110,7 @@ Descr: Tabs are multiple content sections (panels), accessible one at a time usi
         border-radius: var(--tabs-control-radius);
       }
 
-      .tabs__control--selected {
+      .pb--tabs__control--selected {
         background-color: var(--color-primary);
         color: var(--color-bg);
         position: relative;
@@ -133,13 +133,13 @@ Descr: Tabs are multiple content sections (panels), accessible one at a time usi
       }
     }
 
-    .tabs__panels {
+    .pb--tabs__panels {
       // border: var(--tabs-border-width) solid var(--color-contrast-low);
       // border-radius: 0 var(--tabs-radius) var(--tabs-radius) var(--tabs-radius);
       background-color: var(--color-bg);
     }
 
-    .tabs__panel {
+    .pb--tabs__panel {
       padding-top: var(--space-sm);
     }
   }

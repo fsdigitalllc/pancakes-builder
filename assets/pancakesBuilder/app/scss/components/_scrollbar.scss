@@ -5,7 +5,7 @@ Descr: (WebKit) Custom Scrollbar
 
 -------------------------------- */
 
-.scrollbar {
+.pb--scrollbar {
   &::-webkit-scrollbar { // general scrollbar style
     width: 12px;
   }

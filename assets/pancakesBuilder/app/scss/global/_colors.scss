@@ -1,5 +1,5 @@
 //Edit here: https://codyhouse.co/ds/globals/colors
-:root, [data-theme="default"] {
+.editing--mode:root, [data-theme="default"] {
   // main
   @include defineColorHSL(--color-primary-darker, 240, 100%, 30%);
   @include defineColorHSL(--color-primary-dark, 240, 100%, 40%);

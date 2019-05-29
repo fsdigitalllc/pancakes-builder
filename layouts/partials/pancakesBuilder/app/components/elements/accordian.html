@@ -1,17 +1,17 @@
 {{ $data := $.Site.Data.pb_classes }}
 
-<ul data-animation="on" data-multi-items="off" class="accordion js-accordion">
+<ul data-animation="on" data-multi-items="off" class="pb--accordion pb--js-accordion">
     
           
             {{ $sample := $.Site.Data.pb_classes }}
-      <li class="accordion__item accordion__item--is-open js-accordion__item">
-        <button class="accordion__header" type="button">
-          <span class="accordion__header-title">DESKTOP</span>
-          <em aria-hidden="true" class="accordion__header-icon"><i></i></em>
+      <li class="pb--accordion__item pb--accordion__item--is-open pb--js-accordion__item">
+        <button class="pb--accordion__header" type="button">
+          <span class="pb--accordion__header-title">DESKTOP</span>
+          <em aria-hidden="true" class="pb--accordion__header-icon"><i></i></em>
         </button>
     
-        <div class="accordion__panel js-accordion__panel">
-          <div class="accordion__panel-content">
+        <div class="pb--accordion__panel pb--js-accordion__panel">
+          <div class="pb--accordion__panel-content">
             <div data-pb-support-mode="desktop">
               
             {{ $deviceMode := "desktop" }}
@@ -31,14 +31,14 @@
           </div>
         </div>
       </li>
-      <li class="accordion__item accordion__item js-accordion__item">
-        <button class="accordion__header" type="button">
-          <span class="accordion__header-title">TABLET</span>
-          <em aria-hidden="true" class="accordion__header-icon"><i></i></em>
+      <li class="pb--accordion__item pb--accordion__item pb--js-accordion__item">
+        <button class="pb--accordion__header" type="button">
+          <span class="pb--accordion__header-title">TABLET</span>
+          <em aria-hidden="true" class="pb--accordion__header-icon"><i></i></em>
         </button>
     
-        <div class="accordion__panel js-accordion__panel">
-          <div class="accordion__panel-content">
+        <div class="pb--accordion__panel pb--js-accordion__panel">
+          <div class="pb--accordion__panel-content">
             <div data-pb-support-mode="tablet">
               
             {{ $deviceMode := "tablet" }}
@@ -59,14 +59,14 @@
           </div>
         </div>
       </li>
-      <li class="accordion__item accordion__item js-accordion__item">
-        <button class="accordion__header" type="button">
-          <span class="accordion__header-title">MOBILE</span>
-          <em aria-hidden="true" class="accordion__header-icon"><i></i></em>
+      <li class="pb--accordion__item pb--accordion__item pb--js-accordion__item">
+        <button class="pb--accordion__header" type="button">
+          <span class="pb--accordion__header-title">MOBILE</span>
+          <em aria-hidden="true" class="pb--accordion__header-icon"><i></i></em>
         </button>
     
-        <div class="accordion__panel js-accordion__panel">
-          <div class="accordion__panel-content">
+        <div class="pb--accordion__panel pb--js-accordion__panel">
+          <div class="pb--accordion__panel-content">
             <div data-pb-support-mode="mobile">
               
             {{ $deviceMode := "mobile" }}

@@ -5,7 +5,7 @@ Descr: Custom radio and checkbox buttons
 
 -------------------------------- */
 
-:root {
+.editing--mode:root {
   /* radios and checkboxes */
   --checkbox-radio-size: .75em;
   --checkbox-radio-translate-y: 0.35em; // edit to align buttons with labels
@@ -18,7 +18,7 @@ Descr: Custom radio and checkbox buttons
   --checkbox-radius: 3px;
 }
 
-.radio-list--custom, .checkbox-list--custom {
+.pb--radio-list--custom, .pb--checkbox-list--custom {
   input[type="radio"],
   input[type="checkbox"] {
     // hide native buttons

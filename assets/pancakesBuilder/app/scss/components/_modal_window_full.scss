@@ -5,8 +5,8 @@ Descr: A full screen modal window (⚠️ this component is a variation of the M
 
 -------------------------------- */
 
-.modal--full-screen {
-  .modal__content {
+.pb--modal--full-screen {
+  .pb--modal__content {
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -16,17 +16,17 @@ Descr: A full screen modal window (⚠️ this component is a variation of the M
     border-radius: 0;
   }
 
-  .modal__header, .modal__footer {
+  .pb--modal__header, .pb--modal__footer {
     flex-shrink: 0;
   }
 
-  .modal__body {
+  .pb--modal__body {
     flex-grow: 1;
     overflow: auto;
     -webkit-overflow-scrolling: touch; // smooth scroll on iOS
   }
 
-  .modal__footer {
+  .pb--modal__footer {
     box-shadow: var(--shadow-sm);
   }
 }

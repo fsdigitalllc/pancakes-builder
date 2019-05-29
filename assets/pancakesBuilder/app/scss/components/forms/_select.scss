@@ -4,19 +4,19 @@ Title: Custom Select Control
 
 -------------------------------- */
 
-:root {
+.editing--mode:root {
   --select-icon-size: 1em;
   --select-icon-right-margin: var(--space-sm);
 }
 
-.select {
+.pb--select {
   position: relative;
 
   select {
     padding-right: calc(var(--select-icon-size) + var(--select-icon-right-margin) * 2);
   }
 
-  .icon {
+  .pb--icon {
     width: var(--select-icon-size);
     height: var(--select-icon-size);
     position: absolute;

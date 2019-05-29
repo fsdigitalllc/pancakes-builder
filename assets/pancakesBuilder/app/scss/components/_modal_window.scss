@@ -5,13 +5,13 @@ Descr: A modal dialog used to display critical information.
 
 -------------------------------- */
 
-:root {
+.editing--mode:root {
   /* close button */
   --modal-close-btn-size: 1.5em;
   --modal-close-btn-padding: var(--space-sm);
 }
 
-.modal {
+.pb--modal {
   position: fixed;
   z-index: var(--zindex-overlay);
   width: 100%;
@@ -27,12 +27,12 @@ Descr: A modal dialog used to display critical information.
   clip-path: inset(50%);
 }
 
-.modal--is-visible {
+.pb--modal--is-visible {
   clip: auto;
   clip-path: none;
 }
 
-.modal__content {
+.pb--modal__content {
   border-radius: 0.25em;
   overflow: auto;
   width: calc(100% - 2*var(--component-padding));
@@ -41,25 +41,25 @@ Descr: A modal dialog used to display critical information.
   background-color: var(--color-bg);
 }
 
-textarea {
+.pb--modal__content textarea {
   width: 100%;
   height: 100%;
 }
 
-.modal__header {
+.pb--modal__header {
   padding: var(--space-sm) var(--component-padding);
   background-color: var(--color-contrast-lower);
 }
 
-.modal__body {
+.pb--modal__body {
   padding: var(--space-sm) var(--component-padding);
 }
 
-.modal__footer {
+.pb--modal__footer {
   padding: var(--component-padding);
 }
 
-.modal__close-btn {
+.pb--modal__close-btn {
   position: fixed;
   top: var(--space-sm);
   right: var(--space-sm);
@@ -72,7 +72,7 @@ textarea {
     background-color: var(--color-contrast-higher);
   }
 
-  .icon {
+  .pb--icon {
     display: block;
     color: var(--color-bg);
     width: var(--modal-close-btn-size);
@@ -80,25 +80,25 @@ textarea {
     transition: transform .2s;
   }
 
-  &:hover .icon {
+  &:hover .pb--icon {
     transform: scale(1.1);
   }
 }
 
 // close btn inside header
-.modal__header {
+.pb--modal__header {
   display: flex;
   justify-content: space-between;
   align-items: center;
 
-  .modal__close-btn { // alt close btn style (if it's inside header)
+  .pb--modal__close-btn { // alt close btn style (if it's inside header)
     --modal-close-btn-size: 1em;
     --modal-close-btn-padding: 0;
     position: static;
     flex-shrink: 0;
     background-color: transparent;
 
-    .icon {
+    .pb--icon {
       color: inherit;
     }
   }

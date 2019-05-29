@@ -1,10 +1,12 @@
 // Styles for the drag and drop builder
 // Globals
-@import 'global/reset';
+//@import 'global/reset';
 @import 'global/mixins';
 @import 'global/colors';
 @import 'global/breakpoints';
-@import 'global/spacing';
+
+// Make part of template
+//@import 'global/spacing';
 @import 'global/grid-layout';
 //@import 'global/alignment';
 @import 'global/shared-styles';

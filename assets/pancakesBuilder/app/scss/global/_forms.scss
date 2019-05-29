@@ -1,4 +1,4 @@
-.form-control { // basic form element style
+.pb--form-control { // basic form element style
   padding: var(--space-xs) var(--space-sm);
   background: var(--color-bg);
   border: 2px solid var(--color-contrast-low);
@@ -29,11 +29,11 @@
   }
 }
 
-.form-control[disabled], .form-control[readonly] {
+.pb--form-control[disabled], .pb--form-control[readonly] {
   cursor: not-allowed;
 }
 
-.form-control[aria-invalid="true"] {
+.pb--form-control[aria-invalid="true"] {
   border-color: var(--color-error);
 
   &:focus {
@@ -42,21 +42,21 @@
   }
 }
 
-.form-legend {
+.pb--form-legend {
   color: var(--color-contrast-higher);
   line-height: 1.2;
   font-size: var(--text-md);
   margin-bottom: var(--space-xxs);
 }
 
-.form-label { // label style
+.pb--form-label { // label style
   display: inline-block;
   font-size: var(--text-sm);
   margin-bottom: var(--space-xxxs);
 }
 
 // error message
-.form__msg-error {
+.pb--form__msg-error {
   background-color: var(--color-error);
   color: var(--color-white);
   font-size: var(--text-sm);
@@ -79,13 +79,13 @@
   }
 }
 
-.form__msg-error--is-visible {
+.pb--form__msg-error--is-visible {
   position: relative;
   clip: auto;
 }
 
 // radio and checkbox lists
-.radio-list, .checkbox-list {
+.pb--radio-list, .pb--checkbox-list {
   > * {
     position: relative;
     display: flex;
@@ -109,7 +109,7 @@
     flex-shrink: 0;
   }
 
-  &.radio-list--inline, &.checkbox-list--inline {
+  &.pb--radio-list--inline, &.pb--checkbox-list--inline {
     // inline distribution for checkboxes and radio buttons
     display: flex;
     margin-bottom: calc(-1 * var(--space-md));

@@ -1,16 +1,16 @@
-<div class="tabs js-tabs">
-    <ul class="tabs__controls js-tabs__controls" aria-label="Tabs Interface">
-      <li><a href="#tab1Panel1" class="tabs__control--selected tab-title">Add +</a></li>
-      <li><a href="#tab1Panel2" class="tab-title">Edit</a></li>
+<div class="pb--tabs pb--js-tabs">
+    <ul class="pb--tabs__controls pb--js-tabs__controls" aria-label="Tabs Interface">
+      <li><a href="#tab1Panel1" class="pb--tabs__control--selected pb--tab-title">Add +</a></li>
+      <li><a href="#tab1Panel2" class="pb--tab-title">Edit</a></li>
     </ul>
   
-    <div class="tabs__panels js-tabs__panels">
-      <section id="tab1Panel1" pb-function="item-drawer" class="tabs__panel tabs__panel--selected js-tabs__panel">
+    <div class="pb--tabs__panels pb--js-tabs__panels">
+      <section id="tab1Panel1" pb-function="item-drawer" class="pb--tabs__panel pb--tabs__panel--selected pb--js-tabs__panel">
           
         {{- partial "pancakesBuilder/app/generator/all.html" . | safeHTML -}}
       </section>
   
-      <section id="tab1Panel2" pb-function="edit-item" class="tabs__panel js-tabs__panel">
+      <section id="tab1Panel2" pb-function="edit-item" class="pb--tabs__panel pb--js-tabs__panel">
           {{ partial "pancakesBuilder/app/components/elements/accordian.html" . }}
       </section>
     </div>

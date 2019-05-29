@@ -1,17 +1,17 @@
 {{ $icons := "/images/icons.svg" }}
 <!--icons http://app.fontastic.me-->
-<button class="openDrawer toggleDrawer" aria-controls="drawer2">Open</button>
-<div class="drawer drawer--fixed-header js-drawer" id="drawer2">
-  <div class="drawer__content" role="alertdialog" tabindex="-1" aria-labelledby="drawerTitle2">
-    <header class="drawer__header">
-      <h4 id="drawerTitle2" class="truncate drawerTitle">Drawer</h4>
+<button class="pb--openDrawer pb--toggleDrawer" aria-controls="pb--drawer2">Open</button>
+<div class="pb--drawer pb--drawer--fixed-header pb--js-drawer" id="pb--drawer2">
+  <div class="pb--drawer__content" role="alertdialog" tabindex="-1" aria-labelledby="pb--drawerTitle2">
+    <header class="pb--drawer__header">
+      <h4 id="pb--drawerTitle2" class="truncate pb--drawerTitle">Drawer</h4>
 
-      <button class="reset drawer__close-btn js-drawer__close">
-        <svg class="icon" viewBox="0 0 16 16" ><title>Close drawer panel</title><g stroke-width="1" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10"><line x1="13.5" y1="2.5" x2="2.5" y2="13.5"></line><line x1="2.5" y1="2.5" x2="13.5" y2="13.5"></line></g></svg>
+      <button class="pb--reset pb--drawer__close-btn pb--js-drawer__close">
+        <svg class="pb--icon" viewBox="0 0 16 16" ><title>Close drawer panel</title><g stroke-width="1" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10"><line x1="13.5" y1="2.5" x2="2.5" y2="13.5"></line><line x1="2.5" y1="2.5" x2="13.5" y2="13.5"></line></g></svg>
       </button>
     </header>
 
-    <div class="drawer__body scrollbar js-drawer__body">
+    <div class="pb--drawer__body pb--scrollbar pb--js-drawer__body">
         
       <div class="changeContent">
         
@@ -22,13 +22,13 @@
         
       </div>
     </div>
-    <div class="drawer__header drawer__footer pb-btn-row flex">
-    <button class="btn btn--primary" pb-editor-mode="yml" aria-controls="modal1" pb-function="exportYml"><svg class="icon-code"><use xlink:href="{{ $icons }}#icon-code"></use></svg>
+    <div class="pb--drawer__header pb--drawer__footer pb-btn-row pb--flex">
+    <button class="pb--btn pb--btn--primary" pb-editor-mode="yml" aria-controls="pb--modal1" pb-function="exportYml"><svg class="icon-code"><use xlink:href="{{ $icons }}#icon-code"></use></svg>
     </button>
-    <button class="btn btn--primary" pb-editor-mode="params" pb-function="params" aria-controls="modal1"><svg class="icon-list-add"><use xlink:href="{{ $icons }}#icon-list-add"></use></svg></button>
-    <button class="btn btn--primary" pb-function="save"><svg class="icon-floppy"><use xlink:href="{{ $icons }}#icon-floppy"></use></svg></button>
-    <button class="btn btn--primary" pb-function="responsive"><svg class="icon-cw"><use xlink:href="{{ $icons }}#icon-cw"></use></svg>R</button>
-    <button class="btn btn--primary" pb-function="load"><svg class="icon-cw"><use xlink:href="{{ $icons }}#icon-cw"></use></svg></button>
+    <button class="pb--btn pb--btn--primary" pb-editor-mode="params" pb-function="params" aria-controls="pb--modal1"><svg class="icon-list-add"><use xlink:href="{{ $icons }}#icon-list-add"></use></svg></button>
+    <button class="pb--btn pb--btn--primary" pb-function="save"><svg class="icon-floppy"><use xlink:href="{{ $icons }}#icon-floppy"></use></svg></button>
+    <button class="pb--btn pb--btn--primary" pb-function="responsive"><svg class="icon-cw"><use xlink:href="{{ $icons }}#icon-cw"></use></svg>R</button>
+    <button class="pb--btn pb--btn--primary" pb-function="load"><svg class="icon-cw"><use xlink:href="{{ $icons }}#icon-cw"></use></svg></button>
     </div>  
   </div>
 </div>

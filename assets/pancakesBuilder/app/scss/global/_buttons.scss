@@ -1,4 +1,4 @@
-:root {
+.editing--mode:root {
   // size
   --btn-font-size: 1em;
   --btn-sm: calc(var(--btn-font-size) - 0.2em);
@@ -6,13 +6,13 @@
   --btn-lg: calc(var(--btn-font-size) + 0.4em);
 }
 
-.btn { // basic button style
+.pb--btn { // basic button style
   display: inline-flex;
   position: relative;
   white-space: nowrap;
   text-decoration: none;
   line-height: 1;
-  padding: var(--space-xs) var(--space-sm);
+  padding: var(--space-xxs) var(--space-xxs);
   border-radius: 0.05em;
   font-size: var(--btn-font-size);
   justify-content: center;
@@ -20,40 +20,40 @@
 }
 
 // themes
-.btn--primary { // main button
+.pb--btn--primary { // main button
   background-color: var(--color-primary);
   color: var(--color-white);
   @include fontSmooth;
 }
 
-.btn--subtle { // subtle version, used for secondary actions or in combo with primary/accent button
+.pb--btn--subtle { // subtle version, used for secondary actions or in combo with primary/accent button
   color: var(--color-contrast-higher);
   border: 1px solid var(--color-contrast-low);
 }
 
-.btn--accent { // used to draw particular attention to the button (e.g. destructive actions)
+.pb--btn--accent { // used to draw particular attention to the button (e.g. destructive actions)
   background-color: var(--color-accent);
   color: var(--color-white);
   @include fontSmooth;
 }
 
 // feedback
-.btn--disabled {
+.pb--btn--disabled {
   cursor: not-allowed;
   box-shadow: none;
   opacity: 0.6;
 }
 
 // size
-.btn--sm {
+.pb--btn--sm {
   font-size: var(--btn-sm);
 }
 
-.btn--md {
+.pb--btn--md {
   font-size: var(--btn-md);
 }
 
-.btn--lg {
+.pb--btn--lg {
   font-size: var(--btn-lg);
 }
 
@@ -63,14 +63,14 @@
 }
 
 // icons
-.btn .icon {
+.pb--btn .pb--icon {
   // icon inherits color of button label
   color: inherit;
   flex-shrink: 0;
 }
 
 // icons + text
-.btn--icon-text {
+.pb--btn--icon-text {
   align-items: center;
   
   > *:nth-child(2) {
@@ -79,6 +79,6 @@
 }
 
 // btn with icon (only)
-.btn--icon {
+.pb--btn--icon {
   padding: var(--space-xs);
 }

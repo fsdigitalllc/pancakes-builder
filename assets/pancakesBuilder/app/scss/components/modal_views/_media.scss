@@ -1,11 +1,11 @@
 [pb-mode='media'] {
-  .modal__body {
+  .pb--modal__body {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     grid-column-gap: 1%;
     grid-row-gap: 1%;
   }
-  .modal__body {
+  .pb--modal__body {
     img:active, img:focus, img:target, img.img-selected {
       outline: 2px solid blue;
     }

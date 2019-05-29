@@ -6,6 +6,9 @@ $section_bg: red;
 .editing--mode {
   width: var(--container-editor-width);
 }
+.pb--hover-menu {
+  display: none;
+}
 [data-pb-responsive-mode="desktop"] .pb-responsive-wrapper {
   display: none;
 }
@@ -33,59 +36,59 @@ $section_bg: red;
     min-height: 200px;
   }
   main {
-    [data-pb-template-level="section"],
-    [data-pb-template-level="row"],
-    [data-pb-template-level="column"], [data-pb-template-level="element"] {
+    [data-pb-template-level="1"],
+    [data-pb-template-level="2"],
+    [data-pb-template-level="3"], [data-pb-template-level="4"] {
       position: relative;
       overflow-Y: visible;
     }
-    [data-pb-template-level="section"] {
+    [data-pb-template-level="1"] {
       min-height: 150px;
       border: 1px dotted red;
     }
-    [data-pb-template-level="section"] .hover-menu svg {
+    [data-pb-template-level="1"] .pb--hover-menu svg {
       background: red;
     }
-    [data-pb-template-level="section"]:hover {
+    [data-pb-template-level="1"]:hover {
       border: 1px solid red;
       z-index: 54;
     }
-    [data-pb-template-level="row"] {
+    [data-pb-template-level="2"] {
       min-height: 150px;
       border: 1px dotted blue;
     }
-    [data-pb-template-level="row"] .hover-menu svg {
+    [data-pb-template-level="2"] .pb--hover-menu svg {
       background: blue;
     }
-    [data-pb-template-level="row"]:hover {
+    [data-pb-template-level="2"]:hover {
       border: 1px solid blue;
       z-index: 55;
     }
-    [data-pb-template-level="column"] {
+    [data-pb-template-level="3"] {
       min-height: 150px;
       border: 1px dotted green;
     }
-    [data-pb-template-level="column"] .hover-menu svg {
+    [data-pb-template-level="3"] .pb--hover-menu svg {
       background: green;
     }
-    [data-pb-template-level="column"]:hover {
+    [data-pb-template-level="3"]:hover {
       border: 1px solid green;
       z-index: 56;
     }
-    [data-pb-template-level="element"] {
+    [data-pb-template-level="4"] {
       min-height: 50px;
       border: 1px dotted black;
     }
-    [data-pb-template-level="element"] .hover-menu svg {
+    [data-pb-template-level="4"] .pb--hover-menu svg {
       background: black;
     }
-    [data-pb-template-level="element"]:hover {
+    [data-pb-template-level="4"]:hover {
       border: 1px solid black;
       z-index: 57;
     }
     
   }
-  .hover-menu {
+  .pb--hover-menu {
     position: absolute;
     top: -30px;
     left: 0px;
@@ -93,17 +96,17 @@ $section_bg: red;
     display: flex;
     justify-content: space-between;
   }
-  [data-pb-template-level="element"] > .hover-menu {
+  [data-pb-template-level="4"] > .pb--hover-menu {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
   }
-  [data-pb-template-level="row"] > .hover-menu {
+  [data-pb-template-level="2"] > .pb--hover-menu {
     top: 50%;
     left: -30px;
     transform: translate(0, -50%) rotate(-90deg);
   }
-  .hover-menu svg {
+  .pb--hover-menu svg {
     margin-right: 2px;
     margin-left: 2px;
     opacity: 0.8;
@@ -113,18 +116,18 @@ $section_bg: red;
     color: #ffffff;
     z-index: 111;
   }
-  .hover-menu svg:hover {
+  .pb--hover-menu svg:hover {
     opacity: 1;
     background: #000000;
     color: #ffffff;
   }
-  .fa-move:hover {
+  .pb--fa-move:hover {
     cursor: grab;
   }
-  .fa-edit:hover {
+  .pb--fa-edit:hover {
     cursor: pointer;
   }
-  .gu-mirror {
+  .pb--gu-mirror {
     position: fixed !important;
     margin: 0 !important;
     z-index: 9999 !important;
@@ -133,18 +136,18 @@ $section_bg: red;
     overflow: hidden;
   }
   /* in-flight clone follows the mouse cursor */
-  [data-pb-template-level="section"].gu-mirror {
+  [data-pb-template-level="1"].pb--gu-mirror {
     background: #000 !important;
     opacity: 1;
     width: 400px !important;
     height: 100px !important;
   }
-  .hover-menu.gu-mirror {
+  .pb--hover-menu.pb--gu-mirror {
     background: #000000 !important;
     opacity: 1;
   }
-  [data-pb-template-level="section"].gu-mirror 
-  button.gu-mirror {
+  [data-pb-template-level="1"].pb--gu-mirror 
+  button.pb--gu-mirror {
     opacity: 1;
     pointer-events: none;
     overflow: hidden;
@@ -154,7 +157,7 @@ $section_bg: red;
     opacity: 1;
     display: block;
   }
-  button[data-pb-template-level="section"].gu-transit {
+  button[data-pb-template-level="1"].gu-transit {
     background: red;
     height: 100px;
     min-height: 100px;
@@ -162,7 +165,7 @@ $section_bg: red;
     max-width: 100%;
     margin: 0 auto;
   }
-  button[data-pb-template-level="row"].gu-transit {
+  button[data-pb-template-level="2"].gu-transit {
     background: blue;
     height: 100px;
     min-height: 100px;
@@ -170,14 +173,14 @@ $section_bg: red;
     max-width: 100%;
     margin: 0 auto;
   }
-  button[data-pb-template-level="column"].gu-transit {
+  button[data-pb-template-level="3"].gu-transit {
     background: green;
     height: 100px;
     min-height: 100px;
     width: 120px;
     max-width: 100%;
   }
-  button[data-pb-template-level="element"].gu-transit {
+  button[data-pb-template-level="4"].gu-transit {
     background: black;
     height: 100px;
     min-height: 100px;

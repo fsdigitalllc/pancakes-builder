@@ -2,10 +2,11 @@
 	var Modal = function(element) {
 		this.element = element;
 		this.triggers = document.querySelectorAll('[aria-controls="'+this.element.getAttribute('id')+'"]');
+		console.log(this.triggers)
 		this.firstFocusable = null;
 		this.lastFocusable = null;
 		this.selectedTrigger = null;
-		this.showClass = "modal--is-visible";
+		this.showClass = "pb--modal--is-visible";
 		this.initModal();
 	};
 
@@ -40,7 +41,7 @@
 
 	Modal.prototype.showModal = function() {
 		let trig = trigger(this.selectedTrigger, "pb-editor-mode");
-		let mode = trig, item, box = this.element.querySelector(".modal__body");
+		let mode = trig, item, box = this.element.querySelector(".pb--modal__body");
 		if (mode === "text") {
 			mode = "htmlmixed", item = _('[pb-editing="1"]');
 			box.innerHTML = `<textarea>${item.innerHTML}</textarea>`;
@@ -56,7 +57,7 @@
 			item = false;
 		} else if (mode === "params") {
 			box.innerHTML = _('[pb-content="params"]').innerHTML;
-			box = this.element.querySelector('.modal__body');
+			box = this.element.querySelector('.pb--modal__body');
 			item = _(".builderUIComponents [pb-content='params'] form")
 		} else if (mode === "media") {
 			item = item = _('[pb-editing="1"] > img');
@@ -88,12 +89,10 @@
 			});
 		} else if (mode === "media") {
 			let imgSrc = (e) => {
-				_All(`.modal__body img`).forEach((image) => {
+				_All(`.pb--modal__body img`).forEach((image) => {
 					if (image === e.currentTarget) {
-						console.log("this", image)
 						image.classList.add("img-selected");
 					} else {
-						console.log("else", image)
 						image.classList.remove("img-selected")
 					}
 				})
@@ -101,7 +100,7 @@
 				//console.log("src-full", content)
 				
 			}
-			this.element.querySelectorAll('.modal__body img').forEach((image) => {
+			this.element.querySelectorAll('.pb--modal__body img').forEach((image) => {
 				image.addEventListener("click", imgSrc, false);
 			})
 		}
@@ -122,11 +121,9 @@
 	};
 
 	Modal.prototype.saveEditor = function(editor, item) {
-		console.log("editor", editor, "item", item)
 		if (isObject(editor)) {
-			console.log("is object", editor)
 			Object.entries(editor).forEach((key, i) => {
-				console.log("key: ", key[0], "value: ", key[1])
+				//console.log("key: ", key[0], "value: ", key[1])
 			});
 		} else if (item.tagName === "IMG") {
 			item.parentNode.replaceChild(editor, item);
@@ -138,14 +135,14 @@
 			editor.forEach((input) => {
 				if (input.tagName === "INPUT") {
 					input.defaultValue = input.value;
-					console.log("input valiue", input.value)
+					//console.log("input valiue", input.value)
 				} else {
 					console.log("unknown nodeList")
 				}
 				
 				//item.parentNode.replaceChild(_(".modal__body form"), item);
 			});
-			item.parentNode.replaceChild(_(".modal__body form"), item);
+			item.parentNode.replaceChild(_(".pb--modal__body form"), item);
 			//console.log("item, ", item, "editor", _(".modal__body form"))
 		} else if (!item) {
 			// Do nothing because it's probably YAML
@@ -157,7 +154,7 @@
 	}
 
 	Modal.prototype.destroyEditor = function() {
-		this.element.querySelector(".modal__body").innerHTML = "";
+		this.element.querySelector(".pb--modal__body").innerHTML = "";
 		//console.log("editor destroyed", CodeMirror())
 	}
 
@@ -209,11 +206,11 @@
 
 	Modal.prototype.initClick = function(event) {
 		if( event.target.closest('[pb-function="fullscreen-modal"]') ) {
-			this.element.classList.toggle("modal--full-screen");
+			this.element.classList.toggle("pb--modal--full-screen");
 			return;
 		}
 		//close modal when clicking on close button or x
-		if( !event.target.closest('.js-modal__close') ) return;
+		if( !event.target.closest('.pb--js-modal__close') ) return;
 		event.preventDefault();
 		this.closeModal();
 	};
@@ -264,7 +261,7 @@
 	};
 
 	//initialize the Modal objects
-	var modals = document.getElementsByClassName('js-modal');
+	var modals = document.getElementsByClassName('pb--js-modal');
 	if( modals.length > 0 ) {
 		for( var i = 0; i < modals.length; i++) {
 			(function(i){new Modal(modals[i]);})(i);
@@ -273,7 +270,6 @@
 
 	// Generate YML
 	let exportYml = () => {
-		console.log("export YML starting...");
 		let sections = _All("main [data-pb-template-level='section']");
 		let rows, columns, elements, indent;
 		let yml = `---\n`;

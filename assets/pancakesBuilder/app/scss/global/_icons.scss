@@ -1,4 +1,4 @@
-:root {
+.editing--mode:root {
   // size
   --icon-xxs: 12px;
   --icon-xs:  16px;
@@ -9,7 +9,7 @@
   --icon-xxl: 128px;
 }
 
-.icon {
+.pb--icon {
   display: inline-block;
   color: var(--color-contrast-higher);
   fill: currentColor;
@@ -19,36 +19,36 @@
 }
 
 // icon size
-.icon--xxs {
+.pb--icon--xxs {
   font-size: var(--icon-xxs);
 }
 
-.icon--xs {
+.pb--icon--xs {
   font-size: var(--icon-xs);
 }
 
-.icon--sm {
+.pb--icon--sm {
   font-size: var(--icon-sm);
 }
 
-.icon--md {
+.pb--icon--md {
   font-size: var(--icon-md);
 }
 
-.icon--lg {
+.pb--icon--lg {
   font-size: var(--icon-lg);
 }
 
-.icon--xl {
+.pb--icon--xl {
     font-size: var(--icon-xl);
 }
 
-.icon--xxl {
+.pb--icon--xxl {
     font-size: var(--icon-xxl);
 }
 
 // align icon and text 
-.icon-text { // add this class to parent element that contains icon + text elements
+.pb--icon-text { // add this class to parent element that contains icon + text elements
   display: inline-flex;
   align-items: center;
 
@@ -56,31 +56,31 @@
     margin-left: var(--space-xxs);
   }
 
-  .icon {
+  .pb--icon {
     color: inherit;
     flex-shrink: 0;
   }
 
-  &.icon-text--gap-none {
+  &.pb--icon-text--gap-none {
     > *:nth-child(2) {
       margin-left: 0;
     }
   }
 
-  &.icon-text--gap-xxxs {
+  &.pb--icon-text--gap-xxxs {
     > *:nth-child(2) {
       margin-left: var(--space-xxxs);
     }
   }
 
-  &.icon-text--gap-xxxxs {
+  &.pb--icon-text--gap-xxxxs {
     > *:nth-child(2) {
       margin-left: var(--space-xxxxs);
     }
   }
 }
 
-.icon--is-spinning {
+.pb--icon--is-spinning {
   //add this class to rotate the icon infinitely 
   animation: icon-spin 1s infinite linear;
 }
@@ -101,7 +101,7 @@
 // --------------------------------
 
 // enable icon color corrections
-.icon use {
+.pb--icon use {
   color: inherit;
   fill: currentColor;
 }

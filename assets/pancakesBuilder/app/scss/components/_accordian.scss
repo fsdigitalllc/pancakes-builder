@@ -5,14 +5,12 @@ Descr: Create stacked sections of content and allow the user to expand/collapse 
 
 -------------------------------- */ 
 
-:root {
+.editing--mode:root {
   --accordion-icon-size: 1em;
   --accordion-icon-stroke-width: 2px;
 }
 
-.accordion {}
-
-.accordion__item {
+.pb--accordion__item {
   border: 0px solid var(--color-contrast-low);
   border-bottom-width: 1px;
 
@@ -21,7 +19,7 @@ Descr: Create stacked sections of content and allow the user to expand/collapse 
   }
 }
 
-.accordion__header {
+.pb--accordion__header {
   @include reset;
   padding-top: var(--space-sm);
   padding-bottom: var(--space-sm);
@@ -36,19 +34,19 @@ Descr: Create stacked sections of content and allow the user to expand/collapse 
   }
 }
 
-.accordion__header-title {
+.pb--accordion__header-title {
   font-size: var(--text-md);
   text-align: left;
 }
 
-.accordion__header-icon  {
+.pb--accordion__header-icon  {
   float: right; //flex fallback
   flex-shrink: 0;
   margin-right: 5px;
   display: none;
 }
 
-.accordion__header-icon i { // arrow icon
+.pb--accordion__header-icon i { // arrow icon
   position: relative;
   width: var(--accordion-icon-size);
   height: var(--accordion-icon-size);
@@ -78,7 +76,7 @@ Descr: Create stacked sections of content and allow the user to expand/collapse 
   }
 }
 
-.accordion__item--is-open > .accordion__header > .accordion__header-icon i {
+.pb--accordion__item--is-open > .pb--accordion__header > .pb--accordion__header-icon i {
   &::before {
     transform: translateY(-80%) rotate(-135deg);
   }
@@ -88,25 +86,25 @@ Descr: Create stacked sections of content and allow the user to expand/collapse 
   }
 }
 
-.accordion__header-icon .icon { // replace arrow with custom icon
+.pb--accordion__header-icon .pb--icon { // replace arrow with custom icon
   width: var(--accordion-icon-size);
   height: var(--accordion-icon-size);
   color: inherit;
 }
 
-.js {
-  .accordion__header-icon {
+.pb--js {
+  .pb--accordion__header-icon {
     display: block;
   }
 
-  .accordion__panel {
+  .pb--accordion__panel {
     display: none;
     overflow: hidden;
     will-change: height;
     transform: translateZ(0px);
   }
 
-  .accordion__item--is-open > .accordion__panel {
+  .pb--accordion__item--is-open > .pb--accordion__panel {
     display: block;
   }
 }

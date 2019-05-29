@@ -5,16 +5,16 @@ Descr: A slide-in panel used to display critical content.
 
 -------------------------------- */
 
-:root {
+.editing--mode:root {
   --drawer-width: 300px;
 }
-.openDrawer {
+.pb--openDrawer {
   position: fixed;
   right: 0;
   top: 50%;
   transform: translate(-50%, -50%) rotate(-90deg);
 }
-.drawer {
+.pb--drawer {
   position: fixed;
   z-index: var(--zindex-overlay);
   width: 100%;
@@ -29,16 +29,16 @@ Descr: A slide-in panel used to display critical content.
   }
 }
 
-.drawer--is-visible {
+.pb--drawer--is-visible {
   visibility: visible;
 }
 
-.drawer--open-left {
+.pb--drawer--open-left {
   right: auto;
   left: 0;
 }
 
-.drawer__content {
+.pb--drawer__content {
   position: absolute;
   width: 100%;
   height: 100%;
@@ -50,16 +50,16 @@ Descr: A slide-in panel used to display critical content.
   transition: transform 0.3s;
   transition-timing-function: var(--transition-ease-in-out);
 
-  .drawer--open-left & {
+  .pb--drawer--open-left & {
     transform: translateX(-100%);
   }
 
-  .drawer--is-visible & {
+  .pb--drawer--is-visible & {
     transform: translateX(0);
   }
 }
 
-.drawer__body {
+.pb--drawer__body {
   // scrollable area
   padding: var(--space-sm) var(--component-padding);
   height: 100%;
@@ -67,7 +67,7 @@ Descr: A slide-in panel used to display critical content.
   -webkit-overflow-scrolling: touch; // smooth scroll on iOS
 }
 
-.drawer__close-btn {
+.pb--drawer__close-btn {
   position: fixed;
   z-index: var(--zindex-fixed-element);
   top: var(--space-xxs);
@@ -84,7 +84,7 @@ Descr: A slide-in panel used to display critical content.
     background-color: var(--color-contrast-higher);
   }
   
-  .icon {
+  .pb--icon {
     display: block;
     color: var(--color-bg);
     font-size: 16px;
@@ -92,13 +92,13 @@ Descr: A slide-in panel used to display critical content.
 }
 
 // --fixed-header
-.drawer--fixed-header .drawer__content {
+.pb--drawer--fixed-header .pb--drawer__content {
   overflow: auto; // flex fallback
   display: flex;
   flex-direction: column;
 }
 
-.drawer--fixed-header .drawer__header {
+.pb--drawer--fixed-header .pb--drawer__header {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -107,31 +107,31 @@ Descr: A slide-in panel used to display critical content.
   border-bottom: 1px solid var(--color-contrast-low);
 }
 
-.drawer--fixed-header .drawer__close-btn {
+.pb--drawer--fixed-header .pb--drawer__close-btn {
   position: static; 
 }
-.drawer__header.drawer__footer {
+.pb--drawer__header.pb--drawer__footer {
   padding-top: 0px;
   padding-bottom: 0px;
 }
 
 // --modal
-.drawer--modal {
+.pb--drawer--modal {
   width: 100%;
   background-color: alpha(var(--color-contrast-higher), 0);
   transition: background-color 0.3s;
 
-  &.drawer--is-visible {
+  &.pb--drawer--is-visible {
     background-color: alpha(var(--color-contrast-higher), 0.6);
   }
 
-  &.drawer--open-left .drawer__content {
+  &.pb--drawer--open-left .pb--drawer__content {
     right: auto;
     left: 0;
   }
 
   @include breakpoint(xs) {
-    .drawer__content {
+    .pb--drawer__content {
       width: var(--drawer-width);
     }
   }

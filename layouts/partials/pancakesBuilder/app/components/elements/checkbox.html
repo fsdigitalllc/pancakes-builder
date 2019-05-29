@@ -41,11 +41,11 @@
 
 <form pb-supports="{{ $supports }}">
     <label><strong>{{ .title }}</strong></label>
-    <div class="margin-bottom--xs">
+    <div>
       {{ if or (ne $type "select") }}
       <fieldset>
   
-        <ul class="{{ $type }}-list {{ $type }}-list--custom {{ $classes }}">
+        <ul class="{{ $type }}-list pb--{{ $type }}-list--custom {{ $classes }}">
           
           {{ range .loop }}
           {{ range $index, $item := . }}
@@ -66,7 +66,7 @@
             {{ $value = .value }}
 
           <li>
-            <input type="{{ $type }}"{{ if eq $type "radio" }} name='radioButton'{{ end }} value="{{ $value }}" id="{{ $id }}"{{ if eq $type "button" }} aria-controls="modal1" pb-editor-mode="{{ $mode }}"{{ end }}>
+            <input type="{{ $type }}"{{ if eq $type "radio" }} name='radioButton'{{ end }} value="{{ $value }}" id="{{ $id }}"{{ if eq $type "button" }} aria-controls="pb--modal1" pb-editor-mode="{{ $mode }}"{{ end }}>
             <label for="{{ $id }}">{{ $label }}</label>
           </li>
           
@@ -79,7 +79,7 @@
       {{ end }}
       {{ if eq $type "select" }}
       {{ $id := print $deviceMode "-" $type "-" $i }}
-      <select{{ with $setAttribute }} pb-set-attribute='{{ . }}'{{ end }}class="{{ $type }}-list {{ $type }}-list--custom {{ $classes }} form-control" name="selectThis" id="{{ $id }}">
+      <select{{ with $setAttribute }} pb-set-attribute='{{ . }}'{{ end }}class="{{ $type }}-list {{ $type }}-list--custom {{ $classes }} pb--form-control" name="selectThis" id="{{ $id }}">
         {{ range .loop }}
         {{ range $index, $item := . }}
         {{ with .value }}

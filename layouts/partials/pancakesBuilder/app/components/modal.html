@@ -1,27 +1,27 @@
 {{ $icons := "/images/icons.svg" }}
-<div class="modal js-modal modal--dialogue" id="modal1" pb-mode="">
-  <div class="modal__content modal__content--sm" role="alertdialog" tabindex="-1" aria-labelledby="modalTitle1" aria-describedby="modalDescription1">
-    <header class="modal__header">
-      <h4 class="truncate" id="modalTitle1">Modal title</h4>
-      <button class="reset" pb-function="fullscreen-modal">
+<div class="pb--modal pb--js-modal pb--modal--dialogue" id="pb--modal1" pb-mode="">
+  <div class="pb--modal__content pb--modal__content--sm" role="alertdialog" tabindex="-1" aria-labelledby="pb--modalTitle1" aria-describedby="pb--modalDescription1">
+    <header class="pb--modal__header">
+      <h4 class="pb--truncate" id="pb--modalTitle1">Modal title</h4>
+      <button class="pb--reset" pb-function="fullscreen-modal">
         <svg class="icon-arrows-expand"><use xlink:href="{{ $icons }}#icon-arrows-expand"></use></svg>
         
       </button>
-      <button class="reset modal__close-btn js-modal__close">
+      <button class="pb--reset pb--modal__close-btn pb--js-modal__close">
         <svg class="icon" viewBox="0 0 20 20"><title>Close modal window</title><polygon points="18.707 2.707 17.293 1.293 10 8.586 2.707 1.293 1.293 2.707 8.586 10 1.293 17.293 2.707 18.707 10 11.414 17.293 18.707 18.707 17.293 11.414 10 18.707 2.707"/></svg>
       </button>
       
     </header>
 
-    <div class="modal__body">
-      <div class="text-component">
+    <div class="pb--modal__body">
+      <div class="pb--text-component">
       </div>
     </div>
 
-    <footer class="modal__footer">
-      <div class="flex flex--end flex--gap-xs">
+    <footer class="pb--modal__footer">
+      <div class="pb--flex pb--flex--end pb--flex--gap-xs">
         <!-- <button class="btn btn--subtle js-modal__close">Close</button> -->
-        <button pb-function="save" class="btn btn--primary js-modal__close">Save</button>
+        <button pb-function="save" class="pb--btn pb--btn--primary pb--js-modal__close">Save</button>
       </div>
     </footer>
   </div>

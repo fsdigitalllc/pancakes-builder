@@ -1,13 +1,13 @@
 (function() {
 	var Drawer = function(element) {
 		this.element = element;
-		this.content = document.getElementsByClassName('js-drawer__body')[0];
+		this.content = document.getElementsByClassName('pb--js-drawer__body')[0];
 		this.triggers = document.querySelectorAll('[aria-controls="'+this.element.getAttribute('id')+'"]');
 		this.firstFocusable = null;
 		this.lastFocusable = null;
 		this.selectedTrigger = null;
-		this.isModal = Util.hasClass(this.element, 'js-drawer--modal');
-		this.showClass = "drawer--is-visible";
+		this.isModal = Util.hasClass(this.element, 'pb--js-drawer--modal');
+		this.showClass = "pb--drawer--is-visible";
 		this.initDrawer();
 	};
 
@@ -85,7 +85,7 @@
 
 	Drawer.prototype.initClick = function(event) {
 		//close drawer when clicking on close button or drawer bg layer 
-		if( !event.target.closest('.js-drawer__close') && !Util.hasClass(event.target, 'js-drawer') ) return;
+		if( !event.target.closest('.pb--js-drawer__close') && !Util.hasClass(event.target, 'pb--js-drawer') ) return;
 		event.preventDefault();
 		this.closeDrawer();
 	};
@@ -136,7 +136,7 @@
 	};
 
 	//initialize the Drawer objects
-	var drawer = document.getElementsByClassName('js-drawer');
+	var drawer = document.getElementsByClassName('pb--js-drawer');
 	if( drawer.length > 0 ) {
 		for( var i = 0; i < drawer.length; i++) {
 			(function(i){new Drawer(drawer[i]);})(i);

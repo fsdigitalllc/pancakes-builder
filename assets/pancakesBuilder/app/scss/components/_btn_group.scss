@@ -5,11 +5,11 @@ Descr: Group of connected buttons
 
 -------------------------------- */
 
-:root {
+.editing--mode:root {
   --btns-radius: 0.25em;
 }
 
-.btns {
+.pb--btns {
   display: inline-block; // flex fallback
   display: inline-flex;
   border-radius: var(--btns-radius);
@@ -19,30 +19,30 @@ Descr: Group of connected buttons
     display: inline-block; // flex fallback
   }
 
-  > *:first-child, *:first-child .btns__btn {
+  > *:first-child, *:first-child .pb--btns__btn {
     border-radius: var(--btns-radius) 0 0 var(--btns-radius);
   }
 
-  > *:last-child, *:last-child .btns__btn {
+  > *:last-child, *:last-child .pb--btns__btn {
     border-radius: 0 var(--btns-radius) var(--btns-radius) 0;
   }
 }
 
 // sizes
-.btns--sm {
+.pb--btns--sm {
   font-size: var(--btn-sm);
 }
 
-.btns--md {
+.pb--btns--md {
   font-size: var(--btn-md);
 }
 
-.btns--lg {
+.pb--btns--lg {
   font-size: var(--btn-lg);
 }
 
 // single button
-.btns__btn { 
+.pb--btns__btn { 
   @include reset;
   display: block;
   position: relative;
@@ -53,13 +53,13 @@ Descr: Group of connected buttons
   }
 }
 
-.btns__btn--selected {
+.pb--btns__btn--selected {
   background-color: var(--color-primary);
   color: var(--color-white);
   @include fontSmooth;
 }
 
-.btns--radio, .btns--checkbox {
+.pb--btns--radio, .pb--btns--checkbox {
   > * {
     position: relative;
   }
@@ -93,14 +93,14 @@ Descr: Group of connected buttons
   input[type="radio"]:checked + label,
   input[type="checkbox"]:checked + label {
     /* checked state */
-    @extend .btns__btn--selected;
+    @extend .pb--btns__btn--selected;
   }
 }
 
-.btns__btn--icon {
+.pb--btns__btn--icon {
   padding: var(--space-xs);
 
-  .icon {
+  .pb--icon {
     display: block;
     color: inherit;
   }
