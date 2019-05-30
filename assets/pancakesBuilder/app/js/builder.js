@@ -293,9 +293,12 @@ let deleteItem = btn => {
 
 // Move this to 
 document.addEventListener("click", (e) => {
-  if (e.target.classList.contains(editHandle)) {
-    console.log("edit clicked", e.target)
-    editItem(e.target);
+  let item;
+  console.log("doc clicked", e.target)
+  if (e.target.classList.contains(editHandle) || e.target.parentNode.classList.contains(editHandle)) {
+    console.log("edit clicked", e.classlist)
+
+    //editItem(e.target);
   } else if (e.target.classList.contains("icon-trash")) {
     //deleteItem();
   } else {
