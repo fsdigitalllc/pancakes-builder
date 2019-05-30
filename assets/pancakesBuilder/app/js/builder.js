@@ -66,43 +66,12 @@ function hoverState() {
   _All(`${dataSections}, ${dataRows}, ${dataColumns}, ${dataElements}`).forEach((item, index) => {
   
     item.setAttribute(editClick, "0")
-    var inactiveHover = function () {
-      item.classList.remove(editHover);
-      let tempMenu = item.querySelector(`.${hoverMenu}`);
-        if (tempMenu) {
-          tempMenu.parentNode.removeChild(tempMenu);
-        }
-    }
-
-    var activeHover = function (e) {
-      item.classList.add(editHover);
-    }
     
-    var createHandle = function (event) {
-      // If handle wasn't already created, create it
-      if (!item.querySelector(`.${hoverMenu}`)) {
-        //console.log("item", e.currentTarget);
-        var node = document.createElement("div");
-        node.classList.add(`${hoverMenu}`);
-        node.innerHTML = `<svg class="icon-arrows pb--fa-move ${moveHandle}" pb-move="true"><use xlink:href="/images/icons.svg#icon-arrows"></use></svg><svg class="icon-pencil ${editHandle}" pb-function="edit-item"><use xlink:href="/images/icons.svg#icon-pencil"></use></svg><svg class="icon-trash ${editHandle}" pb-function="delete-item"><use xlink:href="/images/icons.svg#icon-trash"></use></svg>`;
-        item.appendChild(node);
-
-        item.querySelector(`[pb-function='edit-item']`).addEventListener("click", editItem, false);
-
-        let deleteItem = btn => {
-          let thisItem = getClosest(btn.currentTarget);
-          thisItem.parentNode.removeChild(thisItem);
-        }
-        _(deleteHandle).addEventListener("click", deleteItem, false);
-        //item.addEventListener("click", editItem, false);
-      }
-      if (event.target === item) {
-        activeHover(event);
-      }
-    }
     
-    item.addEventListener("mouseover", createHandle, false);
-    item.addEventListener("mouseleave", inactiveHover, false);
+    
+    
+    // item.addEventListener("mouseover", createHandle, false);
+    // item.addEventListener("mouseleave", inactiveHover, false);
 
   });
 }
@@ -180,7 +149,7 @@ let setResponsiveMode = () => {
 
 // Hide or display options based on the selected item level
 let setSupportedClasses = (level, type) => {
-  console.log("supported classes", level, type);
+  //console.log("supported classes", level, type);
   let allGroups = _All(".pb--drawer [pb-supports]");
   allGroups.forEach( group => {
     //v.includes(value))
@@ -237,6 +206,19 @@ let responsiveToggleButton = (e) => {
 
 _('[pb-function="responsive"]').addEventListener("click", responsiveToggleButton, false);
 
+// On edit click, get all classes in use on the current item
+let getClasses = item => {
+  //console.log("getClasses", item)
+  let keys = Object.entries(item.dataset);
+  let v;
+    keys.forEach((key, i) => {
+      if (key[0] === "pbClass") {
+        v = key[1];
+      }
+    })
+    return v;
+}
+
 let editItem = editBtn => {
   // Get the item (section, row, column)
   _All(`${dataSections}, ${dataRows}, ${dataColumns}, ${dataElements}`).forEach((level, index) => {
@@ -244,22 +226,10 @@ let editItem = editBtn => {
   });
   let item = getClosest(editBtn.currentTarget);
   item.setAttribute(editClick, "1")
+  
   _(`.${drawerTitle}`).innerText = `${getLevel(item)} | ${item.id}`;
 
   setSupportedClasses(getLevel(item), getType(item));
-
-  // On edit click, get all classes in use on the current item
-  let getClasses = item => {
-    //console.log("getClasses", item)
-    let keys = Object.entries(item.dataset);
-    let v;
-      keys.forEach((key, i) => {
-        if (key[0] === "pbClass") {
-          v = key[1];
-        }
-      })
-      return v;
-  }
 
   let tabSections = _All(".pb--drawer .pb--tabs__panels section");
   let tabs = _All(".pb--drawer .pb--tabs .pb--tab-title");
@@ -293,6 +263,7 @@ let editItem = editBtn => {
       //console.log("click", input.tagName, item)
       setClasses(input, item, allOptions);
     }, false);
+
     } else if (input.tagName === "SELECT") {
       input.addEventListener("change", (e) => {
         //console.log("changed, select", input)
@@ -313,6 +284,68 @@ let editItem = editBtn => {
     }
   })
 }
+
+// delete the hoverHandle if the item is not in focus
+let deleteItem = btn => {
+  let thisItem = getClosest(btn.currentTarget);
+  thisItem.parentNode.removeChild(thisItem);
+}
+
+// Move this to 
+document.addEventListener("click", (e) => {
+  if (e.target.classList.contains(editHandle)) {
+    console.log("edit clicked", e.target)
+    editItem(e.target);
+  } else if (e.target.classList.contains("icon-trash")) {
+    //deleteItem();
+  } else {
+    return;
+  }
+}, false);
+let activeHover = function (item) {
+  item.classList.add(editHover);
+}
+let inactiveHover = function (item) {
+  item.classList.remove(editHover);
+}
+// If handle wasn't already created, create it
+let createNode = (item) => {
+  var node = document.createElement("div");
+  node.classList.add(`${hoverMenu}`);
+  node.innerHTML = `<svg class="icon-arrows pb--fa-move ${moveHandle}" pb-move="true"><use xlink:href="/images/icons.svg#icon-arrows"></use></svg><svg class="icon-pencil ${editHandle}" pb-function="edit-item"><use xlink:href="/images/icons.svg#icon-pencil"></use></svg><svg class="icon-trash ${editHandle}" pb-function="delete-item"><use xlink:href="/images/icons.svg#icon-trash"></use></svg>`;
+  item.appendChild(node);
+}
+// Create the draggable handle for each hovered level
+let createHandle = (item) => {
+  let itemParent;
+  // Remove all handles (hover menus)
+  _All(".pb--hover-menu").forEach((menu) => {
+    menu.parentNode.removeChild(menu)
+  })
+  // Remove the active state from each level
+  _All(`.${editHover}`).forEach((item) => {
+    inactiveHover(item);
+  });
+  // If the current target is a level and it does not already have a handle, create the menu and append it to the level.
+  if (!item.querySelector(hoverMenu)) {
+    createNode(item)
+    activeHover(item);
+    itemParent = getClosest(item.parentNode, "data-pb-template-level")
+  // Do the same thing for the first parent as well.
+    if (!itemParent.querySelector(hoverMenu)) {
+      createNode(itemParent)
+      activeHover(itemParent)
+    }
+  } else {
+    return false;
+  }
+}
+_("main").addEventListener("mouseover", (e) => {
+  if (e.target.getAttribute("data-pb-template-level")) {
+    createHandle(e.target);
+  }
+}, false);
+
 let updateIframe = () => {
   let iContent = iFrame.contentWindow.document;
   let html = iContent.querySelector("html")
@@ -336,7 +369,7 @@ let setAttribute = (input, attrTarget, item) => {
 let setClasses = (input, item, inputs) => {
   //let currentClasses = getClasses(item);
   let inputClasses = "";
-  inputs.forEach(i => {
+  inputs.forEach((i, index) => {
     if (i.checked) {
       inputClasses += `${i.value} `;
     }
@@ -355,7 +388,7 @@ let dragCreate = (el) => {
   if (parseFloat(el.getAttribute("data-pb-template-level")) >= 4) {
     pbReplace = pbTemplate.cloneNode(true);
   }
-  console.log("after", pbReplace, el.parentNode)
+  //console.log("after", pbReplace, el.parentNode)
   el.parentNode.replaceChild(pbReplace, el);
   //drake.containers.push(pbReplace);
   //console.log(drake.containers);
@@ -421,7 +454,7 @@ function dragDrop() {
   let drake = dragula(containers, options);
   //drake.containers.push(_("main"));
   drake.options = options;
-  console.log("drake,", drake)
+  //console.log("drake,", drake)
 
   drake.on('drag', function (el, source) {
     //drake.containers = [].slice.apply(document.querySelectorAll("main [data-pb-template-level='1']")).concat(dragMenu);
@@ -449,77 +482,6 @@ function dragDrop() {
   }
   _("[pb-function='load']").addEventListener("click", loadSave, false);
 }
-
-// function dragOrder() {
-//   let containers = "";
-//   //Reorder sections with drag and drop using a handle
-//   dragula([_("main")], {
-//     moves: function (el, container, handle) {
-//       return handle.getAttribute(moveHandle);
-//   },
-//     invalid(el, handle) {
-//       return (el.getAttribute("data-pb-template-level") === "row" || el.getAttribute("data-pb-template-level") === "column" || el.getAttribute("data-pb-template-level") === "element" );
-//     }
-//   }).on('out', function (el) {
-//     el.classList.remove("in-transit");
-//   });
-
-//   // add existing sections as an array
-//   containers = [].slice.call(document.querySelectorAll("[data-pb-template-level='1']"));
-  
-//   //Reorder rows with drag and drop using a handle
-//   dragula(containers, {
-//     moves: function (el, container, handle) {
-//       return handle.getAttribute(moveHandle);
-//   },
-//     invalid(el, handle) {
-//       // If the selected element className is column, 
-//       //    dont allow the row to be dragged. This will allow 
-//       //    the column to be dragged separate from the row. 
-//       return (el.getAttribute("data-pb-template-level") === "column" || el.getAttribute("data-pb-template-level") === "element" );
-//     }
-//   }).on('drag', function (el) {
-//       console.log("elements: ", el)
-//       el.classList.add("in-transit");
-//   }).on('out', function (el) {
-//       el.classList.remove("in-transit");
-//   });
-
-//   containers = [].slice.call(document.querySelectorAll("[data-pb-template-level='2']"));
-
-//   //Reorder rows with drag and drop using a handle
-//   dragula(containers, {
-//     moves: function (el, container, handle) {
-//       return handle.getAttribute(moveHandle);
-//     },
-//     direction: 'horizontal',
-//     invalid(el, handle) {
-//       return (el.getAttribute("data-pb-template-level") === "element" );
-//     },
-//     }).on('out', function (el) {
-//       el.classList.remove("in-transit");
-//     });
-
-//   containers = [].slice.call(document.querySelectorAll("[data-pb-template-level='3']"));
-
-//   //Reorder rows with drag and drop using a handle
-//   dragula(containers, {
-//     moves: function (el, container, handle) {
-//       return handle.getAttribute(moveHandle);
-//     },
-//     direction: 'vertical',
-//     // invalid(el, handle) {
-//     //   return (el.classList.contains("element") );
-//     // },
-//     }).on('out', function (el) {
-//       el.classList.remove("in-transit");
-//     });
-//   }
-
-
-//let dialogue = document.querySelector(".modal--dialogue");
-
-
 
 let savePage = page => {
   console.log("save page")
