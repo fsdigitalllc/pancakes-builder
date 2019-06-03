@@ -10,13 +10,13 @@ let pancakes = () => {
 console.log("loaded pancakesBuilder")
 
 // TEST MODE //
-//_("html").classList.add("editing--mode");
-//_(".pb--drawer").classList.add("pb--drawer--fixed-header", "pb--drawer--is-visible");
+_("html").classList.add("editing--mode");
+_(".pb--drawer").classList.add("pb--drawer--fixed-header", "pb--drawer--is-visible");
 ///////////////
 
 // Draggable elements will always use data-pb-template-level
 let dataSections = "main [data-pb-template-level='1']", dataRows = "main [data-pb-template-level='2']", dataColumns = "main [data-pb-template-level='3']", dataElements = "main [data-pb-template-level='4']";
-const dataSelect = "pb--fa-move", moveHandle = "pb-move", deleteHandle = '[pb-function="delete-item"]', editHandle = "pb--fa-edit", hoverMenu = "pb--hover-menu", editHover = "pb--edit-hover", editClick = "pb-editing", dialogueTrigger = document.querySelector('[pb-function="exportYml"]'), modalSave = ".pb--modal--dialogue.pb--modal--is-visible [pb-function='save']", drawerTitle = "pb--drawerTitle", responsiveMode = "data-pb-responsive-mode", iFrame = _("iframe.pbResponsiveFrame");
+const dataSelect = "pb--fa-move", moveHandle = "pb-move", deleteHandle = 'pb--fa-delete', editHandle = "pb--fa-edit", hoverMenu = "pb--hover-menu", editHover = "pb--edit-hover", editClick = "pb-editing", dialogueTrigger = document.querySelector('[pb-function="exportYml"]'), modalSave = ".pb--modal--dialogue.pb--modal--is-visible [pb-function='save']", drawerTitle = "pb--drawerTitle", responsiveMode = "data-pb-responsive-mode", iFrame = _("iframe.pbResponsiveFrame");
 let modal = document.querySelector('.pb--modal');
 _("html").setAttribute(responsiveMode, "desktop"), paramContainer = document.querySelector('[pb-content="params"]');
 
@@ -224,7 +224,7 @@ let editItem = editBtn => {
   _All(`${dataSections}, ${dataRows}, ${dataColumns}, ${dataElements}`).forEach((level, index) => {
     level.setAttribute(editClick, "0")
   });
-  let item = getClosest(editBtn.currentTarget);
+  let item = getClosest(editBtn);
   item.setAttribute(editClick, "1")
   
   _(`.${drawerTitle}`).innerText = `${getLevel(item)} | ${item.id}`;
@@ -287,20 +287,19 @@ let editItem = editBtn => {
 
 // delete the hoverHandle if the item is not in focus
 let deleteItem = btn => {
-  let thisItem = getClosest(btn.currentTarget);
+  console.log("btn", btn, getClosest(btn))
+  let thisItem = getClosest(btn);
   thisItem.parentNode.removeChild(thisItem);
 }
 
 // Move this to 
-document.addEventListener("click", (e) => {
+document.body.addEventListener("click", (e) => {
   let item;
-  console.log("doc clicked", e.target)
   if (e.target.classList.contains(editHandle) || e.target.parentNode.classList.contains(editHandle)) {
-    console.log("edit clicked", e.classlist)
-
-    //editItem(e.target);
-  } else if (e.target.classList.contains("icon-trash")) {
-    //deleteItem();
+    console.log("edit clicked", e.target.classList)
+    editItem(e.target);
+  } else if (e.target.closest(`.${deleteHandle}`)) {
+    deleteItem(e.target);
   } else {
     return;
   }
@@ -315,7 +314,7 @@ let inactiveHover = function (item) {
 let createNode = (item) => {
   var node = document.createElement("div");
   node.classList.add(`${hoverMenu}`);
-  node.innerHTML = `<svg class="icon-arrows pb--fa-move ${moveHandle}" pb-move="true"><use xlink:href="/images/icons.svg#icon-arrows"></use></svg><svg class="icon-pencil ${editHandle}" pb-function="edit-item"><use xlink:href="/images/icons.svg#icon-pencil"></use></svg><svg class="icon-trash ${editHandle}" pb-function="delete-item"><use xlink:href="/images/icons.svg#icon-trash"></use></svg>`;
+  node.innerHTML = `<svg class="icon-arrows pb--fa-move ${moveHandle}" pb-move="true"><use xlink:href="/images/icons.svg#icon-arrows"></use></svg><svg class="icon-pencil ${editHandle}" pb-function="edit-item"><use xlink:href="/images/icons.svg#icon-pencil"></use></svg><svg class="icon-trash ${deleteHandle}" pb-function="delete-item"><use xlink:href="/images/icons.svg#icon-trash"></use></svg>`;
   item.appendChild(node);
 }
 // Create the draggable handle for each hovered level
@@ -338,13 +337,17 @@ let createHandle = (item) => {
     if (!itemParent.querySelector(hoverMenu)) {
       createNode(itemParent)
       activeHover(itemParent)
+    } else {
+      return false;
     }
   } else {
     return false;
   }
 }
+
+// Create/delete handles on hover.
 _("main").addEventListener("mouseover", (e) => {
-  if (e.target.getAttribute("data-pb-template-level")) {
+  if (parseInt(e.target.getAttribute("data-pb-template-level")) >= 1) {
     createHandle(e.target);
   }
 }, false);

@@ -150,7 +150,7 @@
 			console.log("else", item)
 			item.innerHTML = editor;
 		}
-		updateIframe();
+		//updateIframe();
 	}
 
 	Modal.prototype.destroyEditor = function() {
@@ -270,7 +270,7 @@
 
 	// Generate YML
 	let exportYml = () => {
-		let sections = _All("main [data-pb-template-level='section']");
+		let sections = _All("main [data-pb-template-level='1']");
 		let rows, columns, elements, indent;
 		let yml = `---\n`;
 		let params = _All("[pb-content='params'] label, [pb-content='params'] input, .pageCss");
@@ -314,17 +314,17 @@
 						prefix = "  ";
 					}
 					// For each draggable item, the YML indent will vary slightly. 
-					if (level === "section" ) {
+					if (level === "1" ) {
 						indent = "  "
-					} else if (level === "row") {
+					} else if (level === "2") {
 						indent = "    "            
-					} else if (level === "column") {
+					} else if (level === "3") {
 						indent = "      "            
-					} else if (level === "element") {
+					} else if (level === "4") {
 						indent = "        "
 					}
 					// In our YML, each nested loop is started like this: "level-name:". However, this is only added once per loop level, so we compare the item index with the data index (i).
-					if (level === "section") {
+					if (level === "1") {
 					} else if ((index === 0 && i === 0)) {
 						yml += `${indent}${level}s:\n`;
 					} else if (item.getAttribute("data-pb-element-type") === "text") {
@@ -339,15 +339,15 @@
 		sections.forEach((section, index) => {
 			yml += ymlString(section, index);
 	
-			rows = section.querySelectorAll("main [data-pb-template-level='row']");
+			rows = section.querySelectorAll("main [data-pb-template-level='2']");
 			rows.forEach((row, index) => {
 				yml += ymlString(row, index);
 	
-				columns = row.querySelectorAll("main [data-pb-template-level='column']");
+				columns = row.querySelectorAll("main [data-pb-template-level='3']");
 					columns.forEach((column, index) => {
 						yml += ymlString(column, index);
 	
-						elements = column.querySelectorAll("main [data-pb-template-level='element']");
+						elements = column.querySelectorAll("main [data-pb-template-level='4']");
 						elements.forEach((element, index) => {
 							yml += ymlString(element, index);
 						});
