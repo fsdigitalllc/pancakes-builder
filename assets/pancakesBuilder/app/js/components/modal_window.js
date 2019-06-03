@@ -297,7 +297,7 @@
 			// i: the current key index
 			let keys = Object.entries(item.dataset);
 			let yml = "";
-			let indent, prefix, name, value, level = item.getAttribute("data-pb-template-level");
+			let indent, prefix, name, value, level = item.getAttribute("data-pb-template-level"), templateName;
 			// iterate through each data-pb and grab the value
 			// the order matches the order in the markup
 			keys.forEach((key, i) => {      
@@ -316,17 +316,21 @@
 					// For each draggable item, the YML indent will vary slightly. 
 					if (level === "1" ) {
 						indent = "  "
+						templateName = "section"
 					} else if (level === "2") {
-						indent = "    "            
+						indent = "    "
+						templateName = "row"            
 					} else if (level === "3") {
-						indent = "      "            
+						indent = "      "
+						templateName = "column"        
 					} else if (level === "4") {
 						indent = "        "
+						templateName = "element"
 					}
 					// In our YML, each nested loop is started like this: "level-name:". However, this is only added once per loop level, so we compare the item index with the data index (i).
 					if (level === "1") {
 					} else if ((index === 0 && i === 0)) {
-						yml += `${indent}${level}s:\n`;
+						yml += `${indent}${templateName}s:\n`;
 					} else if (item.getAttribute("data-pb-element-type") === "text") {
 						//yml += `${indent}${prefix}html: |\n`;
 						let cleanH = item.innerHTML.replace(/\s+/g,'');
