@@ -3,7 +3,7 @@
 {{- $debug_enabled := $.Site.Params.debug_enabled -}}
 {{- $.Scratch.Set "is_css" true -}}
 {{- $.Scratch.Set "is_critical" true -}}
-{{ $yes := true }}
+{{ $yes := false }}
 {{ if eq $yes true }}
 <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
@@ -38,7 +38,7 @@
 fetchInject([
   '{{ $vars.Permalink }}',
 ]).then(() => {
-      console.log(`Pancakes Noncritical css loaded`);
+      //console.log(`Pancakes Noncritical css loaded`);
 })
 </script>
 
