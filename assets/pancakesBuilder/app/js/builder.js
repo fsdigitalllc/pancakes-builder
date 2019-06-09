@@ -347,10 +347,12 @@ let createHandle = (item) => {
 
 // Create/delete handles on hover.
 _("main").addEventListener("mouseover", (e) => {
-  console.log("hovering...", e.target)
-  let item = getClosest(e.target);
-  if (parseInt(item.getAttribute("data-pb-template-level")) >= 1) {
-    createHandle(item);
+  //console.log("hovering...", e.target)
+  
+  if (parseInt(e.target.getAttribute("data-pb-template-level")) >= 1) {
+    // e.target is the last hovered item.
+    console.log("hovering...", e.target)
+    createHandle(e.target);
   }
 }, false);
 
