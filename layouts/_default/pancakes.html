@@ -3,20 +3,11 @@
 {{- $debug_enabled := $.Site.Params.debug_enabled -}}
 {{- $.Scratch.Set "is_css" true -}}
 {{- $.Scratch.Set "is_critical" true -}}
-{{ $yes := false }}
-{{ if eq $yes true }}
-<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/fetch-inject" media="screen"></script>
-{{ if eq $debug_enabled true }}
-<link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/dragula/3.7.2/dragula.min.js" media="screen"></script>
-{{ end }}
+
 {{/* <!--use on all environments for now--> */}}
 <style pancakes-critical class="pb_criticalCSS">
     {{ partial "components/component_generator.html" . | safeCSS }}
 </style>
-{{ end }}
 {{- $.Scratch.Set "is_css" false -}}
 
 {{ if .Params.stacks_hero }}
@@ -32,7 +23,6 @@
 {{ $string := print $css }}
 {{ $vars := $css | resources.FromString "scss/pb_noncritical.scss" | resources.ToCSS | resources.Minify }}
 
-<style class="noncritical">{{ partial "components/component_generator.html" . | safeCSS }}</style>
 
 <script type="text/javascript">
 fetchInject([
@@ -44,21 +34,5 @@ fetchInject([
 
 <!--for isserver just inline the style so front matter changes reload the style-->
 
-{{ if eq $debug_enabled true }}
-<!-- drag and drop functionality for PB-->
-<!-- <script type="text/javascript">
-  fetchInject([
-    'https://cdnjs.cloudflare.com/ajax/libs/dragula/3.7.2/dragula.min.js',
-  ]).then(() => {
-        console.log(`PB Builder CSS JS loaded`);
-  })
-  </script> -->
-<!-- <script src='https://cdnjs.cloudflare.com/ajax/libs/dragula/3.7.2/dragula.min.js'></script>
-
-<link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
-
-<link rel="stylesheet"
-      href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"> -->
-{{ end }}
 {{ partial "site/pancakes/scripts.html" . | safeHTML }}
 {{- end -}}
