@@ -70,13 +70,21 @@
 
   {{ if .page.scripts }}
   {{ range .page.scripts }}
-    {{ $src := string .src }}
-    {{ $src := resources.Get $src | minify }}
-    <script type="text/javascript">
-      fetchInject([
-        '{{ $src.Permalink }}'
-      ]);
-    </script>
+    {{ with .src }}
+      {{ $rs := string . }}
+      {{ $src := resources.Get . }}
+      {{ with $src }}
+
+        <script type="text/javascript">
+          fetchInject([
+            '{{ $src.Permalink }}'
+          ]);
+        </script>
+      {{ else }}
+        {{ print "no resource found" }}
+      {{ end }}
+
+    {{ end }}
   {{ end }}
 {{ end }}
 

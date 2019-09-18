@@ -12,7 +12,7 @@
 
 {{ if .Params.stacks_hero }}
   {{ $hero_path := .Params.stacks_hero.path }}
-  {{ partial $hero_path . }}
+  {{ partial "components/case_study_hero.html" . }}
 {{ end }}
 
 {{- partial "components/component_generator.html" . | safeHTML -}}
