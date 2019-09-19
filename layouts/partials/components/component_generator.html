@@ -1,110 +1,38 @@
-{{ $debug_enabled := $.Scratch.Get "debug_enabled" }}
-
-{{/* <!--container sizes--> */}}
-{{ $.Scratch.Set "container_size" $.Site.Data.css.container }}
-{{ $.Scratch.Set "container_size_l" $.Site.Data.css.container_l }}
-
-{{/* <!--media queries--> */}}
-{{ $.Scratch.Set "screen_desktop_l" "1920px" }}
-{{ $.Scratch.Set "screen_desktop_s" "1366px" }}
-{{ $.Scratch.Set "screen_laptop" "1024px" }}
-{{ $.Scratch.Set "screen_tablet" "900px" }}
-{{ $.Scratch.Set "screen_mobile_l" "520px" }}
-{{ $.Scratch.Set "screen_mobile" "360px" }}
-
 {{ $this_page := .UniqueID | urlize }}
 {{ $file_path := replaceRE "\\\\" "/" .File.Path }}
 
 {{ .Scratch.Set "site" $.Site }}
-{{ .Scratch.Set "cloudinary_base" $.Site.Params.cloudinary_base }}
-{{ .Scratch.Set "cloudinary_folder" $.Site.Params.cloudinary_folder }}
-{{ .Scratch.Set "cloudinary_name" $.Site.Params.cloudinary_name }}
 
-{{/* <!--get each section on each page--> */}}
-{{- range $index, $pages := .Site.Pages }}
+
 {{ $page_slug := .Params.slug | replace "/" "" }}
 {{ $page_hash := .UniqueID | urlize }}
 {{ $loop_hash := .UniqueID | urlize }}
 {{/* <!--start the stack loop to return page sections--> */}}
 {{/* <!--check for any values in the stacks field type--> */}}
 {{/* <!--iterate through blocks, use if statement to find template, then set variable equal to template name--> */}}
-
-{{/* <!--include critical base css once--> */}}
-
-{{/* <!--include critical base css once--> */}}
   
 
 {{ if .Params.stacks }}
 {{/* <!--use index to add a count to the range--> */}}
     
-  {{ range $index, $stacks := (where .Params.stacks ".template" "!=" "custom-header") }}
-  {{/* <!--set an ID for each section so that we can reference it in the stylesheet--> */}}
-  
-  {{ $stack_query := $.File.Path }} 
+  {{ range $index, $stacks := .Params.stacks }}
+    {{/* <!--set an ID for each section so that we can reference it in the stylesheet--> */}}
 
-  {{ $section_id := print "section-" $index }}
-  {{ $section_template := .template }}
-  {{ $section_type := .template }}
-  {{ $section_class := print "c-" $index "-" .template }}
-  {{ $this_class := print "p-" $index "-" $page_hash }}
-  {{/* <!--if critical--> */}}
-    {{ if and (eq ($.Scratch.Get "is_critical") true) (eq ($.Scratch.Get "is_css") true) }}
+    {{ $section_id := print "section-" $index }}
+    {{ $section_template := .template }}
+    {{ $section_type := .template }}
+    {{ $section_class := print "c-" $index "-" .template }}
+    {{ $this_class := print "p-" $index "-" $page_hash }}
     
-    {{/* <!--limit iteration to first 2 sections--> */}}
-      {{ $.Scratch.Set "style_index" (and (eq $this_page $loop_hash) (le $index 1)) }}
-    {{ else if and (eq ($.Scratch.Get "is_critical") false) (eq ($.Scratch.Get "is_css") true) }}
-      {{ $.Scratch.Set "style_index" (gt $index 1) }}
-    {{ else }}
-      {{ $.Scratch.Set "style_index" (and (eq $this_page $loop_hash) (ge $index 0)) }}
-    {{ end }}
-
     
-   
-      {{ if $.Scratch.Get "style_index" }}
-      {{ if and (in .template "select-part") (.part) }}
-      
-      {{/* <!--get the part values from the other page--> */}}
+    {{ partial "components/section.html" (dict "page" . "global" $ "section_id" $section_id "section_template" $section_template "page_hash" $page_hash "this_class" $this_class "section_type" $section_type) }}
 
-      {{ else }}{{/* <!--if not in template select-part display normal block--> */}}
-      
-      {{ partial "components/section.html" (dict "page" . "global" $ "section_id" $section_id "section_template" $section_template "page_hash" $page_hash "this_class" $this_class "section_type" $section_type) }}
-      {{/* <!--change the class name based on the index of the stack within the part--> */}}
-
-      {{ end }}{{/* <!--outer scope - if not select-part display normal block--> */}}
-
-      {{ end }}{{/* <!--if index gt or lt--> */}} 
-    {{/* <!--use scratch or a var to pass the template name. We have to do this since context changes in nested ranges--> */}}
           
       
-    {{ end }}{{/* <!--end section range--> */}} 
+  {{ end }}{{/* <!--end section range--> */}} 
        
-  {{ else }}{{/* <!--if no block within a stack--> */}}
-
-  {{ end }}{{/* <!-- end section if statement--> */}}
+{{ else }}{{/* <!--if no block within a stack--> */}}
+  {{ print "no sections added yet"}}
+{{ end }}{{/* <!-- end section if statement--> */}}
     
 {{/* <!--add cloudinary image processing based on a scratch value from column.html--> */}}
-
-{{ if ($.Scratch.Get "cld_responsive") true }}
-{{- /* <!-- <script type="text/javascript">
-  var cl = cloudinary.Cloudinary.new({cloud_name: "{{ .Scratch.Get "cloudinary_name" }}"}); 
-  // replace 'demo' with your cloud name in the line above 
-  cl.responsive();
-</script> --> */ -}}
-{{ end }}
-
-{{ end }}{{/* <!--get each section on each page--> */}}
-
-{{- /* <!--add base CSS once--> */ -}}
-{{ if and (eq ($.Scratch.Get "is_critical") true) (eq ($.Scratch.Get "is_css") true) }}
-  {{ partial "components/base.html" (dict "page" . "global" $) }}
-
-  {{- if eq ($.Scratch.Get "element_image") true }}
-    {{ partial "components/elements/image/base.html" (dict "page" . "global" $) }}
-  {{ end -}}
-
-  {{ if eq ($.Scratch.Get "element_button") true }}
-    {{ partial "components/elements/button/base.html" (dict "page" . "global" $) }}
-  {{ end -}}
-
-
-{{ end -}}

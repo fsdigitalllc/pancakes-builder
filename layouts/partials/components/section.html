@@ -1,61 +1,5 @@
-{{/* <!--{{ .part_context.Params.stacks }}--> */}}
-{{ .global.Scratch.Set "cloudinary_base" .global.Site.Params.cloudinary_base }}
-{{ .global.Scratch.Set "cloudinary_folder" .global.Site.Params.cloudinary_folder }}
-{{ .global.Scratch.Set "cloudinary_name" .global.Site.Params.cloudinary_name }}
 {{ .global.Scratch.Set "site" .global.Site }}
 {{ .global.Scratch.Set "section_index" .this_class }}
-
-{{ if (.global.Scratch.Get "is_css") true }}
-
-{{ print "." .this_class }} {
-  {{- with .page.background_color -}}background-color: {{ . | default "#ffffff" }};{{- end -}}
-  {{ with .page.p_top_val }}padding-top: {{ . }};{{ end }}
-  {{- if eq .section_tag "header" -}}
-  z-index: 100;
-  position: relative;
-  {{- end -}}
-  {{ if in .page.background_image "uploads" }}
-  {{ $upload_image := resources.Get .page.background_image }}
-  {{ $upload_image_resize := $upload_image.Resize "1920x q100" }}
-  background-image: url({{ $upload_image_resize.Permalink }});
-  {{ end }}
-  {{ if in .page.background_image "http" }}
-  background-image: url({{ .page.background_image }});
-  {{ end }}
-  background-repeat: no-repeat;
-  background-size: cover;
-}
-{{ print "." .this_class }} [data-aos="reveal-left"]:before {
-    background: {{ .page.background_color | default "#ffffff" }};
-}
-{{ print "." .this_class }} [data-aos="reveal-right"]:before {
-  background: {{ .page.background_color | default "#ffffff" }};
-}
-
-{{ if .page.css }}
-{{/* <!--force rule to be a string so that it's valid css--> */}}
-  {{ range .page.css }}
-    {{- $rule := string .rule -}}
-    {{ print "." $.this_class " " $rule | safeHTML }}
-
-    {{ if .tablet }}
-
-    {{ print "@media screen and (max-width: 900px) {" }}
-    {{ range .tablet }}
-    {{- $rule := string .rule -}}
-    {{ print "." $.this_class " " $rule | safeHTML }}
-    {{ end }}
-    {{ print "}" }}
-
-    {{ end }}
-  {{ end }}
-{{ end }}
-  {{ range .page.rows }}
-    {{ partial "components/row.html" (dict "page" . "global" $ "cloudinary_base" .cloudinary_base ) }}
-  {{ end }}
-
-{{ else }}
-
 
   {{ if and (eq .page.template "include") (.page.path) }}
     {{ $path := .page.path }}
@@ -63,7 +7,7 @@
   {{ else }}
   <section id="{{ .section_id }}" template="{{ .section_template }}" selected-type="section" class="{{ .this_class }} {{ .page.class }}{{ if .page.background_parallax }} background-parallax{{ end }}" {{ with .page.background_color }} style="background-color: {{ . }};"{{ end }}>
   {{ range .page.rows }}
-    {{ partial "components/row.html" (dict "page" . "global" $ "cloudinary_base" .cloudinary_base ) }}
+    {{ partial "components/row.html" (dict "page" . "global" $ ) }}
   {{ end }}
 
   </section>
@@ -88,5 +32,4 @@
   {{ end }}
 {{ end }}
 
-  {{ end }}
 {{ end }}

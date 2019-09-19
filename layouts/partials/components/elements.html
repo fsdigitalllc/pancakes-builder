@@ -2,22 +2,12 @@
 {{/* <!--start columns--> */}}
 {{ $scratch := .global.global.global.global.Scratch }}
 {{ $global_page := .global.global.global.global }}
-
 {{ $global_site := $scratch.Get "site" }}
-{{ $cloud_base := $scratch.Get "cloudinary_base"}}
-{{ $cloud_folder_name := $scratch.Get "cloudinary_folder" }}
-{{ $cloud_folder := $cloud_folder_name }}
-{{ $cloud_name  := $scratch.Get "cloudinary_name" }}
-{{ $css_data := $global_site.Data.css }}
-{{ $css := $scratch.Get "is_css"}}
 {{ $section_index := $scratch.Get "section_index" }}
 
 {{ $element_prefix := print $section_index "-" .element_index }}
 {{ $scratch.Set "element_prefix" $element_prefix }}
 
-{{ if $cloud_folder_name }}
-  {{ $cloud_folder = print $cloud_folder_name "/" }}
-{{ end }}
 
 
   {{/* <!--user defined components. Add base css--> */}}
@@ -31,12 +21,6 @@
 
   {{/* <!--draggable slider--> */}}
   {{ if in .page.template "element-flickity" }}
-
-    {{ if eq $css true }}
-    .video-autoplay {
-      width: 100%;
-    }
-    {{ else }}
     
     {{ $flickslider_js := resources.Get "pancakes/js/plugins/flickity.pkgd.min.js" }}
     {{ $flickslider_css := resources.Get "pancakes/css/plugins/flickity.css" }}
@@ -69,189 +53,106 @@
         <div class="carousel-cell{{ with $.page.class }} {{ . }}{{ end }}"><img src="{{ $img_src }}"/></div>
       {{ end }}
     </div>
-    {{ end }}
 
   {{ end }}
 
 
   {{ if in .page.template "element-video" }}
 
-    {{ if eq $css true }}
-    .video-autoplay {
-      width: 100%;
-    }
-    {{ else }}
     <video autoplay="{{ if eq .page.autoplay false }}false{{ else }}true {{ end }}" muted="{{ if eq .page.muted false }}false{{ else }}true{{ end }}" preload="metadata" loop="loop" playsinline="playsinline" poster="{{ .page.cover }}" class="video-autoplay">
       <source src="{{ .page.src }}" type="video/mp4">
       </video>
-    {{ end }}
   {{ end }}
 
   {{ if in .page.template "element-image" }}
 
-  {{ if eq $css true }}
+    {{ $scratch.Set "element_image" true }}
 
-  {{ $scratch.Set "element_image" true }}
-
-  {{ else if eq $css false }}{{/* <!--start html-->*/}}
     {{ $img_quality := .page.quality | default "100" }}
     {{ $img_quality = print $img_quality "/" }}
     {{ $img_size := print "w_1000,c_limit/"}}
 
-  {{ $alt_text := .alt }}
-    {{ with .page.alt }}
-      {{ $alt_text = . }}
-    {{ else }}
-    {{ $alt_text = replaceRE "\\..+" "" .page.image }}
-      {{ $alt_text = $alt_text }}
-    {{ end }}
-
-    {{ with .page.image }}
-      {{ $img_src := . }}
-      {{ if in . "http" }}
-      {{/* <!--if absolute link, not cloudinary--> */}}
-        {{ $img_src = . }}
-        <img data-element="element-image"
-        srcset="
-        {{ . }} 500w,
-          {{ . }} 768w,
-          {{ . }} 2x"
-        src="{{ . }}" alt="{{ $alt_text }}" class="{{ $.page.class | safeHTML }}"/>
-
-      {{ else if in . "images/" }}
-
-      {{ $img_src := $global_page.Resources.GetMatch . }}
-      {{ $img_src = $img_src.Permalink }}
-      <img data-element="element-image"
-      srcset="{{ $img_src }}" alt="{{ $.page.alt }}" class="{{ $.page.class | safeHTML }}"/>
-
-      {{ else if in . "uploads" }}
-      {{/* <!--if resource upload in content/uploads, perform basic image processing--> */}}
-      {{/* <!--need to make these options manual--> */}}
-          {{ $imageResource := ($global_site.GetPage "section" "uploads").Resources.GetMatch (strings.TrimPrefix "/uploads/" . ) }}
-          
-          {{ $resized900 := ($imageResource.Resize "900x q100") }}
-          {{ $resized500 := ($imageResource.Resize "500x q100") }}
-          <img data-element="element-image" data-edit 
-          data-sizes="(min-width: 1000px) 900px, 90vw" data-srcset="{{ $resized500.RelPermalink }} 500w, {{ $resized900.RelPermalink }} 900w" data-src="{{ $resized500.RelPermalink }}" class="lazyload {{ $.page.class | safeHTML }}" alt="{{ $alt_text }}"/>
-
-      {{ else if $cloud_base }}
-
-      {{/* <!--if cloudinary, process image by changing the URL structure. Keep in mind bandwidth limit--> */}}
-      {{/* <!--combined this with lazysizes and lazysizes auto sizing plugin--> */}}
-
-      {{ $img_src = print $cloud_base "q_" $img_quality "c_scale,w_auto/" $cloud_folder . }}
-      {{ $img_src_desktop := print $cloud_base "q_" $img_quality "c_scale,w_1920/" $cloud_folder . }}
-      {{ $img_src_tablet := print $cloud_base "q_" $img_quality "c_scale,w_768/" $cloud_folder . }}
-      {{ $img_src_mobile := print $cloud_base "q_" $img_quality "c_scale,w_500/" $cloud_folder . }}
-
-      <img data-element="element-image" data-edit
-        src=""
-        data-src="{{ $cloud_base }}q_auto,f_auto,w_{width}/{{ $cloud_folder }}{{ . }}"
-        data-sizes="auto"
-        class="lazyload"
-        alt="" />
-
-        {{/* <!--enable the cloudinary scripts--> */}}
-        {{ $scratch.Set "cld_responsive" true }}
-      
+    {{ $alt_text := .alt }}
+      {{ with .page.alt }}
+        {{ $alt_text = . }}
+      {{ else }}
+      {{ $alt_text = replaceRE "\\..+" "" .page.image }}
+        {{ $alt_text = $alt_text }}
       {{ end }}
-      
-    {{ else }}{{/* <!--withelse--> */}}
 
-    no image found
+      {{ with .page.image }}
+        {{ $img_src := . }}
+        {{ if in . "http" }}
+        {{/* <!--if absolute link, not cloudinary--> */}}
+          {{ $img_src = . }}
+          <img data-element="element-image"
+          srcset="
+          {{ . }} 500w,
+            {{ . }} 768w,
+            {{ . }} 2x"
+          src="{{ . }}" alt="{{ $alt_text }}" class="{{ $.page.class | safeHTML }}"/>
 
-    {{ end }}{{/* <!--endwith--> */}}
-  {{ end }}{{/* <!--if html--> */}}
+        {{ else if in . "images/" }}
+
+        {{ $img_src := $global_page.Resources.GetMatch . }}
+        {{ $img_src = $img_src.Permalink }}
+        <img data-element="element-image"
+        srcset="{{ $img_src }}" alt="{{ $.page.alt }}" class="{{ $.page.class | safeHTML }}"/>
+
+        {{ else if in . "uploads" }}
+        {{/* <!--if resource upload in content/uploads, perform basic image processing--> */}}
+        {{/* <!--need to make these options manual--> */}}
+            {{ $imageResource := ($global_site.GetPage "section" "uploads").Resources.GetMatch (strings.TrimPrefix "/uploads/" . ) }}
+            
+            {{ $resized900 := ($imageResource.Resize "900x q100") }}
+            {{ $resized500 := ($imageResource.Resize "500x q100") }}
+            <img data-element="element-image" data-edit 
+            data-sizes="(min-width: 1000px) 900px, 90vw" data-srcset="{{ $resized500.RelPermalink }} 500w, {{ $resized900.RelPermalink }} 900w" data-src="{{ $resized500.RelPermalink }}" class="lazyload {{ $.page.class | safeHTML }}" alt="{{ $alt_text }}"/>
+
+        
+      {{ else }}{{/* <!--withelse--> */}}
+
+      no image found
+
+      {{ end }}{{/* <!--endwith--> */}}
+    {{ end }}{{/* <!--if html--> */}}
   {{ end }}{{/* <!--end if image--> */}}
 
   {{ if in .page.template "element-title" }}
-
-    {{ if eq $css true }}{{ else }}
   
   {{ $title_class := "" }}
 
-  {{ with .page.class }}
-    {{ $title_class = print " class='" . "'" }}
-  {{ end }}
+    {{ with .page.class }}
+      {{ $title_class = print " class='" . "'" }}
+    {{ end }}
   {{ $title_tag := "h2" }}
-  {{ with .page.tag }}
 
-  {{ $title_tag = . }}
-  {{ print "<" $title_tag " data-edit data-element='element-title'" $title_class ">" | safeHTML }}{{ end }}
+    {{ with .page.tag }}
+      {{ $title_tag = . }}
+      {{ print "<" $title_tag " data-edit data-element='element-title'" $title_class ">" | safeHTML }}
+    {{ end }}
+
     {{ .page.title }}
-  {{ with .page.tag }}{{ print "</" $title_tag ">" | safeHTML }}{{ end }}
+
+    {{ with .page.tag }}
+      {{ print "</" $title_tag ">" | safeHTML }}
+    {{ end }}
 
   {{ end }}
-  {{ end }}
 
-  {{ if in .page.template "element-code" }}{{ if eq $css true }}{{ else }}<div data-edit class="pb-html-block{{ with .page.class }} {{ . }}{{ end }}">{{ .page.html | safeHTML }}</div>{{ end }}{{ end }}
+  {{ if in .page.template "element-code" }}<div data-edit class="pb-html-block{{ with .page.class }} {{ . }}{{ end }}">{{ .page.html | safeHTML }}</div>{{ end }}
 
   {{ if in .page.template "element-button" }}
-  {{ $scratch.Set "element_button" true }}
-  
+    {{ $scratch.Set "element_button" true }}
 
-  {{/* <!--button theme color--> */}}
-  {{/* <!--button theme color 2--> */}}
-  {{/* <!--page button color--> */}}
-  {{ if eq $css true }}
-  
-  {{ $element_button_preset := .page.element_button_preset | default "primary" }}
+    <a data-element="element-button" id="{{ $element_prefix }}" class="button button-fill " href="{{ .page.link }}">{{ .page.text }}</a>
+    {{ partial "components/elements/button/source.html" . }}
 
-  {{ $scratch.Set "element_button_preset" $element_button_preset }}
-
-    #{{ $element_prefix }}.button {
-      background-color: {{ .page.background_color }};
-      color: {{ .page.text_color }};
-      transition: {{ .page.transition_hover}};
-    }
-    #{{ $element_prefix }}.button:hover {
-      background-color: {{ .page.background_color_hover }};
-      color: {{ .page.text_color_hover }};
-      transition: {{ .page.transition_hover}};
-    }
-  {{ else }}
-  <a data-element="element-button" id="{{ $element_prefix }}" class="button button-fill " href="{{ .page.link }}">{{ .page.text }}</a>
-  {{ partial "components/elements/button/source.html" . }}
-
-  {{ end }}
   {{ end }}
 
   {{ if in .page.template "form" }}
   {{ $scratch.Set "element_form" true }}
 
-  {{/* <!--page button color--> */}}
-  {{ if eq $css true }}
-
-
-  {{ else }}
-
-  <form data-element="element-form" name="{{ $global_page.Title | urlize }}" method="POST" netlify class="contact-base">
-    <div class="col-{{ .size | default "12" }} flex-container flex-item wrap">
-      {{ range $index, $fields := .page.fields }}
-      {{ if eq .template "text-field" }}
-      <label>{{ .label }}:
-        <input id="{{ print .label "-" $index | lower | urlize }}" type="text" name="{{ print .label "-" $index | lower | urlize }}" placeholder="{{ .placeholder }}" />
-      </label>
-      {{ end }}
-      {{ if eq .template "dropdown-field" }}
-      <label>{{ .label }}:
-        <select name="dropdown" tabindex="1">
-            {{ range $index, $drop_options :=  .options }}
-            {{ with .label }}
-            <option value="{{ . }}">{{ . }}</option>
-            {{ end }}
-    
-            {{ end }}
-        </select>
-      </label>
-      {{ end }}
-      {{ end }}
-      
-    </div>    
-  </form>
-
-  {{ end }}
   {{ end }}
 
 {{/* <!--end individual elements--> */}}

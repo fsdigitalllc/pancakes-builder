@@ -1,13 +1,6 @@
 {{- define "main" -}}
 {{- $env := getenv "HUGO_ENV" -}}
-{{- $debug_enabled := $.Site.Params.debug_enabled -}}
-{{- $.Scratch.Set "is_css" true -}}
-{{- $.Scratch.Set "is_critical" true -}}
 
-{{/* <!--use on all environments for now--> */}}
-<style pancakes-critical class="pb_criticalCSS">
-    {{ partial "components/component_generator.html" . | safeCSS }}
-</style>
 {{- $.Scratch.Set "is_css" false -}}
 
 {{ if .Params.stacks_hero }}
@@ -16,23 +9,5 @@
 {{ end }}
 
 {{- partial "components/component_generator.html" . | safeHTML -}}
-{{- $.Scratch.Set "is_css" true -}}
-{{- $.Scratch.Set "is_critical" false -}}
 
-{{ $css := partial "components/component_generator.html" . | safeCSS }}
-{{ $string := print $css }}
-{{ $vars := $css | resources.FromString "scss/pb_noncritical.scss" | resources.ToCSS | resources.Minify }}
-
-
-<script type="text/javascript">
-fetchInject([
-  '{{ $vars.Permalink }}',
-]).then(() => {
-      //console.log(`Pancakes Noncritical css loaded`);
-})
-</script>
-
-<!--for isserver just inline the style so front matter changes reload the style-->
-
-{{ partial "site/pancakes/scripts.html" . | safeHTML }}
 {{- end -}}
