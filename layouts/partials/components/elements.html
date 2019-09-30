@@ -22,8 +22,8 @@
   {{/* <!--draggable slider--> */}}
   {{ if in .page.template "element-flickity" }}
     
-    {{ $flickslider_js := resources.Get "pancakes/js/plugins/flickity.pkgd.min.js" }}
-    {{ $flickslider_css := resources.Get "pancakes/css/plugins/flickity.css" }}
+    {{ $flickslider_js := resources.Get "pancakes/js/plugins/flickity.pkgd.min.js" | minify }}
+    {{ $flickslider_css := resources.Get "pancakes/css/plugins/flickity.css" | minify }}
 
     <script type="text/javascript">
       fetchInject([
@@ -85,19 +85,18 @@
         {{ if in . "http" }}
         {{/* <!--if absolute link, not cloudinary--> */}}
           {{ $img_src = . }}
-          <img data-element="element-image"
-          srcset="
+          <img class="lazyload" data-element="element-image"
+          data-srcset="
           {{ . }} 500w,
             {{ . }} 768w,
-            {{ . }} 2x"
-          src="{{ . }}" alt="{{ $alt_text }}" class="{{ $.page.class | safeHTML }}"/>
+            {{ . }} 2x" data-src="{{ . }}" alt="{{ $alt_text }}" class="{{ $.page.class | safeHTML }}"/>
 
         {{ else if in . "images/" }}
 
         {{ $img_src := $global_page.Resources.GetMatch . }}
         {{ $img_src = $img_src.Permalink }}
         <img data-element="element-image"
-        srcset="{{ $img_src }}" alt="{{ $.page.alt }}" class="{{ $.page.class | safeHTML }}"/>
+        data-srcset="{{ $img_src }}" alt="{{ $.page.alt }}" class="{{ $.page.class | safeHTML }} lazyload"/>
 
         {{ else if in . "uploads" }}
         {{/* <!--if resource upload in content/uploads, perform basic image processing--> */}}

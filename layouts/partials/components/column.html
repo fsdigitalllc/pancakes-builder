@@ -4,7 +4,7 @@
 {{ $global_site := .global.global.global.Scratch.Get "site" }}
 
 
-<div size="col-{{ .page.size | default "6" }}"{{ with .page.background_color }} style="background-color: {{ . }}"{{ end }} class="flex-container flex-item column col-{{ .page.size | default "6" }} {{ .page.class }}" selected-type="column">
+<div size="col-{{ .page.size | default "6" }}"{{ with .page.background_color }} style="background-color: {{ . }}"{{ end }} class="flex column col-{{ .page.size | default "6" }} {{ .page.class }}">
 
 <div{{ if .page.animate }} data-aos='{{ .page.animate }}' data-aos-offset='{{ .page.offset | default "0" }}'{{ end }} class="elements-wrapper{{ with .page.wrapper_class }} {{ . | lower }}{{ end }}">
 

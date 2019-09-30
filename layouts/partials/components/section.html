@@ -5,7 +5,7 @@
     {{ $path := .page.path }}
     {{ partial $path (dict "page" . "global" $ ) }}
   {{ else }}
-  <section id="{{ .section_id }}" template="{{ .section_template }}" selected-type="section" class="{{ .this_class }} {{ .page.class }}{{ if .page.background_parallax }} background-parallax{{ end }}" {{ with .page.background_color }} style="background-color: {{ . }};"{{ end }}>
+  <section id="{{ .section_id }}" class="{{ .this_class }} {{ .page.class }}{{ if .page.background_parallax }} background-parallax{{ end }}" {{ with .page.background_color }} style="background-color: {{ . }};"{{ end }}>
   {{ range .page.rows }}
     {{ partial "components/row.html" (dict "page" . "global" $ ) }}
   {{ end }}
@@ -18,7 +18,7 @@
       {{ $rs := string . }}
       {{ $src := resources.Get . }}
       {{ with $src }}
-
+      {{ $src = $src | minify }}
         <script type="text/javascript">
           fetchInject([
             '{{ $src.Permalink }}'
